@@ -1,9 +1,3 @@
-
-//***********************************************************************************************************
-//  Website: http://www.nuvoton.com
-//  E-Mail : MicroC-8bit@nuvoton.com
-//  Date   : Jan/21/2017
-//***********************************************************************************************************
 #include "N76E003.h"
 #include "Common.h"
 #include "Delay.h"
@@ -17,6 +11,8 @@
 #include <string.h>
 #include "utils.h"
 #include "packets.h"
+#include "build.h"
+
 // Build Defines
 #define RADIO_ENABLE 1
 #define WAKEUP_TIMER 1
@@ -40,7 +36,7 @@
 __xdata uint8_t pipeTx[5] = {0xc7, 0xc7, 0xc7, 0xc7, 0xc7};
 __xdata uint8_t pipeRx[5] = {0xe7, 0xe7, 0xe7, 0xe7, 0xe7};
 
-uint8_t wake_count, battery_count;+
+uint8_t wake_count, battery_count;
 
 __xdata sDataPacket SensorPacket;
 __xdata sTriggerPacket TriggerPacket;
@@ -121,6 +117,30 @@ void powerdown_and_sleep(void)
 #endif
 }
 
+
+
+//==============================================
+//
+//	Send a powerup packet ot indicate device online.
+//
+//==============================================
+#if SENSOR_ENABLE
+void startup_packet_send(void)
+{
+	sIdentPacket IdentPacket;
+	// Initial SensorPacket content
+	IdentPacket.mHeader.mStart = PACKET_START;
+	IdentPacket.mHeader.mVersion = PACKET_VERSION;
+	IdentPacket.mHeader.mPacketType = ePacketTypeIdent;
+	IdentPacket.mHeader.mNodeId = get_device_id();
+	IdentPacket.mHeader.mCounter =0x00;
+	IdentPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
+	memcpy(&IdentPacket.BuildData,BuildData,sizeof(BuildData));
+	IdentPacket.mChecksum = make_packet_checksum((uint8_t *)&SensorPacket, sizeof(SensorPacket));
+	write((uint8_t *)&IdentPacket, sizeof(IdentPacket));
+}
+#endif
+
 //==============================================
 //
 //	Fill the reqiured contents and send.
@@ -130,7 +150,7 @@ void powerdown_and_sleep(void)
 void sensor_packet_send(void)
 {
 	SensorPacket.mHeader.mCounter += 1;
-	Hdc1080Read(&SensorPacket.mSensorData.temperature, &SensorPacket.mSensorData.humidity);
+	Hdc1080Read(&SensorPacket.mSensorData.mTemperature, &SensorPacket.mSensorData.mHumidity);
 	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
 	SensorPacket.mChecksum = make_packet_checksum((uint8_t *)&SensorPacket, sizeof(SensorPacket));
 	write((uint8_t *)&SensorPacket, sizeof(SensorPacket));
@@ -141,6 +161,7 @@ void trigger_packet_send(void)
 {
 	TriggerPacket.mHeader.mCounter += 1;
 	TriggerPacket.mTriggerData.triggerstate = (uint8_t) flags.triggerstate;
+	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
 	TriggerPacket.mChecksum = make_packet_checksum((uint8_t *)&TriggerPacket, sizeof(TriggerPacket));
 	write((uint8_t *)&TriggerPacket, sizeof(TriggerPacket));
 }
@@ -188,15 +209,7 @@ void main(void)
 	Stimer_10u(1000);
 	Hdc1080Init();
 #endif
-
 	spi_init();
-	// Initial SensorPacket content
-	SensorPacket.mHeader.mStart = PACKET_START;
-	SensorPacket.mHeader.mVersion = PACKET_VERSION;
-	SensorPacket.mHeader.mPacketType = ePacketTypeTemperatureHumidityHdc1080;
-	SensorPacket.mHeader.mNodeId = get_device_id();
-	SensorPacket.mHeader.mCounter = 0;
-	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;
 
 #if RADIO_ENABLE
 	/* Initialise the radio */
@@ -205,6 +218,22 @@ void main(void)
 	openWritingPipe(pipeTx);
 	openReadingPipe(1, pipeRx);
 	powerUp();
+
+	Stimer_10u(10);
+	startup_packet_send();
+
+	// Initial SensorPacket content
+	SensorPacket.mHeader.mStart = PACKET_START;
+	SensorPacket.mHeader.mVersion = PACKET_VERSION;
+#if PIN_IRQ	
+	SensorPacket.mHeader.mPacketType = ePacketTypeTrigger;
+#endif
+#if SENSOR_ENABLE
+	SensorPacket.mHeader.mPacketType = ePacketTypeTemperatureHumidity;
+#endif
+	SensorPacket.mHeader.mNodeId = get_device_id();
+	SensorPacket.mHeader.mCounter = 0;
+	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;
 #endif
 
 	/* Main process loop */

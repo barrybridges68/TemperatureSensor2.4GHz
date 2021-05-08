@@ -1,20 +1,15 @@
 #ifndef __PACKETS_H__
 #define __PACKETS_H__
+#include "Common.h"
 
 #define PACKET_START (uint8_t)0x80;
-#define PACKET_VERSION (uint8_t)0x03
+#define PACKET_VERSION (uint8_t)0x04
 
 typedef enum {
 	ePacketTypeIdent = 0xAA,
-	ePacketTypeRegistration = 0xAE,
 	ePacketTypeTemperature = 0x20,
 	ePacketTypeTemperatureHumidity = 0x21,
-	ePacketTypeTemperatureLight = 0x22,
-	ePacketTypeTemperatureHumidityLight = 0x23,
-	ePacketTypeTrigger = 0x24,
-	//ePacketTypeTriggerInactive = 0x25,
-	ePacketTypePir = 0x26,
-	ePacketTypeTemperatureHumidityHdc1080 = 0x26,
+	ePacketTypeTrigger = 0x22,
 } ePacketType;
 
 typedef struct
@@ -30,9 +25,22 @@ typedef struct
 
 typedef struct
 {
-	uint16_t temperature;
-	uint16_t humidity;
+	uint16_t mTemperature;
+	uint16_t mHumidity;
 } sSensorData;
+
+
+typedef struct
+{
+	uint8_t mDay;
+	uint8_t mMonth;
+	uint8_t mYear;
+	uint8_t mHour;
+	uint8_t mMmin;
+	uint8_t mSec;
+	uint8_t mVersioHi;
+	uint8_t mVersionLo;
+} sBuildData;
 
 typedef struct
 {
@@ -49,6 +57,17 @@ typedef struct
 	/* Checksum */
 	uint8_t mChecksum;
 } sDataPacket;
+
+typedef struct
+{
+	/* Header information */
+	sPacketHeader mHeader;
+	/* Data */
+	sSensorData BuildData;
+	/* Checksum */
+	uint8_t mChecksum;
+} sIdentPacket;
+
 
 typedef struct
 {

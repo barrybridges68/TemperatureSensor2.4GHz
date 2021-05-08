@@ -5,6 +5,7 @@ MOVE = mv
 HEX_FILE = Nrf24Mote.hex
 
 all:
+	python3 tools/set_build_data.py
 	sdcc -c $(SDCC_FLAGS) ./libs/Delay.c
 	sdcc -c $(SDCC_FLAGS) ./libs/Common.c
 	sdcc -c $(SDCC_FLAGS) ./src/spi.c
@@ -13,7 +14,7 @@ all:
 	sdcc -c $(SDCC_FLAGS) ./src/hdc1080.c
 	sdcc -c $(SDCC_FLAGS) ./src/battery.c
 	sdcc -c $(SDCC_FLAGS) ./src/utils.c
-
+	sdcc -c $(SDCC_FLAGS) ./src/build.c
 
 #the chip has 18k of flash, but 4k can be allocated for boot rom -> only 14k = 14336 is allocated here.
 	sdcc $(SDCC_FLAGS)	 main.c \
