@@ -15,9 +15,9 @@
 
 // Build Defines
 #define RADIO_ENABLE 1
-#define WAKEUP_TIMER 1
-#define SENSOR_ENABLE 1
-//#define PIN_IRQ 1
+//#define WAKEUP_TIMER 1
+//#define SENSOR_ENABLE 1
+#define PIN_IRQ 1
 
 
 // Wake period defines
@@ -37,16 +37,22 @@ __xdata uint8_t pipeTx[5] = {0xc7, 0xc7, 0xc7, 0xc7, 0xc7};
 __xdata uint8_t pipeRx[5] = {0xe7, 0xe7, 0xe7, 0xe7, 0xe7};
 
 uint8_t wake_count, battery_count;
-
+#if SENSOR_ENABLE
 __xdata sDataPacket SensorPacket;
-__xdata sTriggerPacket TriggerPacket;
+#endif
 
+__xdata sIdentPacket IdentPacket;
+
+#if PIN_IRQ
+__xdata sTriggerPacket TriggerPacket;
+#endif
 
 
 volatile struct {
 	unsigned triggerflag :1;
 	unsigned triggerstate :1;
 } flags;
+
 
 #if PIN_IRQ
 //==============================================
@@ -57,17 +63,18 @@ volatile struct {
 void pin_int07(void) __interrupt 0x3B
 {
 	// Check which pin interrupted.
-	if (PIF & 0x80) 
+	if (PIF & 0x08 )
 	{
 		flags.triggerflag = 1;
-		flags.triggerstate = P07;
+		flags.triggerstate = 1;
 	}
 	 //clear interrupt flag
-	 PIF = 0x00;
-
+	PIF = 0x00;
+		
 }
 #endif
 
+#if WAKEUP_TIMER
 //==============================================
 //
 //	Interrupt handler for deeps sleep wakeup
@@ -93,10 +100,6 @@ void powerdown_and_sleep(void)
 
 	while (wake_count--)
 	{
-		if ( flags.triggerflag == 1)
-		{
-
-		}
 		ADCCON1 = 0x00; // Turn off the ADC.
 		clr_BODEN;		// Disable undervoltage detection.
 		set_PD;			// Enter power-down mode.
@@ -106,7 +109,7 @@ void powerdown_and_sleep(void)
 	// Sample battery periodically
 	if (!battery_count--)
 	{
-		SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;
+//		SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;
 		battery_count = BATTERY_SAMPLE_COUNT;
 	}		
 
@@ -116,6 +119,7 @@ void powerdown_and_sleep(void)
 	powerUp();
 #endif
 }
+#endif
 
 
 
@@ -124,10 +128,10 @@ void powerdown_and_sleep(void)
 //	Send a powerup packet ot indicate device online.
 //
 //==============================================
-#if SENSOR_ENABLE
+
 void startup_packet_send(void)
 {
-	sIdentPacket IdentPacket;
+
 	// Initial SensorPacket content
 	IdentPacket.mHeader.mStart = PACKET_START;
 	IdentPacket.mHeader.mVersion = PACKET_VERSION;
@@ -135,11 +139,18 @@ void startup_packet_send(void)
 	IdentPacket.mHeader.mNodeId = get_device_id();
 	IdentPacket.mHeader.mCounter =0x00;
 	IdentPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
-	memcpy(&IdentPacket.BuildData,BuildData,sizeof(BuildData));
-	IdentPacket.mChecksum = make_packet_checksum((uint8_t *)&SensorPacket, sizeof(SensorPacket));
+	IdentPacket.BuildData.mDay = BUILD_DAY;
+	IdentPacket.BuildData.mMonth = BUILD_MONTH;
+	IdentPacket.BuildData.mYear = BUILD_YEAR;
+	IdentPacket.BuildData.mHour = BUILD_HOUR;
+	IdentPacket.BuildData.mMmin = BUILD_MIN;
+	IdentPacket.BuildData.mSec = BUILD_SEC;
+	IdentPacket.BuildData.mVersioHi = BUILD_VER_HI;
+	IdentPacket.BuildData.mVersionLo = BUILD_VER_LO;
+	IdentPacket.mChecksum = make_packet_checksum((uint8_t *)&IdentPacket, sizeof(IdentPacket));
 	write((uint8_t *)&IdentPacket, sizeof(IdentPacket));
 }
-#endif
+
 
 //==============================================
 //
@@ -160,8 +171,8 @@ void sensor_packet_send(void)
 void trigger_packet_send(void)
 {
 	TriggerPacket.mHeader.mCounter += 1;
-	TriggerPacket.mTriggerData.triggerstate = (uint8_t) flags.triggerstate;
-	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
+	TriggerPacket.mTriggerData.triggerstate = P13;// (uint8_t) flags.triggerstate;
+	TriggerPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
 	TriggerPacket.mChecksum = make_packet_checksum((uint8_t *)&TriggerPacket, sizeof(TriggerPacket));
 	write((uint8_t *)&TriggerPacket, sizeof(TriggerPacket));
 }
@@ -183,12 +194,16 @@ void main(void)
 	//-----------------------------------------------------
 	//	Intialise the external irq pin P07
 	//-----------------------------------------------------
-	P07_Input_Mode;		// Input mode.
-	PICON |= 0x80;		// Edge triggered.
-	set_PINEN7;			// Neg edge detection.
-	set_PIPEN7;			// Pos edge detection.
-	Enable_INT_Port0; 	// Enable Port 0 irq.
-	flags.triggerflag = 0;
+	P13_Input_Mode;		// Input mode.
+	//P07 =1;
+	PICON |= 0x21;		// Edge triggered.
+	set_PINEN3;			// Neg edge detection.
+	set_PIPEN3;			// Pos edge detection.
+	 	// Enable Port 0 irq.	
+	//Enable_BIT3_LowLevel_Trig;
+	//Enable_BIT3_HighLevel_Trig;
+	set_EPI;
+
 #endif
 
 #if WAKEUP_TIMER
@@ -201,8 +216,9 @@ void main(void)
 	RWK = SLEEP_PERIOD_RELOAD; // Roughly 30's
 	set_EWKT;				   // enable WKT interrupt
 	set_WKTR;				   // Wake-up timer run
-	EA = 1;					   // Enable irq's
 #endif
+
+	EA = 1;					   // Enable irq's
 
 #if SENSOR_ENABLE
 	// Initialise the sensor
@@ -222,30 +238,57 @@ void main(void)
 	Stimer_10u(10);
 	startup_packet_send();
 
+
+#if PIN_IRQ	
+	// Initial TriggerPacket content
+	TriggerPacket.mHeader.mStart = PACKET_START;
+	TriggerPacket.mHeader.mVersion = PACKET_VERSION;
+	TriggerPacket.mHeader.mPacketType = ePacketTypeTrigger;
+	TriggerPacket.mHeader.mNodeId = get_device_id();
+	TriggerPacket.mHeader.mCounter = 0;
+	TriggerPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
+
+#endif
+#if SENSOR_ENABLE
 	// Initial SensorPacket content
 	SensorPacket.mHeader.mStart = PACKET_START;
 	SensorPacket.mHeader.mVersion = PACKET_VERSION;
-#if PIN_IRQ	
-	SensorPacket.mHeader.mPacketType = ePacketTypeTrigger;
-#endif
-#if SENSOR_ENABLE
 	SensorPacket.mHeader.mPacketType = ePacketTypeTemperatureHumidity;
-#endif
 	SensorPacket.mHeader.mNodeId = get_device_id();
 	SensorPacket.mHeader.mCounter = 0;
-	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;
+	SensorPacket.mHeader.mBatteryVolts = read_battery_voltage() / 100;	
+#endif
+
 #endif
 
 	/* Main process loop */
 	while (1)
 	{
-#if RADIO_ENABLE
+#if SENSOR_ENABLE
 		sensor_packet_send();
-#endif
-#if PIN_IRQ
-		trigger_packet_send();
-#endif
 		powerdown_and_sleep();
+#endif
+
+
+#if PIN_IRQ
+	#if RADIO_ENABLE
+		powerDown();
+	#endif
+		clr_SPIEN;
+
+		ADCCON1 = 0x00; // Turn off the ADC.
+		clr_BODEN;		// Disable undervoltage detection.
+		PIF = 0x00;
+		set_PD;			// Enter power-down mode.
+		set_SPIEN;
+	#if RADIO_ENABLE
+		powerUp();
+	#endif
+
+	#if PIN_IRQ
+		trigger_packet_send();
+	#endif
+#endif
 	}
 	/* =================== */
 }

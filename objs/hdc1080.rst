@@ -1,0 +1,987 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.4 #12274 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module hdc1080
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _Hdc1080WriteRegister
+                                     12 	.globl _HandleError
+                                     13 	.globl _swap
+                                     14 	.globl _Init_I2C
+                                     15 	.globl _Stimer_10u
+                                     16 	.globl _MOSI
+                                     17 	.globl _P00
+                                     18 	.globl _MISO
+                                     19 	.globl _P01
+                                     20 	.globl _RXD_1
+                                     21 	.globl _P02
+                                     22 	.globl _P03
+                                     23 	.globl _STADC
+                                     24 	.globl _P04
+                                     25 	.globl _P05
+                                     26 	.globl _TXD
+                                     27 	.globl _P06
+                                     28 	.globl _RXD
+                                     29 	.globl _P07
+                                     30 	.globl _IT0
+                                     31 	.globl _IE0
+                                     32 	.globl _IT1
+                                     33 	.globl _IE1
+                                     34 	.globl _TR0
+                                     35 	.globl _TF0
+                                     36 	.globl _TR1
+                                     37 	.globl _TF1
+                                     38 	.globl _P10
+                                     39 	.globl _P11
+                                     40 	.globl _P12
+                                     41 	.globl _SCL
+                                     42 	.globl _P13
+                                     43 	.globl _SDA
+                                     44 	.globl _P14
+                                     45 	.globl _P15
+                                     46 	.globl _TXD_1
+                                     47 	.globl _P16
+                                     48 	.globl _P17
+                                     49 	.globl _RI
+                                     50 	.globl _TI
+                                     51 	.globl _RB8
+                                     52 	.globl _TB8
+                                     53 	.globl _REN
+                                     54 	.globl _SM2
+                                     55 	.globl _SM1
+                                     56 	.globl _FE
+                                     57 	.globl _SM0
+                                     58 	.globl _P20
+                                     59 	.globl _EX0
+                                     60 	.globl _ET0
+                                     61 	.globl _EX1
+                                     62 	.globl _ET1
+                                     63 	.globl _ES
+                                     64 	.globl _EBOD
+                                     65 	.globl _EADC
+                                     66 	.globl _EA
+                                     67 	.globl _P30
+                                     68 	.globl _PX0
+                                     69 	.globl _PT0
+                                     70 	.globl _PX1
+                                     71 	.globl _PT1
+                                     72 	.globl _PS
+                                     73 	.globl _PBOD
+                                     74 	.globl _PADC
+                                     75 	.globl _I2CPX
+                                     76 	.globl _AA
+                                     77 	.globl _SI
+                                     78 	.globl _STO
+                                     79 	.globl _STA
+                                     80 	.globl _I2CEN
+                                     81 	.globl _CM_RL2
+                                     82 	.globl _TR2
+                                     83 	.globl _TF2
+                                     84 	.globl _P
+                                     85 	.globl _OV
+                                     86 	.globl _RS0
+                                     87 	.globl _RS1
+                                     88 	.globl _F0
+                                     89 	.globl _AC
+                                     90 	.globl _CY
+                                     91 	.globl _CLRPWM
+                                     92 	.globl _PWMF
+                                     93 	.globl _LOAD
+                                     94 	.globl _PWMRUN
+                                     95 	.globl _ADCHS0
+                                     96 	.globl _ADCHS1
+                                     97 	.globl _ADCHS2
+                                     98 	.globl _ADCHS3
+                                     99 	.globl _ETGSEL0
+                                    100 	.globl _ETGSEL1
+                                    101 	.globl _ADCS
+                                    102 	.globl _ADCF
+                                    103 	.globl _RI_1
+                                    104 	.globl _TI_1
+                                    105 	.globl _RB8_1
+                                    106 	.globl _TB8_1
+                                    107 	.globl _REN_1
+                                    108 	.globl _SM2_1
+                                    109 	.globl _SM1_1
+                                    110 	.globl _FE_1
+                                    111 	.globl _SM0_1
+                                    112 	.globl _EIPH1
+                                    113 	.globl _EIP1
+                                    114 	.globl _PMD
+                                    115 	.globl _PMEN
+                                    116 	.globl _PDTCNT
+                                    117 	.globl _PDTEN
+                                    118 	.globl _SCON_1
+                                    119 	.globl _EIPH
+                                    120 	.globl _AINDIDS
+                                    121 	.globl _SPDR
+                                    122 	.globl _SPSR
+                                    123 	.globl _SPCR2
+                                    124 	.globl _SPCR
+                                    125 	.globl _CAPCON4
+                                    126 	.globl _CAPCON3
+                                    127 	.globl _B
+                                    128 	.globl _EIP
+                                    129 	.globl _C2H
+                                    130 	.globl _C2L
+                                    131 	.globl _PIF
+                                    132 	.globl _PIPEN
+                                    133 	.globl _PINEN
+                                    134 	.globl _PICON
+                                    135 	.globl _ADCCON0
+                                    136 	.globl _C1H
+                                    137 	.globl _C1L
+                                    138 	.globl _C0H
+                                    139 	.globl _C0L
+                                    140 	.globl _ADCDLY
+                                    141 	.globl _ADCCON2
+                                    142 	.globl _ADCCON1
+                                    143 	.globl _ACC
+                                    144 	.globl _PWMCON1
+                                    145 	.globl _PIOCON0
+                                    146 	.globl _PWM3L
+                                    147 	.globl _PWM2L
+                                    148 	.globl _PWM1L
+                                    149 	.globl _PWM0L
+                                    150 	.globl _PWMPL
+                                    151 	.globl _PWMCON0
+                                    152 	.globl _FBD
+                                    153 	.globl _PNP
+                                    154 	.globl _PWM3H
+                                    155 	.globl _PWM2H
+                                    156 	.globl _PWM1H
+                                    157 	.globl _PWM0H
+                                    158 	.globl _PWMPH
+                                    159 	.globl _PSW
+                                    160 	.globl _ADCMPH
+                                    161 	.globl _ADCMPL
+                                    162 	.globl _PWM5L
+                                    163 	.globl _TH2
+                                    164 	.globl _PWM4L
+                                    165 	.globl _TL2
+                                    166 	.globl _RCMP2H
+                                    167 	.globl _RCMP2L
+                                    168 	.globl _T2MOD
+                                    169 	.globl _T2CON
+                                    170 	.globl _TA
+                                    171 	.globl _PIOCON1
+                                    172 	.globl _RH3
+                                    173 	.globl _PWM5H
+                                    174 	.globl _RL3
+                                    175 	.globl _PWM4H
+                                    176 	.globl _T3CON
+                                    177 	.globl _ADCRH
+                                    178 	.globl _ADCRL
+                                    179 	.globl _I2ADDR
+                                    180 	.globl _I2CON
+                                    181 	.globl _I2TOC
+                                    182 	.globl _I2CLK
+                                    183 	.globl _I2STAT
+                                    184 	.globl _I2DAT
+                                    185 	.globl _SADDR_1
+                                    186 	.globl _SADEN_1
+                                    187 	.globl _SADEN
+                                    188 	.globl _IP
+                                    189 	.globl _PWMINTC
+                                    190 	.globl _IPH
+                                    191 	.globl _P2S
+                                    192 	.globl _P1SR
+                                    193 	.globl _P1M2
+                                    194 	.globl _P1S
+                                    195 	.globl _P1M1
+                                    196 	.globl _P0SR
+                                    197 	.globl _P0M2
+                                    198 	.globl _P0S
+                                    199 	.globl _P0M1
+                                    200 	.globl _P3
+                                    201 	.globl _IAPCN
+                                    202 	.globl _IAPFD
+                                    203 	.globl _P3SR
+                                    204 	.globl _P3M2
+                                    205 	.globl _P3S
+                                    206 	.globl _P3M1
+                                    207 	.globl _BODCON1
+                                    208 	.globl _WDCON
+                                    209 	.globl _SADDR
+                                    210 	.globl _IE
+                                    211 	.globl _IAPAH
+                                    212 	.globl _IAPAL
+                                    213 	.globl _IAPUEN
+                                    214 	.globl _IAPTRG
+                                    215 	.globl _BODCON0
+                                    216 	.globl _AUXR1
+                                    217 	.globl _P2
+                                    218 	.globl _CHPCON
+                                    219 	.globl _EIE1
+                                    220 	.globl _EIE
+                                    221 	.globl _SBUF_1
+                                    222 	.globl _SBUF
+                                    223 	.globl _SCON
+                                    224 	.globl _CKEN
+                                    225 	.globl _CKSWT
+                                    226 	.globl _CKDIV
+                                    227 	.globl _CAPCON2
+                                    228 	.globl _CAPCON1
+                                    229 	.globl _CAPCON0
+                                    230 	.globl _SFRS
+                                    231 	.globl _P1
+                                    232 	.globl _WKCON
+                                    233 	.globl _CKCON
+                                    234 	.globl _TH1
+                                    235 	.globl _TH0
+                                    236 	.globl _TL1
+                                    237 	.globl _TL0
+                                    238 	.globl _TMOD
+                                    239 	.globl _TCON
+                                    240 	.globl _PCON
+                                    241 	.globl _RWK
+                                    242 	.globl _RCTRIM1
+                                    243 	.globl _RCTRIM0
+                                    244 	.globl _DPH
+                                    245 	.globl _DPL
+                                    246 	.globl _SP
+                                    247 	.globl _P0
+                                    248 	.globl _Hdc1080Read_PARM_2
+                                    249 	.globl _Hdc1080WriteRegister_PARM_2
+                                    250 	.globl _Hdc1080Init
+                                    251 	.globl _Hdc1080Read
+                                    252 ;--------------------------------------------------------
+                                    253 ; special function registers
+                                    254 ;--------------------------------------------------------
+                                    255 	.area RSEG    (ABS,DATA)
+      000000                        256 	.org 0x0000
+                           000080   257 _P0	=	0x0080
+                           000081   258 _SP	=	0x0081
+                           000082   259 _DPL	=	0x0082
+                           000083   260 _DPH	=	0x0083
+                           000084   261 _RCTRIM0	=	0x0084
+                           000085   262 _RCTRIM1	=	0x0085
+                           000086   263 _RWK	=	0x0086
+                           000087   264 _PCON	=	0x0087
+                           000088   265 _TCON	=	0x0088
+                           000089   266 _TMOD	=	0x0089
+                           00008A   267 _TL0	=	0x008a
+                           00008B   268 _TL1	=	0x008b
+                           00008C   269 _TH0	=	0x008c
+                           00008D   270 _TH1	=	0x008d
+                           00008E   271 _CKCON	=	0x008e
+                           00008F   272 _WKCON	=	0x008f
+                           000090   273 _P1	=	0x0090
+                           000091   274 _SFRS	=	0x0091
+                           000092   275 _CAPCON0	=	0x0092
+                           000093   276 _CAPCON1	=	0x0093
+                           000094   277 _CAPCON2	=	0x0094
+                           000095   278 _CKDIV	=	0x0095
+                           000096   279 _CKSWT	=	0x0096
+                           000097   280 _CKEN	=	0x0097
+                           000098   281 _SCON	=	0x0098
+                           000099   282 _SBUF	=	0x0099
+                           00009A   283 _SBUF_1	=	0x009a
+                           00009B   284 _EIE	=	0x009b
+                           00009C   285 _EIE1	=	0x009c
+                           00009F   286 _CHPCON	=	0x009f
+                           0000A0   287 _P2	=	0x00a0
+                           0000A2   288 _AUXR1	=	0x00a2
+                           0000A3   289 _BODCON0	=	0x00a3
+                           0000A4   290 _IAPTRG	=	0x00a4
+                           0000A5   291 _IAPUEN	=	0x00a5
+                           0000A6   292 _IAPAL	=	0x00a6
+                           0000A7   293 _IAPAH	=	0x00a7
+                           0000A8   294 _IE	=	0x00a8
+                           0000A9   295 _SADDR	=	0x00a9
+                           0000AA   296 _WDCON	=	0x00aa
+                           0000AB   297 _BODCON1	=	0x00ab
+                           0000AC   298 _P3M1	=	0x00ac
+                           0000AC   299 _P3S	=	0x00ac
+                           0000AD   300 _P3M2	=	0x00ad
+                           0000AD   301 _P3SR	=	0x00ad
+                           0000AE   302 _IAPFD	=	0x00ae
+                           0000AF   303 _IAPCN	=	0x00af
+                           0000B0   304 _P3	=	0x00b0
+                           0000B1   305 _P0M1	=	0x00b1
+                           0000B1   306 _P0S	=	0x00b1
+                           0000B2   307 _P0M2	=	0x00b2
+                           0000B2   308 _P0SR	=	0x00b2
+                           0000B3   309 _P1M1	=	0x00b3
+                           0000B3   310 _P1S	=	0x00b3
+                           0000B4   311 _P1M2	=	0x00b4
+                           0000B4   312 _P1SR	=	0x00b4
+                           0000B5   313 _P2S	=	0x00b5
+                           0000B7   314 _IPH	=	0x00b7
+                           0000B7   315 _PWMINTC	=	0x00b7
+                           0000B8   316 _IP	=	0x00b8
+                           0000B9   317 _SADEN	=	0x00b9
+                           0000BA   318 _SADEN_1	=	0x00ba
+                           0000BB   319 _SADDR_1	=	0x00bb
+                           0000BC   320 _I2DAT	=	0x00bc
+                           0000BD   321 _I2STAT	=	0x00bd
+                           0000BE   322 _I2CLK	=	0x00be
+                           0000BF   323 _I2TOC	=	0x00bf
+                           0000C0   324 _I2CON	=	0x00c0
+                           0000C1   325 _I2ADDR	=	0x00c1
+                           0000C2   326 _ADCRL	=	0x00c2
+                           0000C3   327 _ADCRH	=	0x00c3
+                           0000C4   328 _T3CON	=	0x00c4
+                           0000C4   329 _PWM4H	=	0x00c4
+                           0000C5   330 _RL3	=	0x00c5
+                           0000C5   331 _PWM5H	=	0x00c5
+                           0000C6   332 _RH3	=	0x00c6
+                           0000C6   333 _PIOCON1	=	0x00c6
+                           0000C7   334 _TA	=	0x00c7
+                           0000C8   335 _T2CON	=	0x00c8
+                           0000C9   336 _T2MOD	=	0x00c9
+                           0000CA   337 _RCMP2L	=	0x00ca
+                           0000CB   338 _RCMP2H	=	0x00cb
+                           0000CC   339 _TL2	=	0x00cc
+                           0000CC   340 _PWM4L	=	0x00cc
+                           0000CD   341 _TH2	=	0x00cd
+                           0000CD   342 _PWM5L	=	0x00cd
+                           0000CE   343 _ADCMPL	=	0x00ce
+                           0000CF   344 _ADCMPH	=	0x00cf
+                           0000D0   345 _PSW	=	0x00d0
+                           0000D1   346 _PWMPH	=	0x00d1
+                           0000D2   347 _PWM0H	=	0x00d2
+                           0000D3   348 _PWM1H	=	0x00d3
+                           0000D4   349 _PWM2H	=	0x00d4
+                           0000D5   350 _PWM3H	=	0x00d5
+                           0000D6   351 _PNP	=	0x00d6
+                           0000D7   352 _FBD	=	0x00d7
+                           0000D8   353 _PWMCON0	=	0x00d8
+                           0000D9   354 _PWMPL	=	0x00d9
+                           0000DA   355 _PWM0L	=	0x00da
+                           0000DB   356 _PWM1L	=	0x00db
+                           0000DC   357 _PWM2L	=	0x00dc
+                           0000DD   358 _PWM3L	=	0x00dd
+                           0000DE   359 _PIOCON0	=	0x00de
+                           0000DF   360 _PWMCON1	=	0x00df
+                           0000E0   361 _ACC	=	0x00e0
+                           0000E1   362 _ADCCON1	=	0x00e1
+                           0000E2   363 _ADCCON2	=	0x00e2
+                           0000E3   364 _ADCDLY	=	0x00e3
+                           0000E4   365 _C0L	=	0x00e4
+                           0000E5   366 _C0H	=	0x00e5
+                           0000E6   367 _C1L	=	0x00e6
+                           0000E7   368 _C1H	=	0x00e7
+                           0000E8   369 _ADCCON0	=	0x00e8
+                           0000E9   370 _PICON	=	0x00e9
+                           0000EA   371 _PINEN	=	0x00ea
+                           0000EB   372 _PIPEN	=	0x00eb
+                           0000EC   373 _PIF	=	0x00ec
+                           0000ED   374 _C2L	=	0x00ed
+                           0000EE   375 _C2H	=	0x00ee
+                           0000EF   376 _EIP	=	0x00ef
+                           0000F0   377 _B	=	0x00f0
+                           0000F1   378 _CAPCON3	=	0x00f1
+                           0000F2   379 _CAPCON4	=	0x00f2
+                           0000F3   380 _SPCR	=	0x00f3
+                           0000F3   381 _SPCR2	=	0x00f3
+                           0000F4   382 _SPSR	=	0x00f4
+                           0000F5   383 _SPDR	=	0x00f5
+                           0000F6   384 _AINDIDS	=	0x00f6
+                           0000F7   385 _EIPH	=	0x00f7
+                           0000F8   386 _SCON_1	=	0x00f8
+                           0000F9   387 _PDTEN	=	0x00f9
+                           0000FA   388 _PDTCNT	=	0x00fa
+                           0000FB   389 _PMEN	=	0x00fb
+                           0000FC   390 _PMD	=	0x00fc
+                           0000FE   391 _EIP1	=	0x00fe
+                           0000FF   392 _EIPH1	=	0x00ff
+                                    393 ;--------------------------------------------------------
+                                    394 ; special function bits
+                                    395 ;--------------------------------------------------------
+                                    396 	.area RSEG    (ABS,DATA)
+      000000                        397 	.org 0x0000
+                           0000FF   398 _SM0_1	=	0x00ff
+                           0000FF   399 _FE_1	=	0x00ff
+                           0000FE   400 _SM1_1	=	0x00fe
+                           0000FD   401 _SM2_1	=	0x00fd
+                           0000FC   402 _REN_1	=	0x00fc
+                           0000FB   403 _TB8_1	=	0x00fb
+                           0000FA   404 _RB8_1	=	0x00fa
+                           0000F9   405 _TI_1	=	0x00f9
+                           0000F8   406 _RI_1	=	0x00f8
+                           0000EF   407 _ADCF	=	0x00ef
+                           0000EE   408 _ADCS	=	0x00ee
+                           0000ED   409 _ETGSEL1	=	0x00ed
+                           0000EC   410 _ETGSEL0	=	0x00ec
+                           0000EB   411 _ADCHS3	=	0x00eb
+                           0000EA   412 _ADCHS2	=	0x00ea
+                           0000E9   413 _ADCHS1	=	0x00e9
+                           0000E8   414 _ADCHS0	=	0x00e8
+                           0000DF   415 _PWMRUN	=	0x00df
+                           0000DE   416 _LOAD	=	0x00de
+                           0000DD   417 _PWMF	=	0x00dd
+                           0000DC   418 _CLRPWM	=	0x00dc
+                           0000D7   419 _CY	=	0x00d7
+                           0000D6   420 _AC	=	0x00d6
+                           0000D5   421 _F0	=	0x00d5
+                           0000D4   422 _RS1	=	0x00d4
+                           0000D3   423 _RS0	=	0x00d3
+                           0000D2   424 _OV	=	0x00d2
+                           0000D0   425 _P	=	0x00d0
+                           0000CF   426 _TF2	=	0x00cf
+                           0000CA   427 _TR2	=	0x00ca
+                           0000C8   428 _CM_RL2	=	0x00c8
+                           0000C6   429 _I2CEN	=	0x00c6
+                           0000C5   430 _STA	=	0x00c5
+                           0000C4   431 _STO	=	0x00c4
+                           0000C3   432 _SI	=	0x00c3
+                           0000C2   433 _AA	=	0x00c2
+                           0000C0   434 _I2CPX	=	0x00c0
+                           0000BE   435 _PADC	=	0x00be
+                           0000BD   436 _PBOD	=	0x00bd
+                           0000BC   437 _PS	=	0x00bc
+                           0000BB   438 _PT1	=	0x00bb
+                           0000BA   439 _PX1	=	0x00ba
+                           0000B9   440 _PT0	=	0x00b9
+                           0000B8   441 _PX0	=	0x00b8
+                           0000B0   442 _P30	=	0x00b0
+                           0000AF   443 _EA	=	0x00af
+                           0000AE   444 _EADC	=	0x00ae
+                           0000AD   445 _EBOD	=	0x00ad
+                           0000AC   446 _ES	=	0x00ac
+                           0000AB   447 _ET1	=	0x00ab
+                           0000AA   448 _EX1	=	0x00aa
+                           0000A9   449 _ET0	=	0x00a9
+                           0000A8   450 _EX0	=	0x00a8
+                           0000A0   451 _P20	=	0x00a0
+                           00009F   452 _SM0	=	0x009f
+                           00009F   453 _FE	=	0x009f
+                           00009E   454 _SM1	=	0x009e
+                           00009D   455 _SM2	=	0x009d
+                           00009C   456 _REN	=	0x009c
+                           00009B   457 _TB8	=	0x009b
+                           00009A   458 _RB8	=	0x009a
+                           000099   459 _TI	=	0x0099
+                           000098   460 _RI	=	0x0098
+                           000097   461 _P17	=	0x0097
+                           000096   462 _P16	=	0x0096
+                           000096   463 _TXD_1	=	0x0096
+                           000095   464 _P15	=	0x0095
+                           000094   465 _P14	=	0x0094
+                           000094   466 _SDA	=	0x0094
+                           000093   467 _P13	=	0x0093
+                           000093   468 _SCL	=	0x0093
+                           000092   469 _P12	=	0x0092
+                           000091   470 _P11	=	0x0091
+                           000090   471 _P10	=	0x0090
+                           00008F   472 _TF1	=	0x008f
+                           00008E   473 _TR1	=	0x008e
+                           00008D   474 _TF0	=	0x008d
+                           00008C   475 _TR0	=	0x008c
+                           00008B   476 _IE1	=	0x008b
+                           00008A   477 _IT1	=	0x008a
+                           000089   478 _IE0	=	0x0089
+                           000088   479 _IT0	=	0x0088
+                           000087   480 _P07	=	0x0087
+                           000087   481 _RXD	=	0x0087
+                           000086   482 _P06	=	0x0086
+                           000086   483 _TXD	=	0x0086
+                           000085   484 _P05	=	0x0085
+                           000084   485 _P04	=	0x0084
+                           000084   486 _STADC	=	0x0084
+                           000083   487 _P03	=	0x0083
+                           000082   488 _P02	=	0x0082
+                           000082   489 _RXD_1	=	0x0082
+                           000081   490 _P01	=	0x0081
+                           000081   491 _MISO	=	0x0081
+                           000080   492 _P00	=	0x0080
+                           000080   493 _MOSI	=	0x0080
+                                    494 ;--------------------------------------------------------
+                                    495 ; overlayable register banks
+                                    496 ;--------------------------------------------------------
+                                    497 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        498 	.ds 8
+                                    499 ;--------------------------------------------------------
+                                    500 ; internal ram data
+                                    501 ;--------------------------------------------------------
+                                    502 	.area DSEG    (DATA)
+      00004F                        503 _Hdc1080WriteRegister_PARM_2:
+      00004F                        504 	.ds 2
+      000051                        505 _Hdc1080Read_PARM_2:
+      000051                        506 	.ds 3
+      000054                        507 _Hdc1080Read_buff_65536_57:
+      000054                        508 	.ds 4
+                                    509 ;--------------------------------------------------------
+                                    510 ; overlayable items in internal ram 
+                                    511 ;--------------------------------------------------------
+                                    512 	.area	OSEG    (OVR,DATA)
+                                    513 ;--------------------------------------------------------
+                                    514 ; indirectly addressable internal ram data
+                                    515 ;--------------------------------------------------------
+                                    516 	.area ISEG    (DATA)
+                                    517 ;--------------------------------------------------------
+                                    518 ; absolute internal ram data
+                                    519 ;--------------------------------------------------------
+                                    520 	.area IABS    (ABS,DATA)
+                                    521 	.area IABS    (ABS,DATA)
+                                    522 ;--------------------------------------------------------
+                                    523 ; bit data
+                                    524 ;--------------------------------------------------------
+                                    525 	.area BSEG    (BIT)
+                                    526 ;--------------------------------------------------------
+                                    527 ; paged external ram data
+                                    528 ;--------------------------------------------------------
+                                    529 	.area PSEG    (PAG,XDATA)
+                                    530 ;--------------------------------------------------------
+                                    531 ; external ram data
+                                    532 ;--------------------------------------------------------
+                                    533 	.area XSEG    (XDATA)
+                                    534 ;--------------------------------------------------------
+                                    535 ; absolute external ram data
+                                    536 ;--------------------------------------------------------
+                                    537 	.area XABS    (ABS,XDATA)
+                                    538 ;--------------------------------------------------------
+                                    539 ; external initialized ram data
+                                    540 ;--------------------------------------------------------
+                                    541 	.area XISEG   (XDATA)
+                                    542 	.area HOME    (CODE)
+                                    543 	.area GSINIT0 (CODE)
+                                    544 	.area GSINIT1 (CODE)
+                                    545 	.area GSINIT2 (CODE)
+                                    546 	.area GSINIT3 (CODE)
+                                    547 	.area GSINIT4 (CODE)
+                                    548 	.area GSINIT5 (CODE)
+                                    549 	.area GSINIT  (CODE)
+                                    550 	.area GSFINAL (CODE)
+                                    551 	.area CSEG    (CODE)
+                                    552 ;--------------------------------------------------------
+                                    553 ; global & static initialisations
+                                    554 ;--------------------------------------------------------
+                                    555 	.area HOME    (CODE)
+                                    556 	.area GSINIT  (CODE)
+                                    557 	.area GSFINAL (CODE)
+                                    558 	.area GSINIT  (CODE)
+                                    559 ;--------------------------------------------------------
+                                    560 ; Home
+                                    561 ;--------------------------------------------------------
+                                    562 	.area HOME    (CODE)
+                                    563 	.area HOME    (CODE)
+                                    564 ;--------------------------------------------------------
+                                    565 ; code
+                                    566 ;--------------------------------------------------------
+                                    567 	.area CSEG    (CODE)
+                                    568 ;------------------------------------------------------------
+                                    569 ;Allocation info for local variables in function 'swap'
+                                    570 ;------------------------------------------------------------
+                                    571 ;num                       Allocated to registers r6 r7 
+                                    572 ;------------------------------------------------------------
+                                    573 ;	./src/hdc1080.c:9: uint16_t swap(uint16_t num)
+                                    574 ;	-----------------------------------------
+                                    575 ;	 function swap
+                                    576 ;	-----------------------------------------
+      000FE3                        577 _swap:
+                           000007   578 	ar7 = 0x07
+                           000006   579 	ar6 = 0x06
+                           000005   580 	ar5 = 0x05
+                           000004   581 	ar4 = 0x04
+                           000003   582 	ar3 = 0x03
+                           000002   583 	ar2 = 0x02
+                           000001   584 	ar1 = 0x01
+                           000000   585 	ar0 = 0x00
+      000FE3 AE 82            [24]  586 	mov	r6,dpl
+      000FE5 AF 83            [24]  587 	mov	r7,dph
+                                    588 ;	./src/hdc1080.c:11: return ((num >> 8) | (num << 8));
+      000FE7 8F 82            [24]  589 	mov	dpl,r7
+      000FE9 8E 83            [24]  590 	mov	dph,r6
+                                    591 ;	./src/hdc1080.c:12: }
+      000FEB 22               [24]  592 	ret
+                                    593 ;------------------------------------------------------------
+                                    594 ;Allocation info for local variables in function 'HandleError'
+                                    595 ;------------------------------------------------------------
+                                    596 ;	./src/hdc1080.c:14: void HandleError(void)
+                                    597 ;	-----------------------------------------
+                                    598 ;	 function HandleError
+                                    599 ;	-----------------------------------------
+      000FEC                        600 _HandleError:
+                                    601 ;	./src/hdc1080.c:16: while (SI != 0)
+      000FEC                        602 00105$:
+      000FEC 30 C3 15         [24]  603 	jnb	_SI,00108$
+                                    604 ;	./src/hdc1080.c:18: if (I2STAT == 0x00)
+      000FEF E5 BD            [12]  605 	mov	a,_I2STAT
+      000FF1 70 02            [24]  606 	jnz	00102$
+                                    607 ;	./src/hdc1080.c:20: STO = 1; // Check bus status if bus error,first send stop
+                                    608 ;	assignBit
+      000FF3 D2 C4            [12]  609 	setb	_STO
+      000FF5                        610 00102$:
+                                    611 ;	./src/hdc1080.c:22: SI = 0;
+                                    612 ;	assignBit
+      000FF5 C2 C3            [12]  613 	clr	_SI
+                                    614 ;	./src/hdc1080.c:23: if (SI != 0) // If SI still keep 1
+      000FF7 30 C3 F2         [24]  615 	jnb	_SI,00105$
+                                    616 ;	./src/hdc1080.c:25: I2CEN = 0; // please first disable I2C.
+                                    617 ;	assignBit
+      000FFA C2 C6            [12]  618 	clr	_I2CEN
+                                    619 ;	./src/hdc1080.c:26: I2CEN = 1; // Then enable I2C for clear SI.
+                                    620 ;	assignBit
+      000FFC D2 C6            [12]  621 	setb	_I2CEN
+                                    622 ;	./src/hdc1080.c:27: SI = 0;
+                                    623 ;	assignBit
+      000FFE C2 C3            [12]  624 	clr	_SI
+                                    625 ;	./src/hdc1080.c:28: I2CEN = 0; // At last disable I2C for next a new transfer
+                                    626 ;	assignBit
+      001000 C2 C6            [12]  627 	clr	_I2CEN
+      001002 80 E8            [24]  628 	sjmp	00105$
+      001004                        629 00108$:
+                                    630 ;	./src/hdc1080.c:31: }
+      001004 22               [24]  631 	ret
+                                    632 ;------------------------------------------------------------
+                                    633 ;Allocation info for local variables in function 'Hdc1080WriteRegister'
+                                    634 ;------------------------------------------------------------
+                                    635 ;value                     Allocated with name '_Hdc1080WriteRegister_PARM_2'
+                                    636 ;address                   Allocated to registers r7 
+                                    637 ;temp                      Allocated to registers r6 
+                                    638 ;------------------------------------------------------------
+                                    639 ;	./src/hdc1080.c:33: void Hdc1080WriteRegister(uint8_t address, uint16_t value)
+                                    640 ;	-----------------------------------------
+                                    641 ;	 function Hdc1080WriteRegister
+                                    642 ;	-----------------------------------------
+      001005                        643 _Hdc1080WriteRegister:
+      001005 AF 82            [24]  644 	mov	r7,dpl
+                                    645 ;	./src/hdc1080.c:37: set_STA; /* Send Start bit to I2C Device */
+                                    646 ;	assignBit
+      001007 D2 C5            [12]  647 	setb	_STA
+                                    648 ;	./src/hdc1080.c:38: clr_SI;
+                                    649 ;	assignBit
+      001009 C2 C3            [12]  650 	clr	_SI
+                                    651 ;	./src/hdc1080.c:39: while (!SI)
+      00100B                        652 00101$:
+      00100B 30 C3 FD         [24]  653 	jnb	_SI,00101$
+                                    654 ;	./src/hdc1080.c:41: if (I2STAT != 0x08) /* 0x08:  A START condition has been transmitted*/
+      00100E 74 08            [12]  655 	mov	a,#0x08
+      001010 B5 BD 02         [24]  656 	cjne	a,_I2STAT,00212$
+      001013 80 03            [24]  657 	sjmp	00105$
+      001015                        658 00212$:
+                                    659 ;	./src/hdc1080.c:43: HandleError();
+                                    660 ;	./src/hdc1080.c:44: return;
+      001015 02 0F EC         [24]  661 	ljmp	_HandleError
+      001018                        662 00105$:
+                                    663 ;	./src/hdc1080.c:48: clr_STA;                    /* Clear STA and Keep SI value in I2CON */
+                                    664 ;	assignBit
+      001018 C2 C5            [12]  665 	clr	_STA
+                                    666 ;	./src/hdc1080.c:49: I2DAT = (ADDR | I2C_WRITE); /* Send (SLA+R) to Device */
+      00101A 75 BC 80         [24]  667 	mov	_I2DAT,#0x80
+                                    668 ;	./src/hdc1080.c:50: clr_SI;
+                                    669 ;	assignBit
+      00101D C2 C3            [12]  670 	clr	_SI
+                                    671 ;	./src/hdc1080.c:51: while (!SI)
+      00101F                        672 00106$:
+      00101F 30 C3 FD         [24]  673 	jnb	_SI,00106$
+                                    674 ;	./src/hdc1080.c:53: temp = I2STAT;
+      001022 AE BD            [24]  675 	mov	r6,_I2STAT
+                                    676 ;	./src/hdc1080.c:54: if (temp != 0x18) /* 0x18: SLA+W has been transmitted; ACK has been received */
+      001024 BE 18 02         [24]  677 	cjne	r6,#0x18,00214$
+      001027 80 03            [24]  678 	sjmp	00110$
+      001029                        679 00214$:
+                                    680 ;	./src/hdc1080.c:56: HandleError();
+                                    681 ;	./src/hdc1080.c:57: return;
+      001029 02 0F EC         [24]  682 	ljmp	_HandleError
+      00102C                        683 00110$:
+                                    684 ;	./src/hdc1080.c:61: I2DAT = address; /* Send EEPROM's High Byte Address */
+      00102C 8F BC            [24]  685 	mov	_I2DAT,r7
+                                    686 ;	./src/hdc1080.c:62: clr_SI;
+                                    687 ;	assignBit
+      00102E C2 C3            [12]  688 	clr	_SI
+                                    689 ;	./src/hdc1080.c:63: while (!SI)
+      001030                        690 00111$:
+      001030 30 C3 FD         [24]  691 	jnb	_SI,00111$
+                                    692 ;	./src/hdc1080.c:65: temp = I2STAT;
+      001033 AE BD            [24]  693 	mov	r6,_I2STAT
+                                    694 ;	./src/hdc1080.c:66: if (temp != 0x28) /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
+      001035 BE 28 02         [24]  695 	cjne	r6,#0x28,00216$
+      001038 80 03            [24]  696 	sjmp	00115$
+      00103A                        697 00216$:
+                                    698 ;	./src/hdc1080.c:68: HandleError();
+                                    699 ;	./src/hdc1080.c:69: return;
+      00103A 02 0F EC         [24]  700 	ljmp	_HandleError
+      00103D                        701 00115$:
+                                    702 ;	./src/hdc1080.c:73: I2DAT = value / 256; /* Send EEPROM's High Byte Address */
+      00103D AD 50            [24]  703 	mov	r5,(_Hdc1080WriteRegister_PARM_2 + 1)
+      00103F 8D BC            [24]  704 	mov	_I2DAT,r5
+                                    705 ;	./src/hdc1080.c:74: clr_SI;
+                                    706 ;	assignBit
+      001041 C2 C3            [12]  707 	clr	_SI
+                                    708 ;	./src/hdc1080.c:75: while (!SI)
+      001043                        709 00116$:
+      001043 30 C3 FD         [24]  710 	jnb	_SI,00116$
+                                    711 ;	./src/hdc1080.c:77: temp = I2STAT;
+      001046 AE BD            [24]  712 	mov	r6,_I2STAT
+                                    713 ;	./src/hdc1080.c:78: if (temp != 0x28) /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
+      001048 BE 28 02         [24]  714 	cjne	r6,#0x28,00218$
+      00104B 80 03            [24]  715 	sjmp	00120$
+      00104D                        716 00218$:
+                                    717 ;	./src/hdc1080.c:80: HandleError();
+                                    718 ;	./src/hdc1080.c:81: return;
+      00104D 02 0F EC         [24]  719 	ljmp	_HandleError
+      001050                        720 00120$:
+                                    721 ;	./src/hdc1080.c:84: I2DAT = address % 256; /* Send EEPROM's High Byte Address */
+      001050 8F BC            [24]  722 	mov	_I2DAT,r7
+                                    723 ;	./src/hdc1080.c:85: clr_SI;
+                                    724 ;	assignBit
+      001052 C2 C3            [12]  725 	clr	_SI
+                                    726 ;	./src/hdc1080.c:86: while (!SI)
+      001054                        727 00121$:
+      001054 30 C3 FD         [24]  728 	jnb	_SI,00121$
+                                    729 ;	./src/hdc1080.c:88: temp = I2STAT;
+      001057 AF BD            [24]  730 	mov	r7,_I2STAT
+                                    731 ;	./src/hdc1080.c:89: if (temp != 0x28) /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
+      001059 BF 28 02         [24]  732 	cjne	r7,#0x28,00220$
+      00105C 80 03            [24]  733 	sjmp	00125$
+      00105E                        734 00220$:
+                                    735 ;	./src/hdc1080.c:91: HandleError();
+                                    736 ;	./src/hdc1080.c:92: return;
+      00105E 02 0F EC         [24]  737 	ljmp	_HandleError
+      001061                        738 00125$:
+                                    739 ;	./src/hdc1080.c:96: clr_SI;
+                                    740 ;	assignBit
+      001061 C2 C3            [12]  741 	clr	_SI
+                                    742 ;	./src/hdc1080.c:97: set_STO;
+                                    743 ;	assignBit
+      001063 D2 C4            [12]  744 	setb	_STO
+                                    745 ;	./src/hdc1080.c:98: while (STO)
+      001065                        746 00126$:
+      001065 20 C4 FD         [24]  747 	jb	_STO,00126$
+                                    748 ;	./src/hdc1080.c:100: }
+      001068 22               [24]  749 	ret
+                                    750 ;------------------------------------------------------------
+                                    751 ;Allocation info for local variables in function 'Hdc1080Init'
+                                    752 ;------------------------------------------------------------
+                                    753 ;	./src/hdc1080.c:102: void Hdc1080Init(void)
+                                    754 ;	-----------------------------------------
+                                    755 ;	 function Hdc1080Init
+                                    756 ;	-----------------------------------------
+      001069                        757 _Hdc1080Init:
+                                    758 ;	./src/hdc1080.c:104: Init_I2C();
+      001069 12 11 75         [24]  759 	lcall	_Init_I2C
+                                    760 ;	./src/hdc1080.c:105: Stimer_10u(100);
+      00106C 90 00 64         [24]  761 	mov	dptr,#0x0064
+      00106F 12 06 A4         [24]  762 	lcall	_Stimer_10u
+                                    763 ;	./src/hdc1080.c:106: Hdc1080WriteRegister(0x02, 0x1000);
+      001072 75 4F 00         [24]  764 	mov	_Hdc1080WriteRegister_PARM_2,#0x00
+      001075 75 50 10         [24]  765 	mov	(_Hdc1080WriteRegister_PARM_2 + 1),#0x10
+      001078 75 82 02         [24]  766 	mov	dpl,#0x02
+                                    767 ;	./src/hdc1080.c:107: }
+      00107B 02 10 05         [24]  768 	ljmp	_Hdc1080WriteRegister
+                                    769 ;------------------------------------------------------------
+                                    770 ;Allocation info for local variables in function 'Hdc1080Read'
+                                    771 ;------------------------------------------------------------
+                                    772 ;humidity                  Allocated with name '_Hdc1080Read_PARM_2'
+                                    773 ;temperature               Allocated to registers r5 r6 r7 
+                                    774 ;temp                      Allocated to registers r4 
+                                    775 ;u8Count                   Allocated to registers r4 
+                                    776 ;buff                      Allocated with name '_Hdc1080Read_buff_65536_57'
+                                    777 ;------------------------------------------------------------
+                                    778 ;	./src/hdc1080.c:109: void Hdc1080Read(uint16_t *temperature, uint16_t *humidity)
+                                    779 ;	-----------------------------------------
+                                    780 ;	 function Hdc1080Read
+                                    781 ;	-----------------------------------------
+      00107E                        782 _Hdc1080Read:
+      00107E AD 82            [24]  783 	mov	r5,dpl
+      001080 AE 83            [24]  784 	mov	r6,dph
+      001082 AF F0            [24]  785 	mov	r7,b
+                                    786 ;	./src/hdc1080.c:115: set_STA; /* Send Start bit to I2C Device */
+                                    787 ;	assignBit
+      001084 D2 C5            [12]  788 	setb	_STA
+                                    789 ;	./src/hdc1080.c:116: clr_SI;
+                                    790 ;	assignBit
+      001086 C2 C3            [12]  791 	clr	_SI
+                                    792 ;	./src/hdc1080.c:117: while (!SI)
+      001088                        793 00101$:
+      001088 30 C3 FD         [24]  794 	jnb	_SI,00101$
+                                    795 ;	./src/hdc1080.c:119: if (I2STAT != 0x08) /* 0x08:  A START condition has been transmitted*/
+      00108B 74 08            [12]  796 	mov	a,#0x08
+      00108D B5 BD 02         [24]  797 	cjne	a,_I2STAT,00263$
+      001090 80 03            [24]  798 	sjmp	00105$
+      001092                        799 00263$:
+                                    800 ;	./src/hdc1080.c:121: HandleError();
+                                    801 ;	./src/hdc1080.c:122: return;
+      001092 02 0F EC         [24]  802 	ljmp	_HandleError
+      001095                        803 00105$:
+                                    804 ;	./src/hdc1080.c:126: clr_STA;                    /* Clear STA and Keep SI value in I2CON */
+                                    805 ;	assignBit
+      001095 C2 C5            [12]  806 	clr	_STA
+                                    807 ;	./src/hdc1080.c:127: I2DAT = (ADDR | I2C_WRITE); /* Send (SLA+R) to Device */
+      001097 75 BC 80         [24]  808 	mov	_I2DAT,#0x80
+                                    809 ;	./src/hdc1080.c:128: clr_SI;
+                                    810 ;	assignBit
+      00109A C2 C3            [12]  811 	clr	_SI
+                                    812 ;	./src/hdc1080.c:129: while (!SI)
+      00109C                        813 00106$:
+      00109C 30 C3 FD         [24]  814 	jnb	_SI,00106$
+                                    815 ;	./src/hdc1080.c:131: temp = I2STAT;
+      00109F AC BD            [24]  816 	mov	r4,_I2STAT
+                                    817 ;	./src/hdc1080.c:132: if (temp != 0x18) /* 0x18: SLA+W has been transmitted; ACK has been received */
+      0010A1 BC 18 02         [24]  818 	cjne	r4,#0x18,00265$
+      0010A4 80 03            [24]  819 	sjmp	00110$
+      0010A6                        820 00265$:
+                                    821 ;	./src/hdc1080.c:134: HandleError();
+                                    822 ;	./src/hdc1080.c:135: return;
+      0010A6 02 0F EC         [24]  823 	ljmp	_HandleError
+      0010A9                        824 00110$:
+                                    825 ;	./src/hdc1080.c:139: I2DAT = 0x00; /* Send EEPROM's High Byte Address */
+      0010A9 75 BC 00         [24]  826 	mov	_I2DAT,#0x00
+                                    827 ;	./src/hdc1080.c:140: clr_SI;
+                                    828 ;	assignBit
+      0010AC C2 C3            [12]  829 	clr	_SI
+                                    830 ;	./src/hdc1080.c:141: while (!SI)
+      0010AE                        831 00111$:
+      0010AE 30 C3 FD         [24]  832 	jnb	_SI,00111$
+                                    833 ;	./src/hdc1080.c:143: temp = I2STAT;
+      0010B1 AC BD            [24]  834 	mov	r4,_I2STAT
+                                    835 ;	./src/hdc1080.c:144: if (temp != 0x28) /* 0x28:  Data byte in S1DAT has been transmitted; ACK has been received */
+      0010B3 BC 28 02         [24]  836 	cjne	r4,#0x28,00267$
+      0010B6 80 03            [24]  837 	sjmp	00115$
+      0010B8                        838 00267$:
+                                    839 ;	./src/hdc1080.c:146: HandleError();
+                                    840 ;	./src/hdc1080.c:147: return;
+      0010B8 02 0F EC         [24]  841 	ljmp	_HandleError
+      0010BB                        842 00115$:
+                                    843 ;	./src/hdc1080.c:150: clr_SI;
+                                    844 ;	assignBit
+      0010BB C2 C3            [12]  845 	clr	_SI
+                                    846 ;	./src/hdc1080.c:151: set_STO;
+                                    847 ;	assignBit
+      0010BD D2 C4            [12]  848 	setb	_STO
+                                    849 ;	./src/hdc1080.c:152: while (STO)
+      0010BF                        850 00116$:
+      0010BF 20 C4 FD         [24]  851 	jb	_STO,00116$
+                                    852 ;	./src/hdc1080.c:155: Stimer_10u(8000);
+      0010C2 90 1F 40         [24]  853 	mov	dptr,#0x1f40
+      0010C5 C0 07            [24]  854 	push	ar7
+      0010C7 C0 06            [24]  855 	push	ar6
+      0010C9 C0 05            [24]  856 	push	ar5
+      0010CB 12 06 A4         [24]  857 	lcall	_Stimer_10u
+      0010CE D0 05            [24]  858 	pop	ar5
+      0010D0 D0 06            [24]  859 	pop	ar6
+      0010D2 D0 07            [24]  860 	pop	ar7
+                                    861 ;	./src/hdc1080.c:158: set_STA; /* Send Start bit to I2C Device */
+                                    862 ;	assignBit
+      0010D4 D2 C5            [12]  863 	setb	_STA
+                                    864 ;	./src/hdc1080.c:159: clr_SI;
+                                    865 ;	assignBit
+      0010D6 C2 C3            [12]  866 	clr	_SI
+                                    867 ;	./src/hdc1080.c:160: while (!SI)
+      0010D8                        868 00119$:
+      0010D8 30 C3 FD         [24]  869 	jnb	_SI,00119$
+                                    870 ;	./src/hdc1080.c:162: if (I2STAT != 0x08) /* 0x08:  A START condition has been transmitted*/
+      0010DB 74 08            [12]  871 	mov	a,#0x08
+      0010DD B5 BD 02         [24]  872 	cjne	a,_I2STAT,00270$
+      0010E0 80 03            [24]  873 	sjmp	00123$
+      0010E2                        874 00270$:
+                                    875 ;	./src/hdc1080.c:164: HandleError();
+                                    876 ;	./src/hdc1080.c:165: return;
+      0010E2 02 0F EC         [24]  877 	ljmp	_HandleError
+      0010E5                        878 00123$:
+                                    879 ;	./src/hdc1080.c:169: clr_STA;                   /* Clear STA and Keep SI value in I2CON */
+                                    880 ;	assignBit
+      0010E5 C2 C5            [12]  881 	clr	_STA
+                                    882 ;	./src/hdc1080.c:170: I2DAT = (ADDR | I2C_READ); /* Send (SLA+R) to Device */
+      0010E7 75 BC 81         [24]  883 	mov	_I2DAT,#0x81
+                                    884 ;	./src/hdc1080.c:171: clr_SI;
+                                    885 ;	assignBit
+      0010EA C2 C3            [12]  886 	clr	_SI
+                                    887 ;	./src/hdc1080.c:172: while (!SI)
+      0010EC                        888 00124$:
+      0010EC 30 C3 FD         [24]  889 	jnb	_SI,00124$
+                                    890 ;	./src/hdc1080.c:174: temp = I2STAT;
+      0010EF AC BD            [24]  891 	mov	r4,_I2STAT
+                                    892 ;	./src/hdc1080.c:175: if (temp != 0x40) /* 0x18: SLA+W has been transmitted; ACK has been received */
+      0010F1 BC 40 02         [24]  893 	cjne	r4,#0x40,00272$
+      0010F4 80 03            [24]  894 	sjmp	00162$
+      0010F6                        895 00272$:
+                                    896 ;	./src/hdc1080.c:177: HandleError();
+                                    897 ;	./src/hdc1080.c:178: return;
+      0010F6 02 0F EC         [24]  898 	ljmp	_HandleError
+                                    899 ;	./src/hdc1080.c:181: for (u8Count = 0; u8Count < 4; u8Count++)
+      0010F9                        900 00162$:
+      0010F9 7C 00            [12]  901 	mov	r4,#0x00
+      0010FB                        902 00138$:
+                                    903 ;	./src/hdc1080.c:183: set_AA; /* Set Assert Acknowledge Control Bit */
+                                    904 ;	assignBit
+      0010FB D2 C2            [12]  905 	setb	_AA
+                                    906 ;	./src/hdc1080.c:184: clr_SI;
+                                    907 ;	assignBit
+      0010FD C2 C3            [12]  908 	clr	_SI
+                                    909 ;	./src/hdc1080.c:185: while (!SI)
+      0010FF                        910 00129$:
+      0010FF 30 C3 FD         [24]  911 	jnb	_SI,00129$
+                                    912 ;	./src/hdc1080.c:187: if (I2STAT != 0x50) /* 0x50:Data byte has been received; NOT ACK has been returned */
+      001102 74 50            [12]  913 	mov	a,#0x50
+      001104 B5 BD 02         [24]  914 	cjne	a,_I2STAT,00274$
+      001107 80 03            [24]  915 	sjmp	00133$
+      001109                        916 00274$:
+                                    917 ;	./src/hdc1080.c:189: HandleError();
+                                    918 ;	./src/hdc1080.c:190: return;
+      001109 02 0F EC         [24]  919 	ljmp	_HandleError
+      00110C                        920 00133$:
+                                    921 ;	./src/hdc1080.c:193: buff[u8Count] = I2DAT;
+      00110C EC               [12]  922 	mov	a,r4
+      00110D 24 54            [12]  923 	add	a,#_Hdc1080Read_buff_65536_57
+      00110F F8               [12]  924 	mov	r0,a
+      001110 A6 BC            [24]  925 	mov	@r0,_I2DAT
+                                    926 ;	./src/hdc1080.c:181: for (u8Count = 0; u8Count < 4; u8Count++)
+      001112 0C               [12]  927 	inc	r4
+      001113 BC 04 00         [24]  928 	cjne	r4,#0x04,00275$
+      001116                        929 00275$:
+      001116 40 E3            [24]  930 	jc	00138$
+                                    931 ;	./src/hdc1080.c:196: clr_SI;
+                                    932 ;	assignBit
+      001118 C2 C3            [12]  933 	clr	_SI
+                                    934 ;	./src/hdc1080.c:197: set_STO;
+                                    935 ;	assignBit
+      00111A D2 C4            [12]  936 	setb	_STO
+                                    937 ;	./src/hdc1080.c:198: while (STO)
+      00111C                        938 00135$:
+      00111C 20 C4 FD         [24]  939 	jb	_STO,00135$
+                                    940 ;	./src/hdc1080.c:201: *temperature = swap(*(uint16_t *)&buff);
+      00111F 85 54 82         [24]  941 	mov	dpl,(_Hdc1080Read_buff_65536_57 + 0)
+      001122 85 55 83         [24]  942 	mov	dph,(_Hdc1080Read_buff_65536_57 + 1)
+      001125 C0 07            [24]  943 	push	ar7
+      001127 C0 06            [24]  944 	push	ar6
+      001129 C0 05            [24]  945 	push	ar5
+      00112B 12 0F E3         [24]  946 	lcall	_swap
+      00112E AB 82            [24]  947 	mov	r3,dpl
+      001130 AC 83            [24]  948 	mov	r4,dph
+      001132 D0 05            [24]  949 	pop	ar5
+      001134 D0 06            [24]  950 	pop	ar6
+      001136 D0 07            [24]  951 	pop	ar7
+      001138 8D 82            [24]  952 	mov	dpl,r5
+      00113A 8E 83            [24]  953 	mov	dph,r6
+      00113C 8F F0            [24]  954 	mov	b,r7
+      00113E EB               [12]  955 	mov	a,r3
+      00113F 12 17 44         [24]  956 	lcall	__gptrput
+      001142 A3               [24]  957 	inc	dptr
+      001143 EC               [12]  958 	mov	a,r4
+      001144 12 17 44         [24]  959 	lcall	__gptrput
+                                    960 ;	./src/hdc1080.c:203: *humidity = swap(*(uint16_t *)&buff[2]);
+      001147 AD 51            [24]  961 	mov	r5,_Hdc1080Read_PARM_2
+      001149 AE 52            [24]  962 	mov	r6,(_Hdc1080Read_PARM_2 + 1)
+      00114B AF 53            [24]  963 	mov	r7,(_Hdc1080Read_PARM_2 + 2)
+      00114D 85 56 82         [24]  964 	mov	dpl,((_Hdc1080Read_buff_65536_57 + 0x0002) + 0)
+      001150 85 57 83         [24]  965 	mov	dph,((_Hdc1080Read_buff_65536_57 + 0x0002) + 1)
+      001153 C0 07            [24]  966 	push	ar7
+      001155 C0 06            [24]  967 	push	ar6
+      001157 C0 05            [24]  968 	push	ar5
+      001159 12 0F E3         [24]  969 	lcall	_swap
+      00115C AB 82            [24]  970 	mov	r3,dpl
+      00115E AC 83            [24]  971 	mov	r4,dph
+      001160 D0 05            [24]  972 	pop	ar5
+      001162 D0 06            [24]  973 	pop	ar6
+      001164 D0 07            [24]  974 	pop	ar7
+      001166 8D 82            [24]  975 	mov	dpl,r5
+      001168 8E 83            [24]  976 	mov	dph,r6
+      00116A 8F F0            [24]  977 	mov	b,r7
+      00116C EB               [12]  978 	mov	a,r3
+      00116D 12 17 44         [24]  979 	lcall	__gptrput
+      001170 A3               [24]  980 	inc	dptr
+      001171 EC               [12]  981 	mov	a,r4
+                                    982 ;	./src/hdc1080.c:204: }
+      001172 02 17 44         [24]  983 	ljmp	__gptrput
+                                    984 	.area CSEG    (CODE)
+                                    985 	.area CONST   (CODE)
+                                    986 	.area XINIT   (CODE)
+                                    987 	.area CABS    (ABS,CODE)

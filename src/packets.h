@@ -44,8 +44,7 @@ typedef struct
 
 typedef struct
 {
-	uint8_t triggerstate;
-	
+	uint8_t triggerstate;	
 } sTriggerData;
 
 typedef struct
@@ -63,7 +62,7 @@ typedef struct
 	/* Header information */
 	sPacketHeader mHeader;
 	/* Data */
-	sSensorData BuildData;
+	sBuildData BuildData;
 	/* Checksum */
 	uint8_t mChecksum;
 } sIdentPacket;

@@ -1,0 +1,2608 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.4 #12274 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module RF24
+                                      6 	.optsdcc -mmcs51 --model-small
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _min_PARM_2
+                                     12 	.globl _spi_transfer
+                                     13 	.globl ___memcpy
+                                     14 	.globl _Timer3_Delay10us
+                                     15 	.globl _MOSI
+                                     16 	.globl _P00
+                                     17 	.globl _MISO
+                                     18 	.globl _P01
+                                     19 	.globl _RXD_1
+                                     20 	.globl _P02
+                                     21 	.globl _P03
+                                     22 	.globl _STADC
+                                     23 	.globl _P04
+                                     24 	.globl _P05
+                                     25 	.globl _TXD
+                                     26 	.globl _P06
+                                     27 	.globl _RXD
+                                     28 	.globl _P07
+                                     29 	.globl _IT0
+                                     30 	.globl _IE0
+                                     31 	.globl _IT1
+                                     32 	.globl _IE1
+                                     33 	.globl _TR0
+                                     34 	.globl _TF0
+                                     35 	.globl _TR1
+                                     36 	.globl _TF1
+                                     37 	.globl _P10
+                                     38 	.globl _P11
+                                     39 	.globl _P12
+                                     40 	.globl _SCL
+                                     41 	.globl _P13
+                                     42 	.globl _SDA
+                                     43 	.globl _P14
+                                     44 	.globl _P15
+                                     45 	.globl _TXD_1
+                                     46 	.globl _P16
+                                     47 	.globl _P17
+                                     48 	.globl _RI
+                                     49 	.globl _TI
+                                     50 	.globl _RB8
+                                     51 	.globl _TB8
+                                     52 	.globl _REN
+                                     53 	.globl _SM2
+                                     54 	.globl _SM1
+                                     55 	.globl _FE
+                                     56 	.globl _SM0
+                                     57 	.globl _P20
+                                     58 	.globl _EX0
+                                     59 	.globl _ET0
+                                     60 	.globl _EX1
+                                     61 	.globl _ET1
+                                     62 	.globl _ES
+                                     63 	.globl _EBOD
+                                     64 	.globl _EADC
+                                     65 	.globl _EA
+                                     66 	.globl _P30
+                                     67 	.globl _PX0
+                                     68 	.globl _PT0
+                                     69 	.globl _PX1
+                                     70 	.globl _PT1
+                                     71 	.globl _PS
+                                     72 	.globl _PBOD
+                                     73 	.globl _PADC
+                                     74 	.globl _I2CPX
+                                     75 	.globl _AA
+                                     76 	.globl _SI
+                                     77 	.globl _STO
+                                     78 	.globl _STA
+                                     79 	.globl _I2CEN
+                                     80 	.globl _CM_RL2
+                                     81 	.globl _TR2
+                                     82 	.globl _TF2
+                                     83 	.globl _P
+                                     84 	.globl _OV
+                                     85 	.globl _RS0
+                                     86 	.globl _RS1
+                                     87 	.globl _F0
+                                     88 	.globl _AC
+                                     89 	.globl _CY
+                                     90 	.globl _CLRPWM
+                                     91 	.globl _PWMF
+                                     92 	.globl _LOAD
+                                     93 	.globl _PWMRUN
+                                     94 	.globl _ADCHS0
+                                     95 	.globl _ADCHS1
+                                     96 	.globl _ADCHS2
+                                     97 	.globl _ADCHS3
+                                     98 	.globl _ETGSEL0
+                                     99 	.globl _ETGSEL1
+                                    100 	.globl _ADCS
+                                    101 	.globl _ADCF
+                                    102 	.globl _RI_1
+                                    103 	.globl _TI_1
+                                    104 	.globl _RB8_1
+                                    105 	.globl _TB8_1
+                                    106 	.globl _REN_1
+                                    107 	.globl _SM2_1
+                                    108 	.globl _SM1_1
+                                    109 	.globl _FE_1
+                                    110 	.globl _SM0_1
+                                    111 	.globl _EIPH1
+                                    112 	.globl _EIP1
+                                    113 	.globl _PMD
+                                    114 	.globl _PMEN
+                                    115 	.globl _PDTCNT
+                                    116 	.globl _PDTEN
+                                    117 	.globl _SCON_1
+                                    118 	.globl _EIPH
+                                    119 	.globl _AINDIDS
+                                    120 	.globl _SPDR
+                                    121 	.globl _SPSR
+                                    122 	.globl _SPCR2
+                                    123 	.globl _SPCR
+                                    124 	.globl _CAPCON4
+                                    125 	.globl _CAPCON3
+                                    126 	.globl _B
+                                    127 	.globl _EIP
+                                    128 	.globl _C2H
+                                    129 	.globl _C2L
+                                    130 	.globl _PIF
+                                    131 	.globl _PIPEN
+                                    132 	.globl _PINEN
+                                    133 	.globl _PICON
+                                    134 	.globl _ADCCON0
+                                    135 	.globl _C1H
+                                    136 	.globl _C1L
+                                    137 	.globl _C0H
+                                    138 	.globl _C0L
+                                    139 	.globl _ADCDLY
+                                    140 	.globl _ADCCON2
+                                    141 	.globl _ADCCON1
+                                    142 	.globl _ACC
+                                    143 	.globl _PWMCON1
+                                    144 	.globl _PIOCON0
+                                    145 	.globl _PWM3L
+                                    146 	.globl _PWM2L
+                                    147 	.globl _PWM1L
+                                    148 	.globl _PWM0L
+                                    149 	.globl _PWMPL
+                                    150 	.globl _PWMCON0
+                                    151 	.globl _FBD
+                                    152 	.globl _PNP
+                                    153 	.globl _PWM3H
+                                    154 	.globl _PWM2H
+                                    155 	.globl _PWM1H
+                                    156 	.globl _PWM0H
+                                    157 	.globl _PWMPH
+                                    158 	.globl _PSW
+                                    159 	.globl _ADCMPH
+                                    160 	.globl _ADCMPL
+                                    161 	.globl _PWM5L
+                                    162 	.globl _TH2
+                                    163 	.globl _PWM4L
+                                    164 	.globl _TL2
+                                    165 	.globl _RCMP2H
+                                    166 	.globl _RCMP2L
+                                    167 	.globl _T2MOD
+                                    168 	.globl _T2CON
+                                    169 	.globl _TA
+                                    170 	.globl _PIOCON1
+                                    171 	.globl _RH3
+                                    172 	.globl _PWM5H
+                                    173 	.globl _RL3
+                                    174 	.globl _PWM4H
+                                    175 	.globl _T3CON
+                                    176 	.globl _ADCRH
+                                    177 	.globl _ADCRL
+                                    178 	.globl _I2ADDR
+                                    179 	.globl _I2CON
+                                    180 	.globl _I2TOC
+                                    181 	.globl _I2CLK
+                                    182 	.globl _I2STAT
+                                    183 	.globl _I2DAT
+                                    184 	.globl _SADDR_1
+                                    185 	.globl _SADEN_1
+                                    186 	.globl _SADEN
+                                    187 	.globl _IP
+                                    188 	.globl _PWMINTC
+                                    189 	.globl _IPH
+                                    190 	.globl _P2S
+                                    191 	.globl _P1SR
+                                    192 	.globl _P1M2
+                                    193 	.globl _P1S
+                                    194 	.globl _P1M1
+                                    195 	.globl _P0SR
+                                    196 	.globl _P0M2
+                                    197 	.globl _P0S
+                                    198 	.globl _P0M1
+                                    199 	.globl _P3
+                                    200 	.globl _IAPCN
+                                    201 	.globl _IAPFD
+                                    202 	.globl _P3SR
+                                    203 	.globl _P3M2
+                                    204 	.globl _P3S
+                                    205 	.globl _P3M1
+                                    206 	.globl _BODCON1
+                                    207 	.globl _WDCON
+                                    208 	.globl _SADDR
+                                    209 	.globl _IE
+                                    210 	.globl _IAPAH
+                                    211 	.globl _IAPAL
+                                    212 	.globl _IAPUEN
+                                    213 	.globl _IAPTRG
+                                    214 	.globl _BODCON0
+                                    215 	.globl _AUXR1
+                                    216 	.globl _P2
+                                    217 	.globl _CHPCON
+                                    218 	.globl _EIE1
+                                    219 	.globl _EIE
+                                    220 	.globl _SBUF_1
+                                    221 	.globl _SBUF
+                                    222 	.globl _SCON
+                                    223 	.globl _CKEN
+                                    224 	.globl _CKSWT
+                                    225 	.globl _CKDIV
+                                    226 	.globl _CAPCON2
+                                    227 	.globl _CAPCON1
+                                    228 	.globl _CAPCON0
+                                    229 	.globl _SFRS
+                                    230 	.globl _P1
+                                    231 	.globl _WKCON
+                                    232 	.globl _CKCON
+                                    233 	.globl _TH1
+                                    234 	.globl _TH0
+                                    235 	.globl _TL1
+                                    236 	.globl _TL0
+                                    237 	.globl _TMOD
+                                    238 	.globl _TCON
+                                    239 	.globl _PCON
+                                    240 	.globl _RWK
+                                    241 	.globl _RCTRIM1
+                                    242 	.globl _RCTRIM0
+                                    243 	.globl _DPH
+                                    244 	.globl _DPL
+                                    245 	.globl _SP
+                                    246 	.globl _P0
+                                    247 	.globl _setRetries_PARM_2
+                                    248 	.globl _setAutoAckPipe_PARM_2
+                                    249 	.globl _writeAckPayload_PARM_3
+                                    250 	.globl _writeAckPayload_PARM_2
+                                    251 	.globl _openReadingPipe_PARM_2
+                                    252 	.globl _whatHappened_PARM_3
+                                    253 	.globl _whatHappened_PARM_2
+                                    254 	.globl _read_PARM_2
+                                    255 	.globl _startWrite_PARM_2
+                                    256 	.globl _write_PARM_2
+                                    257 	.globl _read_payload_PARM_2
+                                    258 	.globl _write_payload_PARM_2
+                                    259 	.globl _write_register_PARM_2
+                                    260 	.globl _write_registers_PARM_3
+                                    261 	.globl _write_registers_PARM_2
+                                    262 	.globl _read_registers_PARM_3
+                                    263 	.globl _read_registers_PARM_2
+                                    264 	.globl _pipe0_reading_address
+                                    265 	.globl _ack_payload_length
+                                    266 	.globl _dynamic_payloads_enabled
+                                    267 	.globl _ack_payload_available
+                                    268 	.globl _payload_size
+                                    269 	.globl _p_variant
+                                    270 	.globl _wide_band
+                                    271 	.globl _min
+                                    272 	.globl _csn
+                                    273 	.globl _ce
+                                    274 	.globl _read_registers
+                                    275 	.globl _read_register
+                                    276 	.globl _write_registers
+                                    277 	.globl _write_register
+                                    278 	.globl _write_payload
+                                    279 	.globl _read_payload
+                                    280 	.globl _flush_rx
+                                    281 	.globl _flush_tx
+                                    282 	.globl _get_status
+                                    283 	.globl _setChannel
+                                    284 	.globl _setPayloadSize
+                                    285 	.globl _getPayloadSize
+                                    286 	.globl _begin
+                                    287 	.globl _startListening
+                                    288 	.globl _stopListening
+                                    289 	.globl _powerDown
+                                    290 	.globl _powerUp
+                                    291 	.globl _write
+                                    292 	.globl _startWrite
+                                    293 	.globl _getDynamicPayloadSize
+                                    294 	.globl _available
+                                    295 	.globl _availablePipe
+                                    296 	.globl _read
+                                    297 	.globl _whatHappened
+                                    298 	.globl _openWritingPipe
+                                    299 	.globl _openReadingPipe
+                                    300 	.globl _toggle_features
+                                    301 	.globl _enableDynamicPayloads
+                                    302 	.globl _enableAckPayload
+                                    303 	.globl _writeAckPayload
+                                    304 	.globl _isAckPayloadAvailable
+                                    305 	.globl _isPVariant
+                                    306 	.globl _setAutoAck
+                                    307 	.globl _setAutoAckPipe
+                                    308 	.globl _testCarrier
+                                    309 	.globl _testRPD
+                                    310 	.globl _setPALevel
+                                    311 	.globl _getPALevel
+                                    312 	.globl _setDataRate
+                                    313 	.globl _getDataRate
+                                    314 	.globl _setCRCLength
+                                    315 	.globl _getCRCLength
+                                    316 	.globl _disableCRC
+                                    317 	.globl _setRetries
+                                    318 ;--------------------------------------------------------
+                                    319 ; special function registers
+                                    320 ;--------------------------------------------------------
+                                    321 	.area RSEG    (ABS,DATA)
+      000000                        322 	.org 0x0000
+                           000080   323 _P0	=	0x0080
+                           000081   324 _SP	=	0x0081
+                           000082   325 _DPL	=	0x0082
+                           000083   326 _DPH	=	0x0083
+                           000084   327 _RCTRIM0	=	0x0084
+                           000085   328 _RCTRIM1	=	0x0085
+                           000086   329 _RWK	=	0x0086
+                           000087   330 _PCON	=	0x0087
+                           000088   331 _TCON	=	0x0088
+                           000089   332 _TMOD	=	0x0089
+                           00008A   333 _TL0	=	0x008a
+                           00008B   334 _TL1	=	0x008b
+                           00008C   335 _TH0	=	0x008c
+                           00008D   336 _TH1	=	0x008d
+                           00008E   337 _CKCON	=	0x008e
+                           00008F   338 _WKCON	=	0x008f
+                           000090   339 _P1	=	0x0090
+                           000091   340 _SFRS	=	0x0091
+                           000092   341 _CAPCON0	=	0x0092
+                           000093   342 _CAPCON1	=	0x0093
+                           000094   343 _CAPCON2	=	0x0094
+                           000095   344 _CKDIV	=	0x0095
+                           000096   345 _CKSWT	=	0x0096
+                           000097   346 _CKEN	=	0x0097
+                           000098   347 _SCON	=	0x0098
+                           000099   348 _SBUF	=	0x0099
+                           00009A   349 _SBUF_1	=	0x009a
+                           00009B   350 _EIE	=	0x009b
+                           00009C   351 _EIE1	=	0x009c
+                           00009F   352 _CHPCON	=	0x009f
+                           0000A0   353 _P2	=	0x00a0
+                           0000A2   354 _AUXR1	=	0x00a2
+                           0000A3   355 _BODCON0	=	0x00a3
+                           0000A4   356 _IAPTRG	=	0x00a4
+                           0000A5   357 _IAPUEN	=	0x00a5
+                           0000A6   358 _IAPAL	=	0x00a6
+                           0000A7   359 _IAPAH	=	0x00a7
+                           0000A8   360 _IE	=	0x00a8
+                           0000A9   361 _SADDR	=	0x00a9
+                           0000AA   362 _WDCON	=	0x00aa
+                           0000AB   363 _BODCON1	=	0x00ab
+                           0000AC   364 _P3M1	=	0x00ac
+                           0000AC   365 _P3S	=	0x00ac
+                           0000AD   366 _P3M2	=	0x00ad
+                           0000AD   367 _P3SR	=	0x00ad
+                           0000AE   368 _IAPFD	=	0x00ae
+                           0000AF   369 _IAPCN	=	0x00af
+                           0000B0   370 _P3	=	0x00b0
+                           0000B1   371 _P0M1	=	0x00b1
+                           0000B1   372 _P0S	=	0x00b1
+                           0000B2   373 _P0M2	=	0x00b2
+                           0000B2   374 _P0SR	=	0x00b2
+                           0000B3   375 _P1M1	=	0x00b3
+                           0000B3   376 _P1S	=	0x00b3
+                           0000B4   377 _P1M2	=	0x00b4
+                           0000B4   378 _P1SR	=	0x00b4
+                           0000B5   379 _P2S	=	0x00b5
+                           0000B7   380 _IPH	=	0x00b7
+                           0000B7   381 _PWMINTC	=	0x00b7
+                           0000B8   382 _IP	=	0x00b8
+                           0000B9   383 _SADEN	=	0x00b9
+                           0000BA   384 _SADEN_1	=	0x00ba
+                           0000BB   385 _SADDR_1	=	0x00bb
+                           0000BC   386 _I2DAT	=	0x00bc
+                           0000BD   387 _I2STAT	=	0x00bd
+                           0000BE   388 _I2CLK	=	0x00be
+                           0000BF   389 _I2TOC	=	0x00bf
+                           0000C0   390 _I2CON	=	0x00c0
+                           0000C1   391 _I2ADDR	=	0x00c1
+                           0000C2   392 _ADCRL	=	0x00c2
+                           0000C3   393 _ADCRH	=	0x00c3
+                           0000C4   394 _T3CON	=	0x00c4
+                           0000C4   395 _PWM4H	=	0x00c4
+                           0000C5   396 _RL3	=	0x00c5
+                           0000C5   397 _PWM5H	=	0x00c5
+                           0000C6   398 _RH3	=	0x00c6
+                           0000C6   399 _PIOCON1	=	0x00c6
+                           0000C7   400 _TA	=	0x00c7
+                           0000C8   401 _T2CON	=	0x00c8
+                           0000C9   402 _T2MOD	=	0x00c9
+                           0000CA   403 _RCMP2L	=	0x00ca
+                           0000CB   404 _RCMP2H	=	0x00cb
+                           0000CC   405 _TL2	=	0x00cc
+                           0000CC   406 _PWM4L	=	0x00cc
+                           0000CD   407 _TH2	=	0x00cd
+                           0000CD   408 _PWM5L	=	0x00cd
+                           0000CE   409 _ADCMPL	=	0x00ce
+                           0000CF   410 _ADCMPH	=	0x00cf
+                           0000D0   411 _PSW	=	0x00d0
+                           0000D1   412 _PWMPH	=	0x00d1
+                           0000D2   413 _PWM0H	=	0x00d2
+                           0000D3   414 _PWM1H	=	0x00d3
+                           0000D4   415 _PWM2H	=	0x00d4
+                           0000D5   416 _PWM3H	=	0x00d5
+                           0000D6   417 _PNP	=	0x00d6
+                           0000D7   418 _FBD	=	0x00d7
+                           0000D8   419 _PWMCON0	=	0x00d8
+                           0000D9   420 _PWMPL	=	0x00d9
+                           0000DA   421 _PWM0L	=	0x00da
+                           0000DB   422 _PWM1L	=	0x00db
+                           0000DC   423 _PWM2L	=	0x00dc
+                           0000DD   424 _PWM3L	=	0x00dd
+                           0000DE   425 _PIOCON0	=	0x00de
+                           0000DF   426 _PWMCON1	=	0x00df
+                           0000E0   427 _ACC	=	0x00e0
+                           0000E1   428 _ADCCON1	=	0x00e1
+                           0000E2   429 _ADCCON2	=	0x00e2
+                           0000E3   430 _ADCDLY	=	0x00e3
+                           0000E4   431 _C0L	=	0x00e4
+                           0000E5   432 _C0H	=	0x00e5
+                           0000E6   433 _C1L	=	0x00e6
+                           0000E7   434 _C1H	=	0x00e7
+                           0000E8   435 _ADCCON0	=	0x00e8
+                           0000E9   436 _PICON	=	0x00e9
+                           0000EA   437 _PINEN	=	0x00ea
+                           0000EB   438 _PIPEN	=	0x00eb
+                           0000EC   439 _PIF	=	0x00ec
+                           0000ED   440 _C2L	=	0x00ed
+                           0000EE   441 _C2H	=	0x00ee
+                           0000EF   442 _EIP	=	0x00ef
+                           0000F0   443 _B	=	0x00f0
+                           0000F1   444 _CAPCON3	=	0x00f1
+                           0000F2   445 _CAPCON4	=	0x00f2
+                           0000F3   446 _SPCR	=	0x00f3
+                           0000F3   447 _SPCR2	=	0x00f3
+                           0000F4   448 _SPSR	=	0x00f4
+                           0000F5   449 _SPDR	=	0x00f5
+                           0000F6   450 _AINDIDS	=	0x00f6
+                           0000F7   451 _EIPH	=	0x00f7
+                           0000F8   452 _SCON_1	=	0x00f8
+                           0000F9   453 _PDTEN	=	0x00f9
+                           0000FA   454 _PDTCNT	=	0x00fa
+                           0000FB   455 _PMEN	=	0x00fb
+                           0000FC   456 _PMD	=	0x00fc
+                           0000FE   457 _EIP1	=	0x00fe
+                           0000FF   458 _EIPH1	=	0x00ff
+                                    459 ;--------------------------------------------------------
+                                    460 ; special function bits
+                                    461 ;--------------------------------------------------------
+                                    462 	.area RSEG    (ABS,DATA)
+      000000                        463 	.org 0x0000
+                           0000FF   464 _SM0_1	=	0x00ff
+                           0000FF   465 _FE_1	=	0x00ff
+                           0000FE   466 _SM1_1	=	0x00fe
+                           0000FD   467 _SM2_1	=	0x00fd
+                           0000FC   468 _REN_1	=	0x00fc
+                           0000FB   469 _TB8_1	=	0x00fb
+                           0000FA   470 _RB8_1	=	0x00fa
+                           0000F9   471 _TI_1	=	0x00f9
+                           0000F8   472 _RI_1	=	0x00f8
+                           0000EF   473 _ADCF	=	0x00ef
+                           0000EE   474 _ADCS	=	0x00ee
+                           0000ED   475 _ETGSEL1	=	0x00ed
+                           0000EC   476 _ETGSEL0	=	0x00ec
+                           0000EB   477 _ADCHS3	=	0x00eb
+                           0000EA   478 _ADCHS2	=	0x00ea
+                           0000E9   479 _ADCHS1	=	0x00e9
+                           0000E8   480 _ADCHS0	=	0x00e8
+                           0000DF   481 _PWMRUN	=	0x00df
+                           0000DE   482 _LOAD	=	0x00de
+                           0000DD   483 _PWMF	=	0x00dd
+                           0000DC   484 _CLRPWM	=	0x00dc
+                           0000D7   485 _CY	=	0x00d7
+                           0000D6   486 _AC	=	0x00d6
+                           0000D5   487 _F0	=	0x00d5
+                           0000D4   488 _RS1	=	0x00d4
+                           0000D3   489 _RS0	=	0x00d3
+                           0000D2   490 _OV	=	0x00d2
+                           0000D0   491 _P	=	0x00d0
+                           0000CF   492 _TF2	=	0x00cf
+                           0000CA   493 _TR2	=	0x00ca
+                           0000C8   494 _CM_RL2	=	0x00c8
+                           0000C6   495 _I2CEN	=	0x00c6
+                           0000C5   496 _STA	=	0x00c5
+                           0000C4   497 _STO	=	0x00c4
+                           0000C3   498 _SI	=	0x00c3
+                           0000C2   499 _AA	=	0x00c2
+                           0000C0   500 _I2CPX	=	0x00c0
+                           0000BE   501 _PADC	=	0x00be
+                           0000BD   502 _PBOD	=	0x00bd
+                           0000BC   503 _PS	=	0x00bc
+                           0000BB   504 _PT1	=	0x00bb
+                           0000BA   505 _PX1	=	0x00ba
+                           0000B9   506 _PT0	=	0x00b9
+                           0000B8   507 _PX0	=	0x00b8
+                           0000B0   508 _P30	=	0x00b0
+                           0000AF   509 _EA	=	0x00af
+                           0000AE   510 _EADC	=	0x00ae
+                           0000AD   511 _EBOD	=	0x00ad
+                           0000AC   512 _ES	=	0x00ac
+                           0000AB   513 _ET1	=	0x00ab
+                           0000AA   514 _EX1	=	0x00aa
+                           0000A9   515 _ET0	=	0x00a9
+                           0000A8   516 _EX0	=	0x00a8
+                           0000A0   517 _P20	=	0x00a0
+                           00009F   518 _SM0	=	0x009f
+                           00009F   519 _FE	=	0x009f
+                           00009E   520 _SM1	=	0x009e
+                           00009D   521 _SM2	=	0x009d
+                           00009C   522 _REN	=	0x009c
+                           00009B   523 _TB8	=	0x009b
+                           00009A   524 _RB8	=	0x009a
+                           000099   525 _TI	=	0x0099
+                           000098   526 _RI	=	0x0098
+                           000097   527 _P17	=	0x0097
+                           000096   528 _P16	=	0x0096
+                           000096   529 _TXD_1	=	0x0096
+                           000095   530 _P15	=	0x0095
+                           000094   531 _P14	=	0x0094
+                           000094   532 _SDA	=	0x0094
+                           000093   533 _P13	=	0x0093
+                           000093   534 _SCL	=	0x0093
+                           000092   535 _P12	=	0x0092
+                           000091   536 _P11	=	0x0091
+                           000090   537 _P10	=	0x0090
+                           00008F   538 _TF1	=	0x008f
+                           00008E   539 _TR1	=	0x008e
+                           00008D   540 _TF0	=	0x008d
+                           00008C   541 _TR0	=	0x008c
+                           00008B   542 _IE1	=	0x008b
+                           00008A   543 _IT1	=	0x008a
+                           000089   544 _IE0	=	0x0089
+                           000088   545 _IT0	=	0x0088
+                           000087   546 _P07	=	0x0087
+                           000087   547 _RXD	=	0x0087
+                           000086   548 _P06	=	0x0086
+                           000086   549 _TXD	=	0x0086
+                           000085   550 _P05	=	0x0085
+                           000084   551 _P04	=	0x0084
+                           000084   552 _STADC	=	0x0084
+                           000083   553 _P03	=	0x0083
+                           000082   554 _P02	=	0x0082
+                           000082   555 _RXD_1	=	0x0082
+                           000081   556 _P01	=	0x0081
+                           000081   557 _MISO	=	0x0081
+                           000080   558 _P00	=	0x0080
+                           000080   559 _MOSI	=	0x0080
+                                    560 ;--------------------------------------------------------
+                                    561 ; overlayable register banks
+                                    562 ;--------------------------------------------------------
+                                    563 	.area REG_BANK_0	(REL,OVR,DATA)
+      000000                        564 	.ds 8
+                                    565 ;--------------------------------------------------------
+                                    566 ; internal ram data
+                                    567 ;--------------------------------------------------------
+                                    568 	.area DSEG    (DATA)
+      000024                        569 _wide_band::
+      000024                        570 	.ds 1
+      000025                        571 _p_variant::
+      000025                        572 	.ds 1
+      000026                        573 _payload_size::
+      000026                        574 	.ds 1
+      000027                        575 _ack_payload_available::
+      000027                        576 	.ds 1
+      000028                        577 _dynamic_payloads_enabled::
+      000028                        578 	.ds 1
+      000029                        579 _ack_payload_length::
+      000029                        580 	.ds 1
+      00002A                        581 _pipe0_reading_address::
+      00002A                        582 	.ds 5
+      00002F                        583 _read_registers_PARM_2:
+      00002F                        584 	.ds 3
+      000032                        585 _read_registers_PARM_3:
+      000032                        586 	.ds 1
+      000033                        587 _write_registers_PARM_2:
+      000033                        588 	.ds 3
+      000036                        589 _write_registers_PARM_3:
+      000036                        590 	.ds 1
+      000037                        591 _write_register_PARM_2:
+      000037                        592 	.ds 1
+      000038                        593 _write_payload_PARM_2:
+      000038                        594 	.ds 1
+      000039                        595 _read_payload_PARM_2:
+      000039                        596 	.ds 1
+      00003A                        597 _write_PARM_2:
+      00003A                        598 	.ds 1
+      00003B                        599 _write_observe_tx_65536_149:
+      00003B                        600 	.ds 1
+      00003C                        601 _write_tx_ok_65536_149:
+      00003C                        602 	.ds 1
+      00003D                        603 _write_tx_fail_65536_149:
+      00003D                        604 	.ds 1
+      00003E                        605 _startWrite_PARM_2:
+      00003E                        606 	.ds 1
+      00003F                        607 _read_PARM_2:
+      00003F                        608 	.ds 1
+      000040                        609 _whatHappened_PARM_2:
+      000040                        610 	.ds 3
+      000043                        611 _whatHappened_PARM_3:
+      000043                        612 	.ds 3
+      000046                        613 _openReadingPipe_PARM_2:
+      000046                        614 	.ds 3
+      000049                        615 _writeAckPayload_PARM_2:
+      000049                        616 	.ds 3
+      00004C                        617 _writeAckPayload_PARM_3:
+      00004C                        618 	.ds 1
+      00004D                        619 _setAutoAckPipe_PARM_2:
+      00004D                        620 	.ds 1
+      00004E                        621 _setRetries_PARM_2:
+      00004E                        622 	.ds 1
+                                    623 ;--------------------------------------------------------
+                                    624 ; overlayable items in internal ram 
+                                    625 ;--------------------------------------------------------
+                                    626 	.area	OSEG    (OVR,DATA)
+      00006B                        627 _min_PARM_2:
+      00006B                        628 	.ds 1
+                                    629 	.area	OSEG    (OVR,DATA)
+                                    630 	.area	OSEG    (OVR,DATA)
+                                    631 	.area	OSEG    (OVR,DATA)
+                                    632 ;--------------------------------------------------------
+                                    633 ; indirectly addressable internal ram data
+                                    634 ;--------------------------------------------------------
+                                    635 	.area ISEG    (DATA)
+                                    636 ;--------------------------------------------------------
+                                    637 ; absolute internal ram data
+                                    638 ;--------------------------------------------------------
+                                    639 	.area IABS    (ABS,DATA)
+                                    640 	.area IABS    (ABS,DATA)
+                                    641 ;--------------------------------------------------------
+                                    642 ; bit data
+                                    643 ;--------------------------------------------------------
+                                    644 	.area BSEG    (BIT)
+                                    645 ;--------------------------------------------------------
+                                    646 ; paged external ram data
+                                    647 ;--------------------------------------------------------
+                                    648 	.area PSEG    (PAG,XDATA)
+                                    649 ;--------------------------------------------------------
+                                    650 ; external ram data
+                                    651 ;--------------------------------------------------------
+                                    652 	.area XSEG    (XDATA)
+                                    653 ;--------------------------------------------------------
+                                    654 ; absolute external ram data
+                                    655 ;--------------------------------------------------------
+                                    656 	.area XABS    (ABS,XDATA)
+                                    657 ;--------------------------------------------------------
+                                    658 ; external initialized ram data
+                                    659 ;--------------------------------------------------------
+                                    660 	.area XISEG   (XDATA)
+                                    661 	.area HOME    (CODE)
+                                    662 	.area GSINIT0 (CODE)
+                                    663 	.area GSINIT1 (CODE)
+                                    664 	.area GSINIT2 (CODE)
+                                    665 	.area GSINIT3 (CODE)
+                                    666 	.area GSINIT4 (CODE)
+                                    667 	.area GSINIT5 (CODE)
+                                    668 	.area GSINIT  (CODE)
+                                    669 	.area GSFINAL (CODE)
+                                    670 	.area CSEG    (CODE)
+                                    671 ;--------------------------------------------------------
+                                    672 ; global & static initialisations
+                                    673 ;--------------------------------------------------------
+                                    674 	.area HOME    (CODE)
+                                    675 	.area GSINIT  (CODE)
+                                    676 	.area GSFINAL (CODE)
+                                    677 	.area GSINIT  (CODE)
+                                    678 ;--------------------------------------------------------
+                                    679 ; Home
+                                    680 ;--------------------------------------------------------
+                                    681 	.area HOME    (CODE)
+                                    682 	.area HOME    (CODE)
+                                    683 ;--------------------------------------------------------
+                                    684 ; code
+                                    685 ;--------------------------------------------------------
+                                    686 	.area CSEG    (CODE)
+                                    687 ;------------------------------------------------------------
+                                    688 ;Allocation info for local variables in function 'min'
+                                    689 ;------------------------------------------------------------
+                                    690 ;b                         Allocated with name '_min_PARM_2'
+                                    691 ;a                         Allocated to registers r7 
+                                    692 ;------------------------------------------------------------
+                                    693 ;	./src/RF24.c:19: uint8_t min(uint8_t a, uint8_t b)
+                                    694 ;	-----------------------------------------
+                                    695 ;	 function min
+                                    696 ;	-----------------------------------------
+      0006C5                        697 _min:
+                           000007   698 	ar7 = 0x07
+                           000006   699 	ar6 = 0x06
+                           000005   700 	ar5 = 0x05
+                           000004   701 	ar4 = 0x04
+                           000003   702 	ar3 = 0x03
+                           000002   703 	ar2 = 0x02
+                           000001   704 	ar1 = 0x01
+                           000000   705 	ar0 = 0x00
+      0006C5 AF 82            [24]  706 	mov	r7,dpl
+                                    707 ;	./src/RF24.c:21: if (a < b)
+      0006C7 C3               [12]  708 	clr	c
+      0006C8 EF               [12]  709 	mov	a,r7
+      0006C9 95 6B            [12]  710 	subb	a,_min_PARM_2
+      0006CB 50 03            [24]  711 	jnc	00102$
+                                    712 ;	./src/RF24.c:22: return a;
+      0006CD 8F 82            [24]  713 	mov	dpl,r7
+      0006CF 22               [24]  714 	ret
+      0006D0                        715 00102$:
+                                    716 ;	./src/RF24.c:23: return b;
+      0006D0 85 6B 82         [24]  717 	mov	dpl,_min_PARM_2
+                                    718 ;	./src/RF24.c:24: }
+      0006D3 22               [24]  719 	ret
+                                    720 ;------------------------------------------------------------
+                                    721 ;Allocation info for local variables in function 'csn'
+                                    722 ;------------------------------------------------------------
+                                    723 ;mode                      Allocated to registers r7 
+                                    724 ;------------------------------------------------------------
+                                    725 ;	./src/RF24.c:27: void csn(uint8_t mode)
+                                    726 ;	-----------------------------------------
+                                    727 ;	 function csn
+                                    728 ;	-----------------------------------------
+      0006D4                        729 _csn:
+                                    730 ;	./src/RF24.c:29: CSN = mode;
+                                    731 ;	assignBit
+      0006D4 E5 82            [12]  732 	mov	a,dpl
+      0006D6 24 FF            [12]  733 	add	a,#0xff
+      0006D8 92 91            [24]  734 	mov	_P11,c
+                                    735 ;	./src/RF24.c:30: }
+      0006DA 22               [24]  736 	ret
+                                    737 ;------------------------------------------------------------
+                                    738 ;Allocation info for local variables in function 'ce'
+                                    739 ;------------------------------------------------------------
+                                    740 ;level                     Allocated to registers r7 
+                                    741 ;------------------------------------------------------------
+                                    742 ;	./src/RF24.c:34: void ce(uint8_t level)
+                                    743 ;	-----------------------------------------
+                                    744 ;	 function ce
+                                    745 ;	-----------------------------------------
+      0006DB                        746 _ce:
+                                    747 ;	./src/RF24.c:36: CE = level;
+                                    748 ;	assignBit
+      0006DB E5 82            [12]  749 	mov	a,dpl
+      0006DD 24 FF            [12]  750 	add	a,#0xff
+      0006DF 92 92            [24]  751 	mov	_P12,c
+                                    752 ;	./src/RF24.c:37: }
+      0006E1 22               [24]  753 	ret
+                                    754 ;------------------------------------------------------------
+                                    755 ;Allocation info for local variables in function 'read_registers'
+                                    756 ;------------------------------------------------------------
+                                    757 ;buf                       Allocated with name '_read_registers_PARM_2'
+                                    758 ;len                       Allocated with name '_read_registers_PARM_3'
+                                    759 ;reg                       Allocated to registers r7 
+                                    760 ;status                    Allocated to registers r7 
+                                    761 ;------------------------------------------------------------
+                                    762 ;	./src/RF24.c:41: uint8_t read_registers(uint8_t reg, uint8_t *buf, uint8_t len)
+                                    763 ;	-----------------------------------------
+                                    764 ;	 function read_registers
+                                    765 ;	-----------------------------------------
+      0006E2                        766 _read_registers:
+      0006E2 AF 82            [24]  767 	mov	r7,dpl
+                                    768 ;	./src/RF24.c:45: csn(LOW);
+      0006E4 75 82 00         [24]  769 	mov	dpl,#0x00
+      0006E7 C0 07            [24]  770 	push	ar7
+      0006E9 12 06 D4         [24]  771 	lcall	_csn
+      0006EC D0 07            [24]  772 	pop	ar7
+                                    773 ;	./src/RF24.c:46: status = spi_transfer(R_REGISTER | (REGISTER_MASK & reg));
+      0006EE 74 1F            [12]  774 	mov	a,#0x1f
+      0006F0 5F               [12]  775 	anl	a,r7
+      0006F1 F5 82            [12]  776 	mov	dpl,a
+      0006F3 12 11 DE         [24]  777 	lcall	_spi_transfer
+      0006F6 AF 82            [24]  778 	mov	r7,dpl
+                                    779 ;	./src/RF24.c:47: while (len--)
+      0006F8 AC 2F            [24]  780 	mov	r4,_read_registers_PARM_2
+      0006FA AD 30            [24]  781 	mov	r5,(_read_registers_PARM_2 + 1)
+      0006FC AE 31            [24]  782 	mov	r6,(_read_registers_PARM_2 + 2)
+      0006FE AB 32            [24]  783 	mov	r3,_read_registers_PARM_3
+      000700                        784 00101$:
+      000700 8B 02            [24]  785 	mov	ar2,r3
+      000702 1B               [12]  786 	dec	r3
+      000703 EA               [12]  787 	mov	a,r2
+      000704 60 2D            [24]  788 	jz	00103$
+                                    789 ;	./src/RF24.c:48: *buf++ = spi_transfer(0xff);
+      000706 75 82 FF         [24]  790 	mov	dpl,#0xff
+      000709 C0 07            [24]  791 	push	ar7
+      00070B C0 06            [24]  792 	push	ar6
+      00070D C0 05            [24]  793 	push	ar5
+      00070F C0 04            [24]  794 	push	ar4
+      000711 C0 03            [24]  795 	push	ar3
+      000713 12 11 DE         [24]  796 	lcall	_spi_transfer
+      000716 AA 82            [24]  797 	mov	r2,dpl
+      000718 D0 03            [24]  798 	pop	ar3
+      00071A D0 04            [24]  799 	pop	ar4
+      00071C D0 05            [24]  800 	pop	ar5
+      00071E D0 06            [24]  801 	pop	ar6
+      000720 D0 07            [24]  802 	pop	ar7
+      000722 8C 82            [24]  803 	mov	dpl,r4
+      000724 8D 83            [24]  804 	mov	dph,r5
+      000726 8E F0            [24]  805 	mov	b,r6
+      000728 EA               [12]  806 	mov	a,r2
+      000729 12 17 44         [24]  807 	lcall	__gptrput
+      00072C A3               [24]  808 	inc	dptr
+      00072D AC 82            [24]  809 	mov	r4,dpl
+      00072F AD 83            [24]  810 	mov	r5,dph
+      000731 80 CD            [24]  811 	sjmp	00101$
+      000733                        812 00103$:
+                                    813 ;	./src/RF24.c:50: csn(HIGH);
+      000733 75 82 01         [24]  814 	mov	dpl,#0x01
+      000736 C0 07            [24]  815 	push	ar7
+      000738 12 06 D4         [24]  816 	lcall	_csn
+      00073B D0 07            [24]  817 	pop	ar7
+                                    818 ;	./src/RF24.c:52: return status;
+      00073D 8F 82            [24]  819 	mov	dpl,r7
+                                    820 ;	./src/RF24.c:53: }
+      00073F 22               [24]  821 	ret
+                                    822 ;------------------------------------------------------------
+                                    823 ;Allocation info for local variables in function 'read_register'
+                                    824 ;------------------------------------------------------------
+                                    825 ;reg                       Allocated to registers r7 
+                                    826 ;result                    Allocated to registers r7 
+                                    827 ;------------------------------------------------------------
+                                    828 ;	./src/RF24.c:57: uint8_t read_register(uint8_t reg)
+                                    829 ;	-----------------------------------------
+                                    830 ;	 function read_register
+                                    831 ;	-----------------------------------------
+      000740                        832 _read_register:
+      000740 AF 82            [24]  833 	mov	r7,dpl
+                                    834 ;	./src/RF24.c:60: csn(LOW);
+      000742 75 82 00         [24]  835 	mov	dpl,#0x00
+      000745 C0 07            [24]  836 	push	ar7
+      000747 12 06 D4         [24]  837 	lcall	_csn
+      00074A D0 07            [24]  838 	pop	ar7
+                                    839 ;	./src/RF24.c:61: spi_transfer(R_REGISTER | (REGISTER_MASK & reg));
+      00074C 74 1F            [12]  840 	mov	a,#0x1f
+      00074E 5F               [12]  841 	anl	a,r7
+      00074F F5 82            [12]  842 	mov	dpl,a
+      000751 12 11 DE         [24]  843 	lcall	_spi_transfer
+                                    844 ;	./src/RF24.c:62: result = spi_transfer(0xff);
+      000754 75 82 FF         [24]  845 	mov	dpl,#0xff
+      000757 12 11 DE         [24]  846 	lcall	_spi_transfer
+      00075A AF 82            [24]  847 	mov	r7,dpl
+                                    848 ;	./src/RF24.c:64: csn(HIGH);
+      00075C 75 82 01         [24]  849 	mov	dpl,#0x01
+      00075F C0 07            [24]  850 	push	ar7
+      000761 12 06 D4         [24]  851 	lcall	_csn
+      000764 D0 07            [24]  852 	pop	ar7
+                                    853 ;	./src/RF24.c:65: return result;
+      000766 8F 82            [24]  854 	mov	dpl,r7
+                                    855 ;	./src/RF24.c:66: }
+      000768 22               [24]  856 	ret
+                                    857 ;------------------------------------------------------------
+                                    858 ;Allocation info for local variables in function 'write_registers'
+                                    859 ;------------------------------------------------------------
+                                    860 ;buf                       Allocated with name '_write_registers_PARM_2'
+                                    861 ;len                       Allocated with name '_write_registers_PARM_3'
+                                    862 ;reg                       Allocated to registers r7 
+                                    863 ;status                    Allocated to registers r7 
+                                    864 ;------------------------------------------------------------
+                                    865 ;	./src/RF24.c:70: uint8_t write_registers(uint8_t reg, const uint8_t *buf, uint8_t len)
+                                    866 ;	-----------------------------------------
+                                    867 ;	 function write_registers
+                                    868 ;	-----------------------------------------
+      000769                        869 _write_registers:
+      000769 AF 82            [24]  870 	mov	r7,dpl
+                                    871 ;	./src/RF24.c:74: csn(LOW);
+      00076B 75 82 00         [24]  872 	mov	dpl,#0x00
+      00076E C0 07            [24]  873 	push	ar7
+      000770 12 06 D4         [24]  874 	lcall	_csn
+      000773 D0 07            [24]  875 	pop	ar7
+                                    876 ;	./src/RF24.c:75: status = spi_transfer(W_REGISTER | (REGISTER_MASK & reg));
+      000775 74 1F            [12]  877 	mov	a,#0x1f
+      000777 5F               [12]  878 	anl	a,r7
+      000778 44 20            [12]  879 	orl	a,#0x20
+      00077A F5 82            [12]  880 	mov	dpl,a
+      00077C 12 11 DE         [24]  881 	lcall	_spi_transfer
+      00077F AF 82            [24]  882 	mov	r7,dpl
+                                    883 ;	./src/RF24.c:76: while (len--)
+      000781 AC 33            [24]  884 	mov	r4,_write_registers_PARM_2
+      000783 AD 34            [24]  885 	mov	r5,(_write_registers_PARM_2 + 1)
+      000785 AE 35            [24]  886 	mov	r6,(_write_registers_PARM_2 + 2)
+      000787 AB 36            [24]  887 	mov	r3,_write_registers_PARM_3
+      000789                        888 00101$:
+      000789 8B 02            [24]  889 	mov	ar2,r3
+      00078B 1B               [12]  890 	dec	r3
+      00078C EA               [12]  891 	mov	a,r2
+      00078D 60 2A            [24]  892 	jz	00103$
+                                    893 ;	./src/RF24.c:77: spi_transfer(*buf++);
+      00078F 8C 82            [24]  894 	mov	dpl,r4
+      000791 8D 83            [24]  895 	mov	dph,r5
+      000793 8E F0            [24]  896 	mov	b,r6
+      000795 12 18 89         [24]  897 	lcall	__gptrget
+      000798 FA               [12]  898 	mov	r2,a
+      000799 A3               [24]  899 	inc	dptr
+      00079A AC 82            [24]  900 	mov	r4,dpl
+      00079C AD 83            [24]  901 	mov	r5,dph
+      00079E 8A 82            [24]  902 	mov	dpl,r2
+      0007A0 C0 07            [24]  903 	push	ar7
+      0007A2 C0 06            [24]  904 	push	ar6
+      0007A4 C0 05            [24]  905 	push	ar5
+      0007A6 C0 04            [24]  906 	push	ar4
+      0007A8 C0 03            [24]  907 	push	ar3
+      0007AA 12 11 DE         [24]  908 	lcall	_spi_transfer
+      0007AD D0 03            [24]  909 	pop	ar3
+      0007AF D0 04            [24]  910 	pop	ar4
+      0007B1 D0 05            [24]  911 	pop	ar5
+      0007B3 D0 06            [24]  912 	pop	ar6
+      0007B5 D0 07            [24]  913 	pop	ar7
+      0007B7 80 D0            [24]  914 	sjmp	00101$
+      0007B9                        915 00103$:
+                                    916 ;	./src/RF24.c:79: csn(HIGH);
+      0007B9 75 82 01         [24]  917 	mov	dpl,#0x01
+      0007BC C0 07            [24]  918 	push	ar7
+      0007BE 12 06 D4         [24]  919 	lcall	_csn
+      0007C1 D0 07            [24]  920 	pop	ar7
+                                    921 ;	./src/RF24.c:81: return status;
+      0007C3 8F 82            [24]  922 	mov	dpl,r7
+                                    923 ;	./src/RF24.c:82: }
+      0007C5 22               [24]  924 	ret
+                                    925 ;------------------------------------------------------------
+                                    926 ;Allocation info for local variables in function 'write_register'
+                                    927 ;------------------------------------------------------------
+                                    928 ;value                     Allocated with name '_write_register_PARM_2'
+                                    929 ;reg                       Allocated to registers r7 
+                                    930 ;status                    Allocated to registers r7 
+                                    931 ;------------------------------------------------------------
+                                    932 ;	./src/RF24.c:86: uint8_t write_register(uint8_t reg, uint8_t value)
+                                    933 ;	-----------------------------------------
+                                    934 ;	 function write_register
+                                    935 ;	-----------------------------------------
+      0007C6                        936 _write_register:
+      0007C6 AF 82            [24]  937 	mov	r7,dpl
+                                    938 ;	./src/RF24.c:89: csn(LOW);
+      0007C8 75 82 00         [24]  939 	mov	dpl,#0x00
+      0007CB C0 07            [24]  940 	push	ar7
+      0007CD 12 06 D4         [24]  941 	lcall	_csn
+      0007D0 D0 07            [24]  942 	pop	ar7
+                                    943 ;	./src/RF24.c:90: status = spi_transfer(W_REGISTER | (REGISTER_MASK & reg));
+      0007D2 74 1F            [12]  944 	mov	a,#0x1f
+      0007D4 5F               [12]  945 	anl	a,r7
+      0007D5 44 20            [12]  946 	orl	a,#0x20
+      0007D7 F5 82            [12]  947 	mov	dpl,a
+      0007D9 12 11 DE         [24]  948 	lcall	_spi_transfer
+      0007DC AF 82            [24]  949 	mov	r7,dpl
+                                    950 ;	./src/RF24.c:91: spi_transfer(value);
+      0007DE 85 37 82         [24]  951 	mov	dpl,_write_register_PARM_2
+      0007E1 C0 07            [24]  952 	push	ar7
+      0007E3 12 11 DE         [24]  953 	lcall	_spi_transfer
+                                    954 ;	./src/RF24.c:92: csn(HIGH);
+      0007E6 75 82 01         [24]  955 	mov	dpl,#0x01
+      0007E9 12 06 D4         [24]  956 	lcall	_csn
+      0007EC D0 07            [24]  957 	pop	ar7
+                                    958 ;	./src/RF24.c:94: return status;
+      0007EE 8F 82            [24]  959 	mov	dpl,r7
+                                    960 ;	./src/RF24.c:95: }
+      0007F0 22               [24]  961 	ret
+                                    962 ;------------------------------------------------------------
+                                    963 ;Allocation info for local variables in function 'write_payload'
+                                    964 ;------------------------------------------------------------
+                                    965 ;len                       Allocated with name '_write_payload_PARM_2'
+                                    966 ;buf                       Allocated to registers r5 r6 r7 
+                                    967 ;status                    Allocated to registers r3 
+                                    968 ;current                   Allocated to registers r5 r6 r7 
+                                    969 ;data_len                  Allocated to registers r4 
+                                    970 ;blank_len                 Allocated to registers r2 
+                                    971 ;------------------------------------------------------------
+                                    972 ;	./src/RF24.c:99: uint8_t write_payload(const void *buf, uint8_t len)
+                                    973 ;	-----------------------------------------
+                                    974 ;	 function write_payload
+                                    975 ;	-----------------------------------------
+      0007F1                        976 _write_payload:
+      0007F1 AD 82            [24]  977 	mov	r5,dpl
+      0007F3 AE 83            [24]  978 	mov	r6,dph
+      0007F5 AF F0            [24]  979 	mov	r7,b
+                                    980 ;	./src/RF24.c:103: const uint8_t *current = buf;
+                                    981 ;	./src/RF24.c:105: uint8_t data_len = min(len, payload_size);
+      0007F7 85 26 6B         [24]  982 	mov	_min_PARM_2,_payload_size
+      0007FA 85 38 82         [24]  983 	mov	dpl,_write_payload_PARM_2
+      0007FD C0 07            [24]  984 	push	ar7
+      0007FF C0 06            [24]  985 	push	ar6
+      000801 C0 05            [24]  986 	push	ar5
+      000803 12 06 C5         [24]  987 	lcall	_min
+      000806 AC 82            [24]  988 	mov	r4,dpl
+      000808 D0 05            [24]  989 	pop	ar5
+      00080A D0 06            [24]  990 	pop	ar6
+      00080C D0 07            [24]  991 	pop	ar7
+                                    992 ;	./src/RF24.c:106: uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
+      00080E E5 28            [12]  993 	mov	a,_dynamic_payloads_enabled
+      000810 60 06            [24]  994 	jz	00109$
+      000812 7A 00            [12]  995 	mov	r2,#0x00
+      000814 7B 00            [12]  996 	mov	r3,#0x00
+      000816 80 08            [24]  997 	sjmp	00110$
+      000818                        998 00109$:
+      000818 E5 26            [12]  999 	mov	a,_payload_size
+      00081A C3               [12] 1000 	clr	c
+      00081B 9C               [12] 1001 	subb	a,r4
+      00081C F9               [12] 1002 	mov	r1,a
+      00081D FA               [12] 1003 	mov	r2,a
+      00081E 7B 00            [12] 1004 	mov	r3,#0x00
+      000820                       1005 00110$:
+                                   1006 ;	./src/RF24.c:108: csn(LOW);
+      000820 75 82 00         [24] 1007 	mov	dpl,#0x00
+      000823 C0 07            [24] 1008 	push	ar7
+      000825 C0 06            [24] 1009 	push	ar6
+      000827 C0 05            [24] 1010 	push	ar5
+      000829 C0 04            [24] 1011 	push	ar4
+      00082B C0 02            [24] 1012 	push	ar2
+      00082D 12 06 D4         [24] 1013 	lcall	_csn
+                                   1014 ;	./src/RF24.c:109: status = spi_transfer(W_TX_PAYLOAD);
+      000830 75 82 A0         [24] 1015 	mov	dpl,#0xa0
+      000833 12 11 DE         [24] 1016 	lcall	_spi_transfer
+      000836 AB 82            [24] 1017 	mov	r3,dpl
+      000838 D0 02            [24] 1018 	pop	ar2
+      00083A D0 04            [24] 1019 	pop	ar4
+      00083C D0 05            [24] 1020 	pop	ar5
+      00083E D0 06            [24] 1021 	pop	ar6
+      000840 D0 07            [24] 1022 	pop	ar7
+                                   1023 ;	./src/RF24.c:110: while (data_len--)
+      000842                       1024 00101$:
+      000842 8C 01            [24] 1025 	mov	ar1,r4
+      000844 1C               [12] 1026 	dec	r4
+      000845 E9               [12] 1027 	mov	a,r1
+      000846 60 2E            [24] 1028 	jz	00115$
+                                   1029 ;	./src/RF24.c:111: spi_transfer(*current++);
+      000848 8D 82            [24] 1030 	mov	dpl,r5
+      00084A 8E 83            [24] 1031 	mov	dph,r6
+      00084C 8F F0            [24] 1032 	mov	b,r7
+      00084E 12 18 89         [24] 1033 	lcall	__gptrget
+      000851 F9               [12] 1034 	mov	r1,a
+      000852 A3               [24] 1035 	inc	dptr
+      000853 AD 82            [24] 1036 	mov	r5,dpl
+      000855 AE 83            [24] 1037 	mov	r6,dph
+      000857 89 82            [24] 1038 	mov	dpl,r1
+      000859 C0 07            [24] 1039 	push	ar7
+      00085B C0 06            [24] 1040 	push	ar6
+      00085D C0 05            [24] 1041 	push	ar5
+      00085F C0 04            [24] 1042 	push	ar4
+      000861 C0 03            [24] 1043 	push	ar3
+      000863 C0 02            [24] 1044 	push	ar2
+      000865 12 11 DE         [24] 1045 	lcall	_spi_transfer
+      000868 D0 02            [24] 1046 	pop	ar2
+      00086A D0 03            [24] 1047 	pop	ar3
+      00086C D0 04            [24] 1048 	pop	ar4
+      00086E D0 05            [24] 1049 	pop	ar5
+      000870 D0 06            [24] 1050 	pop	ar6
+      000872 D0 07            [24] 1051 	pop	ar7
+                                   1052 ;	./src/RF24.c:112: while (blank_len--)
+      000874 80 CC            [24] 1053 	sjmp	00101$
+      000876                       1054 00115$:
+      000876 8A 07            [24] 1055 	mov	ar7,r2
+      000878                       1056 00104$:
+      000878 8F 06            [24] 1057 	mov	ar6,r7
+      00087A 1F               [12] 1058 	dec	r7
+      00087B EE               [12] 1059 	mov	a,r6
+      00087C 60 10            [24] 1060 	jz	00106$
+                                   1061 ;	./src/RF24.c:113: spi_transfer(0);
+      00087E 75 82 00         [24] 1062 	mov	dpl,#0x00
+      000881 C0 07            [24] 1063 	push	ar7
+      000883 C0 03            [24] 1064 	push	ar3
+      000885 12 11 DE         [24] 1065 	lcall	_spi_transfer
+      000888 D0 03            [24] 1066 	pop	ar3
+      00088A D0 07            [24] 1067 	pop	ar7
+      00088C 80 EA            [24] 1068 	sjmp	00104$
+      00088E                       1069 00106$:
+                                   1070 ;	./src/RF24.c:114: csn(HIGH);
+      00088E 75 82 01         [24] 1071 	mov	dpl,#0x01
+      000891 C0 03            [24] 1072 	push	ar3
+      000893 12 06 D4         [24] 1073 	lcall	_csn
+      000896 D0 03            [24] 1074 	pop	ar3
+                                   1075 ;	./src/RF24.c:116: return status;
+      000898 8B 82            [24] 1076 	mov	dpl,r3
+                                   1077 ;	./src/RF24.c:117: }
+      00089A 22               [24] 1078 	ret
+                                   1079 ;------------------------------------------------------------
+                                   1080 ;Allocation info for local variables in function 'read_payload'
+                                   1081 ;------------------------------------------------------------
+                                   1082 ;len                       Allocated with name '_read_payload_PARM_2'
+                                   1083 ;buf                       Allocated to registers r5 r6 r7 
+                                   1084 ;status                    Allocated to registers r3 
+                                   1085 ;current                   Allocated to registers r5 r6 r7 
+                                   1086 ;data_len                  Allocated to registers r4 
+                                   1087 ;blank_len                 Allocated to registers r2 
+                                   1088 ;------------------------------------------------------------
+                                   1089 ;	./src/RF24.c:121: uint8_t read_payload(void *buf, uint8_t len)
+                                   1090 ;	-----------------------------------------
+                                   1091 ;	 function read_payload
+                                   1092 ;	-----------------------------------------
+      00089B                       1093 _read_payload:
+      00089B AD 82            [24] 1094 	mov	r5,dpl
+      00089D AE 83            [24] 1095 	mov	r6,dph
+      00089F AF F0            [24] 1096 	mov	r7,b
+                                   1097 ;	./src/RF24.c:124: uint8_t *current = buf;
+                                   1098 ;	./src/RF24.c:126: uint8_t data_len = min(len, payload_size);
+      0008A1 85 26 6B         [24] 1099 	mov	_min_PARM_2,_payload_size
+      0008A4 85 39 82         [24] 1100 	mov	dpl,_read_payload_PARM_2
+      0008A7 C0 07            [24] 1101 	push	ar7
+      0008A9 C0 06            [24] 1102 	push	ar6
+      0008AB C0 05            [24] 1103 	push	ar5
+      0008AD 12 06 C5         [24] 1104 	lcall	_min
+      0008B0 AC 82            [24] 1105 	mov	r4,dpl
+      0008B2 D0 05            [24] 1106 	pop	ar5
+      0008B4 D0 06            [24] 1107 	pop	ar6
+      0008B6 D0 07            [24] 1108 	pop	ar7
+                                   1109 ;	./src/RF24.c:127: uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
+      0008B8 E5 28            [12] 1110 	mov	a,_dynamic_payloads_enabled
+      0008BA 60 06            [24] 1111 	jz	00109$
+      0008BC 7A 00            [12] 1112 	mov	r2,#0x00
+      0008BE 7B 00            [12] 1113 	mov	r3,#0x00
+      0008C0 80 08            [24] 1114 	sjmp	00110$
+      0008C2                       1115 00109$:
+      0008C2 E5 26            [12] 1116 	mov	a,_payload_size
+      0008C4 C3               [12] 1117 	clr	c
+      0008C5 9C               [12] 1118 	subb	a,r4
+      0008C6 F9               [12] 1119 	mov	r1,a
+      0008C7 FA               [12] 1120 	mov	r2,a
+      0008C8 7B 00            [12] 1121 	mov	r3,#0x00
+      0008CA                       1122 00110$:
+                                   1123 ;	./src/RF24.c:129: csn(LOW);
+      0008CA 75 82 00         [24] 1124 	mov	dpl,#0x00
+      0008CD C0 07            [24] 1125 	push	ar7
+      0008CF C0 06            [24] 1126 	push	ar6
+      0008D1 C0 05            [24] 1127 	push	ar5
+      0008D3 C0 04            [24] 1128 	push	ar4
+      0008D5 C0 02            [24] 1129 	push	ar2
+      0008D7 12 06 D4         [24] 1130 	lcall	_csn
+                                   1131 ;	./src/RF24.c:130: status = spi_transfer(R_RX_PAYLOAD);
+      0008DA 75 82 61         [24] 1132 	mov	dpl,#0x61
+      0008DD 12 11 DE         [24] 1133 	lcall	_spi_transfer
+      0008E0 AB 82            [24] 1134 	mov	r3,dpl
+      0008E2 D0 02            [24] 1135 	pop	ar2
+      0008E4 D0 04            [24] 1136 	pop	ar4
+      0008E6 D0 05            [24] 1137 	pop	ar5
+      0008E8 D0 06            [24] 1138 	pop	ar6
+      0008EA D0 07            [24] 1139 	pop	ar7
+                                   1140 ;	./src/RF24.c:131: while (data_len--)
+      0008EC                       1141 00101$:
+      0008EC 8C 01            [24] 1142 	mov	ar1,r4
+      0008EE 1C               [12] 1143 	dec	r4
+      0008EF E9               [12] 1144 	mov	a,r1
+      0008F0 60 31            [24] 1145 	jz	00115$
+                                   1146 ;	./src/RF24.c:132: *current++ = spi_transfer(0xff);
+      0008F2 75 82 FF         [24] 1147 	mov	dpl,#0xff
+      0008F5 C0 07            [24] 1148 	push	ar7
+      0008F7 C0 06            [24] 1149 	push	ar6
+      0008F9 C0 05            [24] 1150 	push	ar5
+      0008FB C0 04            [24] 1151 	push	ar4
+      0008FD C0 03            [24] 1152 	push	ar3
+      0008FF C0 02            [24] 1153 	push	ar2
+      000901 12 11 DE         [24] 1154 	lcall	_spi_transfer
+      000904 A9 82            [24] 1155 	mov	r1,dpl
+      000906 D0 02            [24] 1156 	pop	ar2
+      000908 D0 03            [24] 1157 	pop	ar3
+      00090A D0 04            [24] 1158 	pop	ar4
+      00090C D0 05            [24] 1159 	pop	ar5
+      00090E D0 06            [24] 1160 	pop	ar6
+      000910 D0 07            [24] 1161 	pop	ar7
+      000912 8D 82            [24] 1162 	mov	dpl,r5
+      000914 8E 83            [24] 1163 	mov	dph,r6
+      000916 8F F0            [24] 1164 	mov	b,r7
+      000918 E9               [12] 1165 	mov	a,r1
+      000919 12 17 44         [24] 1166 	lcall	__gptrput
+      00091C A3               [24] 1167 	inc	dptr
+      00091D AD 82            [24] 1168 	mov	r5,dpl
+      00091F AE 83            [24] 1169 	mov	r6,dph
+                                   1170 ;	./src/RF24.c:133: while (blank_len--)
+      000921 80 C9            [24] 1171 	sjmp	00101$
+      000923                       1172 00115$:
+      000923 8A 07            [24] 1173 	mov	ar7,r2
+      000925                       1174 00104$:
+      000925 8F 06            [24] 1175 	mov	ar6,r7
+      000927 1F               [12] 1176 	dec	r7
+      000928 EE               [12] 1177 	mov	a,r6
+      000929 60 10            [24] 1178 	jz	00106$
+                                   1179 ;	./src/RF24.c:134: spi_transfer(0xff);
+      00092B 75 82 FF         [24] 1180 	mov	dpl,#0xff
+      00092E C0 07            [24] 1181 	push	ar7
+      000930 C0 03            [24] 1182 	push	ar3
+      000932 12 11 DE         [24] 1183 	lcall	_spi_transfer
+      000935 D0 03            [24] 1184 	pop	ar3
+      000937 D0 07            [24] 1185 	pop	ar7
+      000939 80 EA            [24] 1186 	sjmp	00104$
+      00093B                       1187 00106$:
+                                   1188 ;	./src/RF24.c:135: csn(HIGH);
+      00093B 75 82 01         [24] 1189 	mov	dpl,#0x01
+      00093E C0 03            [24] 1190 	push	ar3
+      000940 12 06 D4         [24] 1191 	lcall	_csn
+      000943 D0 03            [24] 1192 	pop	ar3
+                                   1193 ;	./src/RF24.c:137: return status;
+      000945 8B 82            [24] 1194 	mov	dpl,r3
+                                   1195 ;	./src/RF24.c:138: }
+      000947 22               [24] 1196 	ret
+                                   1197 ;------------------------------------------------------------
+                                   1198 ;Allocation info for local variables in function 'flush_rx'
+                                   1199 ;------------------------------------------------------------
+                                   1200 ;status                    Allocated to registers r7 
+                                   1201 ;------------------------------------------------------------
+                                   1202 ;	./src/RF24.c:142: uint8_t flush_rx(void)
+                                   1203 ;	-----------------------------------------
+                                   1204 ;	 function flush_rx
+                                   1205 ;	-----------------------------------------
+      000948                       1206 _flush_rx:
+                                   1207 ;	./src/RF24.c:146: csn(LOW);
+      000948 75 82 00         [24] 1208 	mov	dpl,#0x00
+      00094B 12 06 D4         [24] 1209 	lcall	_csn
+                                   1210 ;	./src/RF24.c:147: status = spi_transfer(FLUSH_RX);
+      00094E 75 82 E2         [24] 1211 	mov	dpl,#0xe2
+      000951 12 11 DE         [24] 1212 	lcall	_spi_transfer
+      000954 AF 82            [24] 1213 	mov	r7,dpl
+                                   1214 ;	./src/RF24.c:148: csn(HIGH);
+      000956 75 82 01         [24] 1215 	mov	dpl,#0x01
+      000959 C0 07            [24] 1216 	push	ar7
+      00095B 12 06 D4         [24] 1217 	lcall	_csn
+      00095E D0 07            [24] 1218 	pop	ar7
+                                   1219 ;	./src/RF24.c:150: return status;
+      000960 8F 82            [24] 1220 	mov	dpl,r7
+                                   1221 ;	./src/RF24.c:151: }
+      000962 22               [24] 1222 	ret
+                                   1223 ;------------------------------------------------------------
+                                   1224 ;Allocation info for local variables in function 'flush_tx'
+                                   1225 ;------------------------------------------------------------
+                                   1226 ;status                    Allocated to registers r7 
+                                   1227 ;------------------------------------------------------------
+                                   1228 ;	./src/RF24.c:155: uint8_t flush_tx(void)
+                                   1229 ;	-----------------------------------------
+                                   1230 ;	 function flush_tx
+                                   1231 ;	-----------------------------------------
+      000963                       1232 _flush_tx:
+                                   1233 ;	./src/RF24.c:159: csn(LOW);
+      000963 75 82 00         [24] 1234 	mov	dpl,#0x00
+      000966 12 06 D4         [24] 1235 	lcall	_csn
+                                   1236 ;	./src/RF24.c:160: status = spi_transfer(FLUSH_TX);
+      000969 75 82 E1         [24] 1237 	mov	dpl,#0xe1
+      00096C 12 11 DE         [24] 1238 	lcall	_spi_transfer
+      00096F AF 82            [24] 1239 	mov	r7,dpl
+                                   1240 ;	./src/RF24.c:161: csn(HIGH);
+      000971 75 82 01         [24] 1241 	mov	dpl,#0x01
+      000974 C0 07            [24] 1242 	push	ar7
+      000976 12 06 D4         [24] 1243 	lcall	_csn
+      000979 D0 07            [24] 1244 	pop	ar7
+                                   1245 ;	./src/RF24.c:163: return status;
+      00097B 8F 82            [24] 1246 	mov	dpl,r7
+                                   1247 ;	./src/RF24.c:164: }
+      00097D 22               [24] 1248 	ret
+                                   1249 ;------------------------------------------------------------
+                                   1250 ;Allocation info for local variables in function 'get_status'
+                                   1251 ;------------------------------------------------------------
+                                   1252 ;status                    Allocated to registers r7 
+                                   1253 ;------------------------------------------------------------
+                                   1254 ;	./src/RF24.c:168: uint8_t get_status(void)
+                                   1255 ;	-----------------------------------------
+                                   1256 ;	 function get_status
+                                   1257 ;	-----------------------------------------
+      00097E                       1258 _get_status:
+                                   1259 ;	./src/RF24.c:172: csn(LOW);
+      00097E 75 82 00         [24] 1260 	mov	dpl,#0x00
+      000981 12 06 D4         [24] 1261 	lcall	_csn
+                                   1262 ;	./src/RF24.c:173: status = spi_transfer(NOP);
+      000984 75 82 FF         [24] 1263 	mov	dpl,#0xff
+      000987 12 11 DE         [24] 1264 	lcall	_spi_transfer
+      00098A AF 82            [24] 1265 	mov	r7,dpl
+                                   1266 ;	./src/RF24.c:174: csn(HIGH);
+      00098C 75 82 01         [24] 1267 	mov	dpl,#0x01
+      00098F C0 07            [24] 1268 	push	ar7
+      000991 12 06 D4         [24] 1269 	lcall	_csn
+      000994 D0 07            [24] 1270 	pop	ar7
+                                   1271 ;	./src/RF24.c:176: return status;
+      000996 8F 82            [24] 1272 	mov	dpl,r7
+                                   1273 ;	./src/RF24.c:177: }
+      000998 22               [24] 1274 	ret
+                                   1275 ;------------------------------------------------------------
+                                   1276 ;Allocation info for local variables in function 'setChannel'
+                                   1277 ;------------------------------------------------------------
+                                   1278 ;channel                   Allocated to registers 
+                                   1279 ;data                      Allocated to registers 
+                                   1280 ;max_channel               Allocated to registers 
+                                   1281 ;------------------------------------------------------------
+                                   1282 ;	./src/RF24.c:194: void setChannel(uint8_t channel)
+                                   1283 ;	-----------------------------------------
+                                   1284 ;	 function setChannel
+                                   1285 ;	-----------------------------------------
+      000999                       1286 _setChannel:
+                                   1287 ;	./src/RF24.c:200: write_register(RF_CH, min(channel, max_channel));
+      000999 75 6B 7F         [24] 1288 	mov	_min_PARM_2,#0x7f
+      00099C 12 06 C5         [24] 1289 	lcall	_min
+      00099F 85 82 37         [24] 1290 	mov	_write_register_PARM_2,dpl
+      0009A2 75 82 05         [24] 1291 	mov	dpl,#0x05
+      0009A5 12 07 C6         [24] 1292 	lcall	_write_register
+                                   1293 ;	./src/RF24.c:201: data = read_register(RF_CH);
+      0009A8 75 82 05         [24] 1294 	mov	dpl,#0x05
+                                   1295 ;	./src/RF24.c:202: }
+      0009AB 02 07 40         [24] 1296 	ljmp	_read_register
+                                   1297 ;------------------------------------------------------------
+                                   1298 ;Allocation info for local variables in function 'setPayloadSize'
+                                   1299 ;------------------------------------------------------------
+                                   1300 ;size                      Allocated to registers 
+                                   1301 ;max_payload_size          Allocated to registers 
+                                   1302 ;------------------------------------------------------------
+                                   1303 ;	./src/RF24.c:206: void setPayloadSize(uint8_t size)
+                                   1304 ;	-----------------------------------------
+                                   1305 ;	 function setPayloadSize
+                                   1306 ;	-----------------------------------------
+      0009AE                       1307 _setPayloadSize:
+                                   1308 ;	./src/RF24.c:209: payload_size = min(size, max_payload_size);
+      0009AE 75 6B 20         [24] 1309 	mov	_min_PARM_2,#0x20
+      0009B1 12 06 C5         [24] 1310 	lcall	_min
+      0009B4 85 82 26         [24] 1311 	mov	_payload_size,dpl
+                                   1312 ;	./src/RF24.c:210: }
+      0009B7 22               [24] 1313 	ret
+                                   1314 ;------------------------------------------------------------
+                                   1315 ;Allocation info for local variables in function 'getPayloadSize'
+                                   1316 ;------------------------------------------------------------
+                                   1317 ;	./src/RF24.c:214: uint8_t getPayloadSize(void)
+                                   1318 ;	-----------------------------------------
+                                   1319 ;	 function getPayloadSize
+                                   1320 ;	-----------------------------------------
+      0009B8                       1321 _getPayloadSize:
+                                   1322 ;	./src/RF24.c:216: return payload_size;
+      0009B8 85 26 82         [24] 1323 	mov	dpl,_payload_size
+                                   1324 ;	./src/RF24.c:217: }
+      0009BB 22               [24] 1325 	ret
+                                   1326 ;------------------------------------------------------------
+                                   1327 ;Allocation info for local variables in function 'begin'
+                                   1328 ;------------------------------------------------------------
+                                   1329 ;	./src/RF24.c:221: void begin(void)
+                                   1330 ;	-----------------------------------------
+                                   1331 ;	 function begin
+                                   1332 ;	-----------------------------------------
+      0009BC                       1333 _begin:
+                                   1334 ;	./src/RF24.c:223: ce(LOW);
+      0009BC 75 82 00         [24] 1335 	mov	dpl,#0x00
+      0009BF 12 06 DB         [24] 1336 	lcall	_ce
+                                   1337 ;	./src/RF24.c:224: csn(HIGH);
+      0009C2 75 82 01         [24] 1338 	mov	dpl,#0x01
+      0009C5 12 06 D4         [24] 1339 	lcall	_csn
+                                   1340 ;	./src/RF24.c:232: Timer3_Delay10us(500);
+      0009C8 90 01 F4         [24] 1341 	mov	dptr,#0x01f4
+      0009CB E4               [12] 1342 	clr	a
+      0009CC F5 F0            [12] 1343 	mov	b,a
+      0009CE 12 06 68         [24] 1344 	lcall	_Timer3_Delay10us
+                                   1345 ;	./src/RF24.c:237: write_register(SETUP_RETR, (0x04 << ARD) | (0x0f << ARC));
+      0009D1 75 37 4F         [24] 1346 	mov	_write_register_PARM_2,#0x4f
+      0009D4 75 82 04         [24] 1347 	mov	dpl,#0x04
+      0009D7 12 07 C6         [24] 1348 	lcall	_write_register
+                                   1349 ;	./src/RF24.c:240: setPALevel(RF24_PA_HIGH);
+      0009DA 75 82 02         [24] 1350 	mov	dpl,#0x02
+      0009DD 12 0E 9B         [24] 1351 	lcall	_setPALevel
+                                   1352 ;	./src/RF24.c:246: if (setDataRate(RF24_250KBPS))
+      0009E0 75 82 02         [24] 1353 	mov	dpl,#0x02
+      0009E3 12 0E FA         [24] 1354 	lcall	_setDataRate
+      0009E6 E5 82            [12] 1355 	mov	a,dpl
+      0009E8 60 03            [24] 1356 	jz	00102$
+                                   1357 ;	./src/RF24.c:248: p_variant = TRUE;
+      0009EA 75 25 01         [24] 1358 	mov	_p_variant,#0x01
+      0009ED                       1359 00102$:
+                                   1360 ;	./src/RF24.c:253: setDataRate(RF24_250KBPS);
+      0009ED 75 82 02         [24] 1361 	mov	dpl,#0x02
+      0009F0 12 0E FA         [24] 1362 	lcall	_setDataRate
+                                   1363 ;	./src/RF24.c:256: setCRCLength(RF24_CRC_16);
+      0009F3 75 82 02         [24] 1364 	mov	dpl,#0x02
+      0009F6 12 0F 71         [24] 1365 	lcall	_setCRCLength
+                                   1366 ;	./src/RF24.c:259: write_register(DYNPD, 0);
+      0009F9 75 37 00         [24] 1367 	mov	_write_register_PARM_2,#0x00
+      0009FC 75 82 1C         [24] 1368 	mov	dpl,#0x1c
+      0009FF 12 07 C6         [24] 1369 	lcall	_write_register
+                                   1370 ;	./src/RF24.c:263: write_register(STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
+      000A02 75 37 70         [24] 1371 	mov	_write_register_PARM_2,#0x70
+      000A05 75 82 07         [24] 1372 	mov	dpl,#0x07
+      000A08 12 07 C6         [24] 1373 	lcall	_write_register
+                                   1374 ;	./src/RF24.c:268: setChannel(60);
+      000A0B 75 82 3C         [24] 1375 	mov	dpl,#0x3c
+      000A0E 12 09 99         [24] 1376 	lcall	_setChannel
+                                   1377 ;	./src/RF24.c:271: flush_rx();
+      000A11 12 09 48         [24] 1378 	lcall	_flush_rx
+                                   1379 ;	./src/RF24.c:272: flush_tx();
+      000A14 12 09 63         [24] 1380 	lcall	_flush_tx
+                                   1381 ;	./src/RF24.c:274: wide_band = TRUE;
+      000A17 75 24 01         [24] 1382 	mov	_wide_band,#0x01
+                                   1383 ;	./src/RF24.c:275: p_variant = FALSE;
+      000A1A 75 25 00         [24] 1384 	mov	_p_variant,#0x00
+                                   1385 ;	./src/RF24.c:276: payload_size = 32;
+      000A1D 75 26 20         [24] 1386 	mov	_payload_size,#0x20
+                                   1387 ;	./src/RF24.c:277: ack_payload_available = FALSE;
+      000A20 75 27 00         [24] 1388 	mov	_ack_payload_available,#0x00
+                                   1389 ;	./src/RF24.c:278: dynamic_payloads_enabled = FALSE;
+      000A23 75 28 00         [24] 1390 	mov	_dynamic_payloads_enabled,#0x00
+                                   1391 ;	./src/RF24.c:280: }
+      000A26 22               [24] 1392 	ret
+                                   1393 ;------------------------------------------------------------
+                                   1394 ;Allocation info for local variables in function 'startListening'
+                                   1395 ;------------------------------------------------------------
+                                   1396 ;	./src/RF24.c:284: void startListening(void)
+                                   1397 ;	-----------------------------------------
+                                   1398 ;	 function startListening
+                                   1399 ;	-----------------------------------------
+      000A27                       1400 _startListening:
+                                   1401 ;	./src/RF24.c:286: write_register(CONFIG, read_register(CONFIG) | _BV(PWR_UP) | _BV(PRIM_RX));
+      000A27 75 82 00         [24] 1402 	mov	dpl,#0x00
+      000A2A 12 07 40         [24] 1403 	lcall	_read_register
+      000A2D E5 82            [12] 1404 	mov	a,dpl
+      000A2F 44 03            [12] 1405 	orl	a,#0x03
+      000A31 F5 37            [12] 1406 	mov	_write_register_PARM_2,a
+      000A33 75 82 00         [24] 1407 	mov	dpl,#0x00
+      000A36 12 07 C6         [24] 1408 	lcall	_write_register
+                                   1409 ;	./src/RF24.c:287: write_register(STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
+      000A39 75 37 70         [24] 1410 	mov	_write_register_PARM_2,#0x70
+      000A3C 75 82 07         [24] 1411 	mov	dpl,#0x07
+      000A3F 12 07 C6         [24] 1412 	lcall	_write_register
+                                   1413 ;	./src/RF24.c:291: write_registers(RX_ADDR_P0, pipe0_reading_address, 5);
+      000A42 75 33 2A         [24] 1414 	mov	_write_registers_PARM_2,#_pipe0_reading_address
+      000A45 75 34 00         [24] 1415 	mov	(_write_registers_PARM_2 + 1),#0x00
+      000A48 75 35 40         [24] 1416 	mov	(_write_registers_PARM_2 + 2),#0x40
+      000A4B 75 36 05         [24] 1417 	mov	_write_registers_PARM_3,#0x05
+      000A4E 75 82 0A         [24] 1418 	mov	dpl,#0x0a
+      000A51 12 07 69         [24] 1419 	lcall	_write_registers
+                                   1420 ;	./src/RF24.c:294: flush_rx();
+      000A54 12 09 48         [24] 1421 	lcall	_flush_rx
+                                   1422 ;	./src/RF24.c:295: flush_tx();
+      000A57 12 09 63         [24] 1423 	lcall	_flush_tx
+                                   1424 ;	./src/RF24.c:298: ce(HIGH);
+      000A5A 75 82 01         [24] 1425 	mov	dpl,#0x01
+      000A5D 12 06 DB         [24] 1426 	lcall	_ce
+                                   1427 ;	./src/RF24.c:301: Timer3_Delay10us(130);
+      000A60 90 00 82         [24] 1428 	mov	dptr,#(0x82&0x00ff)
+      000A63 E4               [12] 1429 	clr	a
+      000A64 F5 F0            [12] 1430 	mov	b,a
+                                   1431 ;	./src/RF24.c:302: }
+      000A66 02 06 68         [24] 1432 	ljmp	_Timer3_Delay10us
+                                   1433 ;------------------------------------------------------------
+                                   1434 ;Allocation info for local variables in function 'stopListening'
+                                   1435 ;------------------------------------------------------------
+                                   1436 ;	./src/RF24.c:306: void stopListening(void)
+                                   1437 ;	-----------------------------------------
+                                   1438 ;	 function stopListening
+                                   1439 ;	-----------------------------------------
+      000A69                       1440 _stopListening:
+                                   1441 ;	./src/RF24.c:308: ce(LOW);
+      000A69 75 82 00         [24] 1442 	mov	dpl,#0x00
+      000A6C 12 06 DB         [24] 1443 	lcall	_ce
+                                   1444 ;	./src/RF24.c:309: flush_tx();
+      000A6F 12 09 63         [24] 1445 	lcall	_flush_tx
+                                   1446 ;	./src/RF24.c:310: flush_rx();
+                                   1447 ;	./src/RF24.c:311: }
+      000A72 02 09 48         [24] 1448 	ljmp	_flush_rx
+                                   1449 ;------------------------------------------------------------
+                                   1450 ;Allocation info for local variables in function 'powerDown'
+                                   1451 ;------------------------------------------------------------
+                                   1452 ;	./src/RF24.c:315: void powerDown(void)
+                                   1453 ;	-----------------------------------------
+                                   1454 ;	 function powerDown
+                                   1455 ;	-----------------------------------------
+      000A75                       1456 _powerDown:
+                                   1457 ;	./src/RF24.c:317: write_register(CONFIG, read_register(CONFIG) & ~_BV(PWR_UP));
+      000A75 75 82 00         [24] 1458 	mov	dpl,#0x00
+      000A78 12 07 40         [24] 1459 	lcall	_read_register
+      000A7B E5 82            [12] 1460 	mov	a,dpl
+      000A7D 54 FD            [12] 1461 	anl	a,#0xfd
+      000A7F F5 37            [12] 1462 	mov	_write_register_PARM_2,a
+      000A81 75 82 00         [24] 1463 	mov	dpl,#0x00
+                                   1464 ;	./src/RF24.c:318: }
+      000A84 02 07 C6         [24] 1465 	ljmp	_write_register
+                                   1466 ;------------------------------------------------------------
+                                   1467 ;Allocation info for local variables in function 'powerUp'
+                                   1468 ;------------------------------------------------------------
+                                   1469 ;	./src/RF24.c:322: void powerUp(void)
+                                   1470 ;	-----------------------------------------
+                                   1471 ;	 function powerUp
+                                   1472 ;	-----------------------------------------
+      000A87                       1473 _powerUp:
+                                   1474 ;	./src/RF24.c:324: write_register(CONFIG, read_register(CONFIG) | _BV(PWR_UP));
+      000A87 75 82 00         [24] 1475 	mov	dpl,#0x00
+      000A8A 12 07 40         [24] 1476 	lcall	_read_register
+      000A8D E5 82            [12] 1477 	mov	a,dpl
+      000A8F 44 02            [12] 1478 	orl	a,#0x02
+      000A91 F5 37            [12] 1479 	mov	_write_register_PARM_2,a
+      000A93 75 82 00         [24] 1480 	mov	dpl,#0x00
+      000A96 12 07 C6         [24] 1481 	lcall	_write_register
+                                   1482 ;	./src/RF24.c:325: Timer3_Delay10us(100);
+      000A99 90 00 64         [24] 1483 	mov	dptr,#(0x64&0x00ff)
+      000A9C E4               [12] 1484 	clr	a
+      000A9D F5 F0            [12] 1485 	mov	b,a
+                                   1486 ;	./src/RF24.c:326: }
+      000A9F 02 06 68         [24] 1487 	ljmp	_Timer3_Delay10us
+                                   1488 ;------------------------------------------------------------
+                                   1489 ;Allocation info for local variables in function 'write'
+                                   1490 ;------------------------------------------------------------
+                                   1491 ;len                       Allocated with name '_write_PARM_2'
+                                   1492 ;buf                       Allocated to registers r5 r6 r7 
+                                   1493 ;result                    Allocated to registers r7 
+                                   1494 ;observe_tx                Allocated with name '_write_observe_tx_65536_149'
+                                   1495 ;status                    Allocated to registers 
+                                   1496 ;tx_ok                     Allocated with name '_write_tx_ok_65536_149'
+                                   1497 ;tx_fail                   Allocated with name '_write_tx_fail_65536_149'
+                                   1498 ;------------------------------------------------------------
+                                   1499 ;	./src/RF24.c:330: uint8_t write(const void *buf, uint8_t len)
+                                   1500 ;	-----------------------------------------
+                                   1501 ;	 function write
+                                   1502 ;	-----------------------------------------
+      000AA2                       1503 _write:
+                                   1504 ;	./src/RF24.c:338: startWrite(buf, len);
+      000AA2 85 3A 3E         [24] 1505 	mov	_startWrite_PARM_2,_write_PARM_2
+      000AA5 12 0A F8         [24] 1506 	lcall	_startWrite
+                                   1507 ;	./src/RF24.c:352: do
+      000AA8                       1508 00101$:
+                                   1509 ;	./src/RF24.c:354: status = read_registers(OBSERVE_TX, &observe_tx, 1);
+      000AA8 75 2F 3B         [24] 1510 	mov	_read_registers_PARM_2,#_write_observe_tx_65536_149
+      000AAB 75 30 00         [24] 1511 	mov	(_read_registers_PARM_2 + 1),#0x00
+      000AAE 75 31 40         [24] 1512 	mov	(_read_registers_PARM_2 + 2),#0x40
+      000AB1 75 32 01         [24] 1513 	mov	_read_registers_PARM_3,#0x01
+      000AB4 75 82 08         [24] 1514 	mov	dpl,#0x08
+      000AB7 12 06 E2         [24] 1515 	lcall	_read_registers
+      000ABA E5 82            [12] 1516 	mov	a,dpl
+                                   1517 ;	./src/RF24.c:355: } while (!(status & (_BV(TX_DS) | _BV(MAX_RT))));
+      000ABC 54 30            [12] 1518 	anl	a,#0x30
+      000ABE 60 E8            [24] 1519 	jz	00101$
+                                   1520 ;	./src/RF24.c:367: whatHappened(&tx_ok, &tx_fail, &ack_payload_available);
+      000AC0 75 40 3D         [24] 1521 	mov	_whatHappened_PARM_2,#_write_tx_fail_65536_149
+      000AC3 75 41 00         [24] 1522 	mov	(_whatHappened_PARM_2 + 1),#0x00
+      000AC6 75 42 40         [24] 1523 	mov	(_whatHappened_PARM_2 + 2),#0x40
+      000AC9 75 43 27         [24] 1524 	mov	_whatHappened_PARM_3,#_ack_payload_available
+      000ACC 75 44 00         [24] 1525 	mov	(_whatHappened_PARM_3 + 1),#0x00
+      000ACF 75 45 40         [24] 1526 	mov	(_whatHappened_PARM_3 + 2),#0x40
+      000AD2 90 00 3C         [24] 1527 	mov	dptr,#_write_tx_ok_65536_149
+      000AD5 75 F0 40         [24] 1528 	mov	b,#0x40
+      000AD8 12 0B DD         [24] 1529 	lcall	_whatHappened
+                                   1530 ;	./src/RF24.c:369: result = tx_ok;
+      000ADB AF 3C            [24] 1531 	mov	r7,_write_tx_ok_65536_149
+                                   1532 ;	./src/RF24.c:372: if (ack_payload_available)
+      000ADD E5 27            [12] 1533 	mov	a,_ack_payload_available
+      000ADF 60 0A            [24] 1534 	jz	00105$
+                                   1535 ;	./src/RF24.c:374: ack_payload_length = getDynamicPayloadSize();
+      000AE1 C0 07            [24] 1536 	push	ar7
+      000AE3 12 0B 48         [24] 1537 	lcall	_getDynamicPayloadSize
+      000AE6 85 82 29         [24] 1538 	mov	_ack_payload_length,dpl
+      000AE9 D0 07            [24] 1539 	pop	ar7
+      000AEB                       1540 00105$:
+                                   1541 ;	./src/RF24.c:380: powerDown();
+      000AEB C0 07            [24] 1542 	push	ar7
+      000AED 12 0A 75         [24] 1543 	lcall	_powerDown
+                                   1544 ;	./src/RF24.c:383: flush_tx();
+      000AF0 12 09 63         [24] 1545 	lcall	_flush_tx
+      000AF3 D0 07            [24] 1546 	pop	ar7
+                                   1547 ;	./src/RF24.c:385: return result;
+      000AF5 8F 82            [24] 1548 	mov	dpl,r7
+                                   1549 ;	./src/RF24.c:386: }
+      000AF7 22               [24] 1550 	ret
+                                   1551 ;------------------------------------------------------------
+                                   1552 ;Allocation info for local variables in function 'startWrite'
+                                   1553 ;------------------------------------------------------------
+                                   1554 ;len                       Allocated with name '_startWrite_PARM_2'
+                                   1555 ;buf                       Allocated to registers r5 r6 r7 
+                                   1556 ;------------------------------------------------------------
+                                   1557 ;	./src/RF24.c:389: void startWrite(const void *buf, uint8_t len)
+                                   1558 ;	-----------------------------------------
+                                   1559 ;	 function startWrite
+                                   1560 ;	-----------------------------------------
+      000AF8                       1561 _startWrite:
+      000AF8 AD 82            [24] 1562 	mov	r5,dpl
+      000AFA AE 83            [24] 1563 	mov	r6,dph
+      000AFC AF F0            [24] 1564 	mov	r7,b
+                                   1565 ;	./src/RF24.c:392: write_register(CONFIG, (read_register(CONFIG) | _BV(PWR_UP)) & ~_BV(PRIM_RX));
+      000AFE 75 82 00         [24] 1566 	mov	dpl,#0x00
+      000B01 C0 07            [24] 1567 	push	ar7
+      000B03 C0 06            [24] 1568 	push	ar6
+      000B05 C0 05            [24] 1569 	push	ar5
+      000B07 12 07 40         [24] 1570 	lcall	_read_register
+      000B0A E5 82            [12] 1571 	mov	a,dpl
+      000B0C 44 02            [12] 1572 	orl	a,#0x02
+      000B0E 54 FE            [12] 1573 	anl	a,#0xfe
+      000B10 F5 37            [12] 1574 	mov	_write_register_PARM_2,a
+      000B12 75 82 00         [24] 1575 	mov	dpl,#0x00
+      000B15 12 07 C6         [24] 1576 	lcall	_write_register
+                                   1577 ;	./src/RF24.c:393: Timer3_Delay10us(15);
+      000B18 90 00 0F         [24] 1578 	mov	dptr,#(0x0f&0x00ff)
+      000B1B E4               [12] 1579 	clr	a
+      000B1C F5 F0            [12] 1580 	mov	b,a
+      000B1E 12 06 68         [24] 1581 	lcall	_Timer3_Delay10us
+      000B21 D0 05            [24] 1582 	pop	ar5
+      000B23 D0 06            [24] 1583 	pop	ar6
+      000B25 D0 07            [24] 1584 	pop	ar7
+                                   1585 ;	./src/RF24.c:396: write_payload(buf, len);
+      000B27 85 3E 38         [24] 1586 	mov	_write_payload_PARM_2,_startWrite_PARM_2
+      000B2A 8D 82            [24] 1587 	mov	dpl,r5
+      000B2C 8E 83            [24] 1588 	mov	dph,r6
+      000B2E 8F F0            [24] 1589 	mov	b,r7
+      000B30 12 07 F1         [24] 1590 	lcall	_write_payload
+                                   1591 ;	./src/RF24.c:399: ce(HIGH);
+      000B33 75 82 01         [24] 1592 	mov	dpl,#0x01
+      000B36 12 06 DB         [24] 1593 	lcall	_ce
+                                   1594 ;	./src/RF24.c:400: Timer3_Delay10us(2);
+      000B39 90 00 02         [24] 1595 	mov	dptr,#(0x02&0x00ff)
+      000B3C E4               [12] 1596 	clr	a
+      000B3D F5 F0            [12] 1597 	mov	b,a
+      000B3F 12 06 68         [24] 1598 	lcall	_Timer3_Delay10us
+                                   1599 ;	./src/RF24.c:401: ce(LOW);
+      000B42 75 82 00         [24] 1600 	mov	dpl,#0x00
+                                   1601 ;	./src/RF24.c:402: }
+      000B45 02 06 DB         [24] 1602 	ljmp	_ce
+                                   1603 ;------------------------------------------------------------
+                                   1604 ;Allocation info for local variables in function 'getDynamicPayloadSize'
+                                   1605 ;------------------------------------------------------------
+                                   1606 ;result                    Allocated to registers r7 
+                                   1607 ;------------------------------------------------------------
+                                   1608 ;	./src/RF24.c:406: uint8_t getDynamicPayloadSize(void)
+                                   1609 ;	-----------------------------------------
+                                   1610 ;	 function getDynamicPayloadSize
+                                   1611 ;	-----------------------------------------
+      000B48                       1612 _getDynamicPayloadSize:
+                                   1613 ;	./src/RF24.c:410: csn(LOW);
+      000B48 75 82 00         [24] 1614 	mov	dpl,#0x00
+      000B4B 12 06 D4         [24] 1615 	lcall	_csn
+                                   1616 ;	./src/RF24.c:411: spi_transfer(R_RX_PL_WID);
+      000B4E 75 82 60         [24] 1617 	mov	dpl,#0x60
+      000B51 12 11 DE         [24] 1618 	lcall	_spi_transfer
+                                   1619 ;	./src/RF24.c:412: result = spi_transfer(0xff);
+      000B54 75 82 FF         [24] 1620 	mov	dpl,#0xff
+      000B57 12 11 DE         [24] 1621 	lcall	_spi_transfer
+      000B5A AF 82            [24] 1622 	mov	r7,dpl
+                                   1623 ;	./src/RF24.c:413: csn(HIGH);
+      000B5C 75 82 01         [24] 1624 	mov	dpl,#0x01
+      000B5F C0 07            [24] 1625 	push	ar7
+      000B61 12 06 D4         [24] 1626 	lcall	_csn
+      000B64 D0 07            [24] 1627 	pop	ar7
+                                   1628 ;	./src/RF24.c:415: return result;
+      000B66 8F 82            [24] 1629 	mov	dpl,r7
+                                   1630 ;	./src/RF24.c:416: }
+      000B68 22               [24] 1631 	ret
+                                   1632 ;------------------------------------------------------------
+                                   1633 ;Allocation info for local variables in function 'available'
+                                   1634 ;------------------------------------------------------------
+                                   1635 ;	./src/RF24.c:420: uint8_t available(void)
+                                   1636 ;	-----------------------------------------
+                                   1637 ;	 function available
+                                   1638 ;	-----------------------------------------
+      000B69                       1639 _available:
+                                   1640 ;	./src/RF24.c:422: return availablePipe(NULL);
+      000B69 90 00 00         [24] 1641 	mov	dptr,#0x0000
+      000B6C 75 F0 00         [24] 1642 	mov	b,#0x00
+                                   1643 ;	./src/RF24.c:423: }
+      000B6F 02 0B 72         [24] 1644 	ljmp	_availablePipe
+                                   1645 ;------------------------------------------------------------
+                                   1646 ;Allocation info for local variables in function 'availablePipe'
+                                   1647 ;------------------------------------------------------------
+                                   1648 ;pipe_num                  Allocated to registers r5 r6 r7 
+                                   1649 ;status                    Allocated to registers r4 
+                                   1650 ;result                    Allocated to registers r2 
+                                   1651 ;------------------------------------------------------------
+                                   1652 ;	./src/RF24.c:427: uint8_t availablePipe(uint8_t *pipe_num)
+                                   1653 ;	-----------------------------------------
+                                   1654 ;	 function availablePipe
+                                   1655 ;	-----------------------------------------
+      000B72                       1656 _availablePipe:
+      000B72 AD 82            [24] 1657 	mov	r5,dpl
+      000B74 AE 83            [24] 1658 	mov	r6,dph
+      000B76 AF F0            [24] 1659 	mov	r7,b
+                                   1660 ;	./src/RF24.c:429: uint8_t status = get_status();
+      000B78 C0 07            [24] 1661 	push	ar7
+      000B7A C0 06            [24] 1662 	push	ar6
+      000B7C C0 05            [24] 1663 	push	ar5
+      000B7E 12 09 7E         [24] 1664 	lcall	_get_status
+      000B81 AC 82            [24] 1665 	mov	r4,dpl
+      000B83 D0 05            [24] 1666 	pop	ar5
+      000B85 D0 06            [24] 1667 	pop	ar6
+      000B87 D0 07            [24] 1668 	pop	ar7
+                                   1669 ;	./src/RF24.c:434: uint8_t result = (status & _BV(RX_DR));
+      000B89 74 40            [12] 1670 	mov	a,#0x40
+      000B8B 5C               [12] 1671 	anl	a,r4
+                                   1672 ;	./src/RF24.c:436: if (result)
+      000B8C FB               [12] 1673 	mov	r3,a
+      000B8D FA               [12] 1674 	mov	r2,a
+      000B8E 60 37            [24] 1675 	jz	00106$
+                                   1676 ;	./src/RF24.c:439: if (pipe_num)
+      000B90 ED               [12] 1677 	mov	a,r5
+      000B91 4E               [12] 1678 	orl	a,r6
+      000B92 60 11            [24] 1679 	jz	00102$
+                                   1680 ;	./src/RF24.c:440: *pipe_num = (status >> RX_P_NO) & 0x07;
+      000B94 EC               [12] 1681 	mov	a,r4
+      000B95 C3               [12] 1682 	clr	c
+      000B96 13               [12] 1683 	rrc	a
+      000B97 FB               [12] 1684 	mov	r3,a
+      000B98 53 03 07         [24] 1685 	anl	ar3,#0x07
+      000B9B 8D 82            [24] 1686 	mov	dpl,r5
+      000B9D 8E 83            [24] 1687 	mov	dph,r6
+      000B9F 8F F0            [24] 1688 	mov	b,r7
+      000BA1 EB               [12] 1689 	mov	a,r3
+      000BA2 12 17 44         [24] 1690 	lcall	__gptrput
+      000BA5                       1691 00102$:
+                                   1692 ;	./src/RF24.c:447: write_register(STATUS, _BV(RX_DR));
+      000BA5 75 37 40         [24] 1693 	mov	_write_register_PARM_2,#0x40
+      000BA8 75 82 07         [24] 1694 	mov	dpl,#0x07
+      000BAB C0 04            [24] 1695 	push	ar4
+      000BAD C0 02            [24] 1696 	push	ar2
+      000BAF 12 07 C6         [24] 1697 	lcall	_write_register
+      000BB2 D0 02            [24] 1698 	pop	ar2
+      000BB4 D0 04            [24] 1699 	pop	ar4
+                                   1700 ;	./src/RF24.c:450: if (status & _BV(TX_DS))
+      000BB6 EC               [12] 1701 	mov	a,r4
+      000BB7 30 E5 0D         [24] 1702 	jnb	acc.5,00106$
+                                   1703 ;	./src/RF24.c:452: write_register(STATUS, _BV(TX_DS));
+      000BBA 75 37 20         [24] 1704 	mov	_write_register_PARM_2,#0x20
+      000BBD 75 82 07         [24] 1705 	mov	dpl,#0x07
+      000BC0 C0 02            [24] 1706 	push	ar2
+      000BC2 12 07 C6         [24] 1707 	lcall	_write_register
+      000BC5 D0 02            [24] 1708 	pop	ar2
+      000BC7                       1709 00106$:
+                                   1710 ;	./src/RF24.c:456: return result;
+      000BC7 8A 82            [24] 1711 	mov	dpl,r2
+                                   1712 ;	./src/RF24.c:457: }
+      000BC9 22               [24] 1713 	ret
+                                   1714 ;------------------------------------------------------------
+                                   1715 ;Allocation info for local variables in function 'read'
+                                   1716 ;------------------------------------------------------------
+                                   1717 ;len                       Allocated with name '_read_PARM_2'
+                                   1718 ;buf                       Allocated to registers r5 r6 r7 
+                                   1719 ;------------------------------------------------------------
+                                   1720 ;	./src/RF24.c:461: uint8_t read(void *buf, uint8_t len)
+                                   1721 ;	-----------------------------------------
+                                   1722 ;	 function read
+                                   1723 ;	-----------------------------------------
+      000BCA                       1724 _read:
+                                   1725 ;	./src/RF24.c:464: read_payload(buf, len);
+      000BCA 85 3F 39         [24] 1726 	mov	_read_payload_PARM_2,_read_PARM_2
+      000BCD 12 08 9B         [24] 1727 	lcall	_read_payload
+                                   1728 ;	./src/RF24.c:467: return read_register(FIFO_STATUS) & _BV(RX_EMPTY);
+      000BD0 75 82 17         [24] 1729 	mov	dpl,#0x17
+      000BD3 12 07 40         [24] 1730 	lcall	_read_register
+      000BD6 E5 82            [12] 1731 	mov	a,dpl
+      000BD8 54 01            [12] 1732 	anl	a,#0x01
+      000BDA F5 82            [12] 1733 	mov	dpl,a
+                                   1734 ;	./src/RF24.c:468: }
+      000BDC 22               [24] 1735 	ret
+                                   1736 ;------------------------------------------------------------
+                                   1737 ;Allocation info for local variables in function 'whatHappened'
+                                   1738 ;------------------------------------------------------------
+                                   1739 ;tx_fail                   Allocated with name '_whatHappened_PARM_2'
+                                   1740 ;rx_ready                  Allocated with name '_whatHappened_PARM_3'
+                                   1741 ;tx_ok                     Allocated to registers r5 r6 r7 
+                                   1742 ;status                    Allocated to registers r4 
+                                   1743 ;------------------------------------------------------------
+                                   1744 ;	./src/RF24.c:472: void whatHappened(uint8_t *tx_ok, uint8_t *tx_fail, uint8_t *rx_ready)
+                                   1745 ;	-----------------------------------------
+                                   1746 ;	 function whatHappened
+                                   1747 ;	-----------------------------------------
+      000BDD                       1748 _whatHappened:
+      000BDD AD 82            [24] 1749 	mov	r5,dpl
+      000BDF AE 83            [24] 1750 	mov	r6,dph
+      000BE1 AF F0            [24] 1751 	mov	r7,b
+                                   1752 ;	./src/RF24.c:476: uint8_t status = write_register(STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
+      000BE3 75 37 70         [24] 1753 	mov	_write_register_PARM_2,#0x70
+      000BE6 75 82 07         [24] 1754 	mov	dpl,#0x07
+      000BE9 C0 07            [24] 1755 	push	ar7
+      000BEB C0 06            [24] 1756 	push	ar6
+      000BED C0 05            [24] 1757 	push	ar5
+      000BEF 12 07 C6         [24] 1758 	lcall	_write_register
+      000BF2 AC 82            [24] 1759 	mov	r4,dpl
+      000BF4 D0 05            [24] 1760 	pop	ar5
+      000BF6 D0 06            [24] 1761 	pop	ar6
+      000BF8 D0 07            [24] 1762 	pop	ar7
+                                   1763 ;	./src/RF24.c:479: *tx_ok = status & _BV(TX_DS);
+      000BFA 74 20            [12] 1764 	mov	a,#0x20
+      000BFC 5C               [12] 1765 	anl	a,r4
+      000BFD 8D 82            [24] 1766 	mov	dpl,r5
+      000BFF 8E 83            [24] 1767 	mov	dph,r6
+      000C01 8F F0            [24] 1768 	mov	b,r7
+      000C03 12 17 44         [24] 1769 	lcall	__gptrput
+                                   1770 ;	./src/RF24.c:480: *tx_fail = status & _BV(MAX_RT);
+      000C06 AD 40            [24] 1771 	mov	r5,_whatHappened_PARM_2
+      000C08 AE 41            [24] 1772 	mov	r6,(_whatHappened_PARM_2 + 1)
+      000C0A AF 42            [24] 1773 	mov	r7,(_whatHappened_PARM_2 + 2)
+      000C0C 74 10            [12] 1774 	mov	a,#0x10
+      000C0E 5C               [12] 1775 	anl	a,r4
+      000C0F 8D 82            [24] 1776 	mov	dpl,r5
+      000C11 8E 83            [24] 1777 	mov	dph,r6
+      000C13 8F F0            [24] 1778 	mov	b,r7
+      000C15 12 17 44         [24] 1779 	lcall	__gptrput
+                                   1780 ;	./src/RF24.c:481: *rx_ready = status & _BV(RX_DR);
+      000C18 AD 43            [24] 1781 	mov	r5,_whatHappened_PARM_3
+      000C1A AE 44            [24] 1782 	mov	r6,(_whatHappened_PARM_3 + 1)
+      000C1C AF 45            [24] 1783 	mov	r7,(_whatHappened_PARM_3 + 2)
+      000C1E 53 04 40         [24] 1784 	anl	ar4,#0x40
+      000C21 8D 82            [24] 1785 	mov	dpl,r5
+      000C23 8E 83            [24] 1786 	mov	dph,r6
+      000C25 8F F0            [24] 1787 	mov	b,r7
+      000C27 EC               [12] 1788 	mov	a,r4
+                                   1789 ;	./src/RF24.c:482: }
+      000C28 02 17 44         [24] 1790 	ljmp	__gptrput
+                                   1791 ;------------------------------------------------------------
+                                   1792 ;Allocation info for local variables in function 'openWritingPipe'
+                                   1793 ;------------------------------------------------------------
+                                   1794 ;value                     Allocated to registers r5 r6 r7 
+                                   1795 ;max_payload_size          Allocated to registers 
+                                   1796 ;------------------------------------------------------------
+                                   1797 ;	./src/RF24.c:486: void openWritingPipe(uint8_t *value)
+                                   1798 ;	-----------------------------------------
+                                   1799 ;	 function openWritingPipe
+                                   1800 ;	-----------------------------------------
+      000C2B                       1801 _openWritingPipe:
+      000C2B AD 82            [24] 1802 	mov	r5,dpl
+      000C2D AE 83            [24] 1803 	mov	r6,dph
+      000C2F AF F0            [24] 1804 	mov	r7,b
+                                   1805 ;	./src/RF24.c:491: write_registers(RX_ADDR_P0, value, 5);
+      000C31 8D 33            [24] 1806 	mov	_write_registers_PARM_2,r5
+      000C33 8E 34            [24] 1807 	mov	(_write_registers_PARM_2 + 1),r6
+      000C35 8F 35            [24] 1808 	mov	(_write_registers_PARM_2 + 2),r7
+      000C37 75 36 05         [24] 1809 	mov	_write_registers_PARM_3,#0x05
+      000C3A 75 82 0A         [24] 1810 	mov	dpl,#0x0a
+      000C3D C0 07            [24] 1811 	push	ar7
+      000C3F C0 06            [24] 1812 	push	ar6
+      000C41 C0 05            [24] 1813 	push	ar5
+      000C43 12 07 69         [24] 1814 	lcall	_write_registers
+      000C46 D0 05            [24] 1815 	pop	ar5
+      000C48 D0 06            [24] 1816 	pop	ar6
+      000C4A D0 07            [24] 1817 	pop	ar7
+                                   1818 ;	./src/RF24.c:492: write_registers(TX_ADDR, value, 5);
+      000C4C 8D 33            [24] 1819 	mov	_write_registers_PARM_2,r5
+      000C4E 8E 34            [24] 1820 	mov	(_write_registers_PARM_2 + 1),r6
+      000C50 8F 35            [24] 1821 	mov	(_write_registers_PARM_2 + 2),r7
+      000C52 75 36 05         [24] 1822 	mov	_write_registers_PARM_3,#0x05
+      000C55 75 82 10         [24] 1823 	mov	dpl,#0x10
+      000C58 12 07 69         [24] 1824 	lcall	_write_registers
+                                   1825 ;	./src/RF24.c:494: write_register(RX_PW_P0, min(payload_size, max_payload_size));
+      000C5B 75 6B 20         [24] 1826 	mov	_min_PARM_2,#0x20
+      000C5E 85 26 82         [24] 1827 	mov	dpl,_payload_size
+      000C61 12 06 C5         [24] 1828 	lcall	_min
+      000C64 85 82 37         [24] 1829 	mov	_write_register_PARM_2,dpl
+      000C67 75 82 11         [24] 1830 	mov	dpl,#0x11
+                                   1831 ;	./src/RF24.c:495: }
+      000C6A 02 07 C6         [24] 1832 	ljmp	_write_register
+                                   1833 ;------------------------------------------------------------
+                                   1834 ;Allocation info for local variables in function 'openReadingPipe'
+                                   1835 ;------------------------------------------------------------
+                                   1836 ;address                   Allocated with name '_openReadingPipe_PARM_2'
+                                   1837 ;child                     Allocated to registers r7 
+                                   1838 ;------------------------------------------------------------
+                                   1839 ;	./src/RF24.c:509: void openReadingPipe(uint8_t child, uint8_t *address)
+                                   1840 ;	-----------------------------------------
+                                   1841 ;	 function openReadingPipe
+                                   1842 ;	-----------------------------------------
+      000C6D                       1843 _openReadingPipe:
+                                   1844 ;	./src/RF24.c:514: if (child == 0)
+      000C6D E5 82            [12] 1845 	mov	a,dpl
+      000C6F FF               [12] 1846 	mov	r7,a
+      000C70 70 1C            [24] 1847 	jnz	00102$
+                                   1848 ;	./src/RF24.c:515: memcpy(pipe0_reading_address, address, 5);
+      000C72 85 46 6B         [24] 1849 	mov	___memcpy_PARM_2,_openReadingPipe_PARM_2
+      000C75 85 47 6C         [24] 1850 	mov	(___memcpy_PARM_2 + 1),(_openReadingPipe_PARM_2 + 1)
+      000C78 85 48 6D         [24] 1851 	mov	(___memcpy_PARM_2 + 2),(_openReadingPipe_PARM_2 + 2)
+      000C7B 75 6E 05         [24] 1852 	mov	___memcpy_PARM_3,#0x05
+      000C7E 75 6F 00         [24] 1853 	mov	(___memcpy_PARM_3 + 1),#0x00
+      000C81 90 00 2A         [24] 1854 	mov	dptr,#_pipe0_reading_address
+      000C84 75 F0 40         [24] 1855 	mov	b,#0x40
+      000C87 C0 07            [24] 1856 	push	ar7
+      000C89 12 16 A9         [24] 1857 	lcall	___memcpy
+      000C8C D0 07            [24] 1858 	pop	ar7
+      000C8E                       1859 00102$:
+                                   1860 ;	./src/RF24.c:517: if (child <= 6)
+      000C8E EF               [12] 1861 	mov	a,r7
+      000C8F 24 F9            [12] 1862 	add	a,#0xff - 0x06
+      000C91 50 01            [24] 1863 	jnc	00123$
+      000C93 22               [24] 1864 	ret
+      000C94                       1865 00123$:
+                                   1866 ;	./src/RF24.c:521: if (child < 2)
+      000C94 BF 02 00         [24] 1867 	cjne	r7,#0x02,00124$
+      000C97                       1868 00124$:
+      000C97 50 1D            [24] 1869 	jnc	00104$
+                                   1870 ;	./src/RF24.c:522: write_registers(child_pipe[child], address, 5);
+      000C99 EF               [12] 1871 	mov	a,r7
+      000C9A 90 19 52         [24] 1872 	mov	dptr,#_child_pipe
+      000C9D 93               [24] 1873 	movc	a,@a+dptr
+      000C9E FE               [12] 1874 	mov	r6,a
+      000C9F 85 46 33         [24] 1875 	mov	_write_registers_PARM_2,_openReadingPipe_PARM_2
+      000CA2 85 47 34         [24] 1876 	mov	(_write_registers_PARM_2 + 1),(_openReadingPipe_PARM_2 + 1)
+      000CA5 85 48 35         [24] 1877 	mov	(_write_registers_PARM_2 + 2),(_openReadingPipe_PARM_2 + 2)
+      000CA8 75 36 05         [24] 1878 	mov	_write_registers_PARM_3,#0x05
+      000CAB 8E 82            [24] 1879 	mov	dpl,r6
+      000CAD C0 07            [24] 1880 	push	ar7
+      000CAF 12 07 69         [24] 1881 	lcall	_write_registers
+      000CB2 D0 07            [24] 1882 	pop	ar7
+      000CB4 80 1B            [24] 1883 	sjmp	00105$
+      000CB6                       1884 00104$:
+                                   1885 ;	./src/RF24.c:524: write_registers(child_pipe[child], address, 1);
+      000CB6 EF               [12] 1886 	mov	a,r7
+      000CB7 90 19 52         [24] 1887 	mov	dptr,#_child_pipe
+      000CBA 93               [24] 1888 	movc	a,@a+dptr
+      000CBB FE               [12] 1889 	mov	r6,a
+      000CBC 85 46 33         [24] 1890 	mov	_write_registers_PARM_2,_openReadingPipe_PARM_2
+      000CBF 85 47 34         [24] 1891 	mov	(_write_registers_PARM_2 + 1),(_openReadingPipe_PARM_2 + 1)
+      000CC2 85 48 35         [24] 1892 	mov	(_write_registers_PARM_2 + 2),(_openReadingPipe_PARM_2 + 2)
+      000CC5 75 36 01         [24] 1893 	mov	_write_registers_PARM_3,#0x01
+      000CC8 8E 82            [24] 1894 	mov	dpl,r6
+      000CCA C0 07            [24] 1895 	push	ar7
+      000CCC 12 07 69         [24] 1896 	lcall	_write_registers
+      000CCF D0 07            [24] 1897 	pop	ar7
+      000CD1                       1898 00105$:
+                                   1899 ;	./src/RF24.c:526: write_register(child_payload_size[child], payload_size);
+      000CD1 EF               [12] 1900 	mov	a,r7
+      000CD2 90 19 58         [24] 1901 	mov	dptr,#_child_payload_size
+      000CD5 93               [24] 1902 	movc	a,@a+dptr
+      000CD6 FE               [12] 1903 	mov	r6,a
+      000CD7 85 26 37         [24] 1904 	mov	_write_register_PARM_2,_payload_size
+      000CDA 8E 82            [24] 1905 	mov	dpl,r6
+      000CDC C0 07            [24] 1906 	push	ar7
+      000CDE 12 07 C6         [24] 1907 	lcall	_write_register
+                                   1908 ;	./src/RF24.c:531: write_register(EN_RXADDR, read_register(EN_RXADDR) | _BV(child_pipe_enable[child]));
+      000CE1 75 82 02         [24] 1909 	mov	dpl,#0x02
+      000CE4 12 07 40         [24] 1910 	lcall	_read_register
+      000CE7 AE 82            [24] 1911 	mov	r6,dpl
+      000CE9 D0 07            [24] 1912 	pop	ar7
+      000CEB EF               [12] 1913 	mov	a,r7
+      000CEC 90 19 5E         [24] 1914 	mov	dptr,#_child_pipe_enable
+      000CEF 93               [24] 1915 	movc	a,@a+dptr
+      000CF0 FF               [12] 1916 	mov	r7,a
+      000CF1 8F F0            [24] 1917 	mov	b,r7
+      000CF3 05 F0            [12] 1918 	inc	b
+      000CF5 74 01            [12] 1919 	mov	a,#0x01
+      000CF7 80 02            [24] 1920 	sjmp	00128$
+      000CF9                       1921 00126$:
+      000CF9 25 E0            [12] 1922 	add	a,acc
+      000CFB                       1923 00128$:
+      000CFB D5 F0 FB         [24] 1924 	djnz	b,00126$
+      000CFE 4E               [12] 1925 	orl	a,r6
+      000CFF F5 37            [12] 1926 	mov	_write_register_PARM_2,a
+      000D01 75 82 02         [24] 1927 	mov	dpl,#0x02
+                                   1928 ;	./src/RF24.c:533: }
+      000D04 02 07 C6         [24] 1929 	ljmp	_write_register
+                                   1930 ;------------------------------------------------------------
+                                   1931 ;Allocation info for local variables in function 'toggle_features'
+                                   1932 ;------------------------------------------------------------
+                                   1933 ;	./src/RF24.c:537: void toggle_features(void)
+                                   1934 ;	-----------------------------------------
+                                   1935 ;	 function toggle_features
+                                   1936 ;	-----------------------------------------
+      000D07                       1937 _toggle_features:
+                                   1938 ;	./src/RF24.c:539: csn(LOW);
+      000D07 75 82 00         [24] 1939 	mov	dpl,#0x00
+      000D0A 12 06 D4         [24] 1940 	lcall	_csn
+                                   1941 ;	./src/RF24.c:540: spi_transfer(ACTIVATE);
+      000D0D 75 82 50         [24] 1942 	mov	dpl,#0x50
+      000D10 12 11 DE         [24] 1943 	lcall	_spi_transfer
+                                   1944 ;	./src/RF24.c:541: spi_transfer(0x73);
+      000D13 75 82 73         [24] 1945 	mov	dpl,#0x73
+      000D16 12 11 DE         [24] 1946 	lcall	_spi_transfer
+                                   1947 ;	./src/RF24.c:542: csn(HIGH);
+      000D19 75 82 01         [24] 1948 	mov	dpl,#0x01
+                                   1949 ;	./src/RF24.c:543: }
+      000D1C 02 06 D4         [24] 1950 	ljmp	_csn
+                                   1951 ;------------------------------------------------------------
+                                   1952 ;Allocation info for local variables in function 'enableDynamicPayloads'
+                                   1953 ;------------------------------------------------------------
+                                   1954 ;	./src/RF24.c:547: void enableDynamicPayloads(void)
+                                   1955 ;	-----------------------------------------
+                                   1956 ;	 function enableDynamicPayloads
+                                   1957 ;	-----------------------------------------
+      000D1F                       1958 _enableDynamicPayloads:
+                                   1959 ;	./src/RF24.c:550: write_register(FEATURE, read_register(FEATURE) | _BV(EN_DPL));
+      000D1F 75 82 1D         [24] 1960 	mov	dpl,#0x1d
+      000D22 12 07 40         [24] 1961 	lcall	_read_register
+      000D25 E5 82            [12] 1962 	mov	a,dpl
+      000D27 44 04            [12] 1963 	orl	a,#0x04
+      000D29 F5 37            [12] 1964 	mov	_write_register_PARM_2,a
+      000D2B 75 82 1D         [24] 1965 	mov	dpl,#0x1d
+      000D2E 12 07 C6         [24] 1966 	lcall	_write_register
+                                   1967 ;	./src/RF24.c:553: if (!read_register(FEATURE))
+      000D31 75 82 1D         [24] 1968 	mov	dpl,#0x1d
+      000D34 12 07 40         [24] 1969 	lcall	_read_register
+      000D37 E5 82            [12] 1970 	mov	a,dpl
+      000D39 70 15            [24] 1971 	jnz	00102$
+                                   1972 ;	./src/RF24.c:556: toggle_features();
+      000D3B 12 0D 07         [24] 1973 	lcall	_toggle_features
+                                   1974 ;	./src/RF24.c:557: write_register(FEATURE, read_register(FEATURE) | _BV(EN_DPL));
+      000D3E 75 82 1D         [24] 1975 	mov	dpl,#0x1d
+      000D41 12 07 40         [24] 1976 	lcall	_read_register
+      000D44 E5 82            [12] 1977 	mov	a,dpl
+      000D46 44 04            [12] 1978 	orl	a,#0x04
+      000D48 F5 37            [12] 1979 	mov	_write_register_PARM_2,a
+      000D4A 75 82 1D         [24] 1980 	mov	dpl,#0x1d
+      000D4D 12 07 C6         [24] 1981 	lcall	_write_register
+      000D50                       1982 00102$:
+                                   1983 ;	./src/RF24.c:564: write_register(DYNPD, read_register(DYNPD) | _BV(DPL_P5) | _BV(DPL_P4) | _BV(DPL_P3) | _BV(DPL_P2) | _BV(DPL_P1) | _BV(DPL_P0));
+      000D50 75 82 1C         [24] 1984 	mov	dpl,#0x1c
+      000D53 12 07 40         [24] 1985 	lcall	_read_register
+      000D56 E5 82            [12] 1986 	mov	a,dpl
+      000D58 44 3F            [12] 1987 	orl	a,#0x3f
+      000D5A F5 37            [12] 1988 	mov	_write_register_PARM_2,a
+      000D5C 75 82 1C         [24] 1989 	mov	dpl,#0x1c
+      000D5F 12 07 C6         [24] 1990 	lcall	_write_register
+                                   1991 ;	./src/RF24.c:566: dynamic_payloads_enabled = TRUE;
+      000D62 75 28 01         [24] 1992 	mov	_dynamic_payloads_enabled,#0x01
+                                   1993 ;	./src/RF24.c:567: }
+      000D65 22               [24] 1994 	ret
+                                   1995 ;------------------------------------------------------------
+                                   1996 ;Allocation info for local variables in function 'enableAckPayload'
+                                   1997 ;------------------------------------------------------------
+                                   1998 ;	./src/RF24.c:571: void enableAckPayload(void)
+                                   1999 ;	-----------------------------------------
+                                   2000 ;	 function enableAckPayload
+                                   2001 ;	-----------------------------------------
+      000D66                       2002 _enableAckPayload:
+                                   2003 ;	./src/RF24.c:577: write_register(FEATURE, read_register(FEATURE) | _BV(EN_ACK_PAY) | _BV(EN_DPL));
+      000D66 75 82 1D         [24] 2004 	mov	dpl,#0x1d
+      000D69 12 07 40         [24] 2005 	lcall	_read_register
+      000D6C E5 82            [12] 2006 	mov	a,dpl
+      000D6E 44 06            [12] 2007 	orl	a,#0x06
+      000D70 F5 37            [12] 2008 	mov	_write_register_PARM_2,a
+      000D72 75 82 1D         [24] 2009 	mov	dpl,#0x1d
+      000D75 12 07 C6         [24] 2010 	lcall	_write_register
+                                   2011 ;	./src/RF24.c:580: if (!read_register(FEATURE))
+      000D78 75 82 1D         [24] 2012 	mov	dpl,#0x1d
+      000D7B 12 07 40         [24] 2013 	lcall	_read_register
+      000D7E E5 82            [12] 2014 	mov	a,dpl
+      000D80 70 15            [24] 2015 	jnz	00102$
+                                   2016 ;	./src/RF24.c:583: toggle_features();
+      000D82 12 0D 07         [24] 2017 	lcall	_toggle_features
+                                   2018 ;	./src/RF24.c:584: write_register(FEATURE, read_register(FEATURE) | _BV(EN_ACK_PAY) | _BV(EN_DPL));
+      000D85 75 82 1D         [24] 2019 	mov	dpl,#0x1d
+      000D88 12 07 40         [24] 2020 	lcall	_read_register
+      000D8B E5 82            [12] 2021 	mov	a,dpl
+      000D8D 44 06            [12] 2022 	orl	a,#0x06
+      000D8F F5 37            [12] 2023 	mov	_write_register_PARM_2,a
+      000D91 75 82 1D         [24] 2024 	mov	dpl,#0x1d
+      000D94 12 07 C6         [24] 2025 	lcall	_write_register
+      000D97                       2026 00102$:
+                                   2027 ;	./src/RF24.c:591: write_register(DYNPD, read_register(DYNPD) | _BV(DPL_P1) | _BV(DPL_P0));
+      000D97 75 82 1C         [24] 2028 	mov	dpl,#0x1c
+      000D9A 12 07 40         [24] 2029 	lcall	_read_register
+      000D9D E5 82            [12] 2030 	mov	a,dpl
+      000D9F 44 03            [12] 2031 	orl	a,#0x03
+      000DA1 F5 37            [12] 2032 	mov	_write_register_PARM_2,a
+      000DA3 75 82 1C         [24] 2033 	mov	dpl,#0x1c
+                                   2034 ;	./src/RF24.c:592: }
+      000DA6 02 07 C6         [24] 2035 	ljmp	_write_register
+                                   2036 ;------------------------------------------------------------
+                                   2037 ;Allocation info for local variables in function 'writeAckPayload'
+                                   2038 ;------------------------------------------------------------
+                                   2039 ;buf                       Allocated with name '_writeAckPayload_PARM_2'
+                                   2040 ;len                       Allocated with name '_writeAckPayload_PARM_3'
+                                   2041 ;pipe                      Allocated to registers r7 
+                                   2042 ;current                   Allocated to registers r4 r5 r6 
+                                   2043 ;max_payload_size          Allocated to registers 
+                                   2044 ;data_len                  Allocated to registers 
+                                   2045 ;------------------------------------------------------------
+                                   2046 ;	./src/RF24.c:596: void writeAckPayload(uint8_t pipe, const void *buf, uint8_t len)
+                                   2047 ;	-----------------------------------------
+                                   2048 ;	 function writeAckPayload
+                                   2049 ;	-----------------------------------------
+      000DA9                       2050 _writeAckPayload:
+      000DA9 AF 82            [24] 2051 	mov	r7,dpl
+                                   2052 ;	./src/RF24.c:598: const uint8_t *current = (uint8_t *)buf;
+      000DAB AC 49            [24] 2053 	mov	r4,_writeAckPayload_PARM_2
+      000DAD AD 4A            [24] 2054 	mov	r5,(_writeAckPayload_PARM_2 + 1)
+      000DAF AE 4B            [24] 2055 	mov	r6,(_writeAckPayload_PARM_2 + 2)
+                                   2056 ;	./src/RF24.c:601: csn(LOW);
+      000DB1 75 82 00         [24] 2057 	mov	dpl,#0x00
+      000DB4 C0 07            [24] 2058 	push	ar7
+      000DB6 C0 06            [24] 2059 	push	ar6
+      000DB8 C0 05            [24] 2060 	push	ar5
+      000DBA C0 04            [24] 2061 	push	ar4
+      000DBC 12 06 D4         [24] 2062 	lcall	_csn
+      000DBF D0 04            [24] 2063 	pop	ar4
+      000DC1 D0 05            [24] 2064 	pop	ar5
+      000DC3 D0 06            [24] 2065 	pop	ar6
+      000DC5 D0 07            [24] 2066 	pop	ar7
+                                   2067 ;	./src/RF24.c:602: spi_transfer(W_ACK_PAYLOAD | (pipe & 0x07));
+      000DC7 74 07            [12] 2068 	mov	a,#0x07
+      000DC9 5F               [12] 2069 	anl	a,r7
+      000DCA 44 A8            [12] 2070 	orl	a,#0xa8
+      000DCC F5 82            [12] 2071 	mov	dpl,a
+      000DCE C0 06            [24] 2072 	push	ar6
+      000DD0 C0 05            [24] 2073 	push	ar5
+      000DD2 C0 04            [24] 2074 	push	ar4
+      000DD4 12 11 DE         [24] 2075 	lcall	_spi_transfer
+                                   2076 ;	./src/RF24.c:604: data_len = min(len, max_payload_size);
+      000DD7 75 6B 20         [24] 2077 	mov	_min_PARM_2,#0x20
+      000DDA 85 4C 82         [24] 2078 	mov	dpl,_writeAckPayload_PARM_3
+      000DDD 12 06 C5         [24] 2079 	lcall	_min
+      000DE0 AF 82            [24] 2080 	mov	r7,dpl
+      000DE2 D0 04            [24] 2081 	pop	ar4
+      000DE4 D0 05            [24] 2082 	pop	ar5
+      000DE6 D0 06            [24] 2083 	pop	ar6
+                                   2084 ;	./src/RF24.c:605: while (data_len--)
+      000DE8                       2085 00101$:
+      000DE8 8F 03            [24] 2086 	mov	ar3,r7
+      000DEA 1F               [12] 2087 	dec	r7
+      000DEB EB               [12] 2088 	mov	a,r3
+      000DEC 60 26            [24] 2089 	jz	00103$
+                                   2090 ;	./src/RF24.c:606: spi_transfer(*current++);
+      000DEE 8C 82            [24] 2091 	mov	dpl,r4
+      000DF0 8D 83            [24] 2092 	mov	dph,r5
+      000DF2 8E F0            [24] 2093 	mov	b,r6
+      000DF4 12 18 89         [24] 2094 	lcall	__gptrget
+      000DF7 FB               [12] 2095 	mov	r3,a
+      000DF8 A3               [24] 2096 	inc	dptr
+      000DF9 AC 82            [24] 2097 	mov	r4,dpl
+      000DFB AD 83            [24] 2098 	mov	r5,dph
+      000DFD 8B 82            [24] 2099 	mov	dpl,r3
+      000DFF C0 07            [24] 2100 	push	ar7
+      000E01 C0 06            [24] 2101 	push	ar6
+      000E03 C0 05            [24] 2102 	push	ar5
+      000E05 C0 04            [24] 2103 	push	ar4
+      000E07 12 11 DE         [24] 2104 	lcall	_spi_transfer
+      000E0A D0 04            [24] 2105 	pop	ar4
+      000E0C D0 05            [24] 2106 	pop	ar5
+      000E0E D0 06            [24] 2107 	pop	ar6
+      000E10 D0 07            [24] 2108 	pop	ar7
+      000E12 80 D4            [24] 2109 	sjmp	00101$
+      000E14                       2110 00103$:
+                                   2111 ;	./src/RF24.c:608: csn(HIGH);
+      000E14 75 82 01         [24] 2112 	mov	dpl,#0x01
+                                   2113 ;	./src/RF24.c:609: }
+      000E17 02 06 D4         [24] 2114 	ljmp	_csn
+                                   2115 ;------------------------------------------------------------
+                                   2116 ;Allocation info for local variables in function 'isAckPayloadAvailable'
+                                   2117 ;------------------------------------------------------------
+                                   2118 ;result                    Allocated to registers 
+                                   2119 ;------------------------------------------------------------
+                                   2120 ;	./src/RF24.c:613: uint8_t isAckPayloadAvailable(void)
+                                   2121 ;	-----------------------------------------
+                                   2122 ;	 function isAckPayloadAvailable
+                                   2123 ;	-----------------------------------------
+      000E1A                       2124 _isAckPayloadAvailable:
+                                   2125 ;	./src/RF24.c:615: uint8_t result = ack_payload_available;
+      000E1A 85 27 82         [24] 2126 	mov	dpl,_ack_payload_available
+                                   2127 ;	./src/RF24.c:616: ack_payload_available = FALSE;
+      000E1D 75 27 00         [24] 2128 	mov	_ack_payload_available,#0x00
+                                   2129 ;	./src/RF24.c:617: return result;
+                                   2130 ;	./src/RF24.c:618: }
+      000E20 22               [24] 2131 	ret
+                                   2132 ;------------------------------------------------------------
+                                   2133 ;Allocation info for local variables in function 'isPVariant'
+                                   2134 ;------------------------------------------------------------
+                                   2135 ;	./src/RF24.c:622: uint8_t isPVariant(void)
+                                   2136 ;	-----------------------------------------
+                                   2137 ;	 function isPVariant
+                                   2138 ;	-----------------------------------------
+      000E21                       2139 _isPVariant:
+                                   2140 ;	./src/RF24.c:624: return p_variant;
+      000E21 85 25 82         [24] 2141 	mov	dpl,_p_variant
+                                   2142 ;	./src/RF24.c:625: }
+      000E24 22               [24] 2143 	ret
+                                   2144 ;------------------------------------------------------------
+                                   2145 ;Allocation info for local variables in function 'setAutoAck'
+                                   2146 ;------------------------------------------------------------
+                                   2147 ;enable                    Allocated to registers r7 
+                                   2148 ;------------------------------------------------------------
+                                   2149 ;	./src/RF24.c:629: void setAutoAck(uint8_t enable)
+                                   2150 ;	-----------------------------------------
+                                   2151 ;	 function setAutoAck
+                                   2152 ;	-----------------------------------------
+      000E25                       2153 _setAutoAck:
+                                   2154 ;	./src/RF24.c:631: if (enable)
+      000E25 E5 82            [12] 2155 	mov	a,dpl
+      000E27 60 09            [24] 2156 	jz	00102$
+                                   2157 ;	./src/RF24.c:632: write_register(EN_AA, 0x3F);
+      000E29 75 37 3F         [24] 2158 	mov	_write_register_PARM_2,#0x3f
+      000E2C 75 82 01         [24] 2159 	mov	dpl,#0x01
+      000E2F 02 07 C6         [24] 2160 	ljmp	_write_register
+      000E32                       2161 00102$:
+                                   2162 ;	./src/RF24.c:634: write_register(EN_AA, 0);
+      000E32 75 37 00         [24] 2163 	mov	_write_register_PARM_2,#0x00
+      000E35 75 82 01         [24] 2164 	mov	dpl,#0x01
+                                   2165 ;	./src/RF24.c:635: }
+      000E38 02 07 C6         [24] 2166 	ljmp	_write_register
+                                   2167 ;------------------------------------------------------------
+                                   2168 ;Allocation info for local variables in function 'setAutoAckPipe'
+                                   2169 ;------------------------------------------------------------
+                                   2170 ;enable                    Allocated with name '_setAutoAckPipe_PARM_2'
+                                   2171 ;pipe                      Allocated to registers r7 
+                                   2172 ;en_aa                     Allocated to registers r5 
+                                   2173 ;------------------------------------------------------------
+                                   2174 ;	./src/RF24.c:639: void setAutoAckPipe(uint8_t pipe, uint8_t enable)
+                                   2175 ;	-----------------------------------------
+                                   2176 ;	 function setAutoAckPipe
+                                   2177 ;	-----------------------------------------
+      000E3B                       2178 _setAutoAckPipe:
+                                   2179 ;	./src/RF24.c:641: if (pipe <= 6)
+      000E3B E5 82            [12] 2180 	mov	a,dpl
+      000E3D FF               [12] 2181 	mov	r7,a
+      000E3E 24 F9            [12] 2182 	add	a,#0xff - 0x06
+      000E40 40 3E            [24] 2183 	jc	00106$
+                                   2184 ;	./src/RF24.c:643: uint8_t en_aa = read_register(EN_AA);
+      000E42 75 82 01         [24] 2185 	mov	dpl,#0x01
+      000E45 C0 07            [24] 2186 	push	ar7
+      000E47 12 07 40         [24] 2187 	lcall	_read_register
+      000E4A AE 82            [24] 2188 	mov	r6,dpl
+      000E4C D0 07            [24] 2189 	pop	ar7
+                                   2190 ;	./src/RF24.c:644: if (enable)
+      000E4E E5 4D            [12] 2191 	mov	a,_setAutoAckPipe_PARM_2
+      000E50 60 15            [24] 2192 	jz	00102$
+                                   2193 ;	./src/RF24.c:646: en_aa |= _BV(pipe);
+      000E52 8F 05            [24] 2194 	mov	ar5,r7
+      000E54 8D F0            [24] 2195 	mov	b,r5
+      000E56 05 F0            [12] 2196 	inc	b
+      000E58 74 01            [12] 2197 	mov	a,#0x01
+      000E5A 80 02            [24] 2198 	sjmp	00122$
+      000E5C                       2199 00120$:
+      000E5C 25 E0            [12] 2200 	add	a,acc
+      000E5E                       2201 00122$:
+      000E5E D5 F0 FB         [24] 2202 	djnz	b,00120$
+      000E61 FD               [12] 2203 	mov	r5,a
+      000E62 EE               [12] 2204 	mov	a,r6
+      000E63 42 05            [12] 2205 	orl	ar5,a
+      000E65 80 11            [24] 2206 	sjmp	00103$
+      000E67                       2207 00102$:
+                                   2208 ;	./src/RF24.c:650: en_aa &= ~_BV(pipe);
+      000E67 8F F0            [24] 2209 	mov	b,r7
+      000E69 05 F0            [12] 2210 	inc	b
+      000E6B 74 01            [12] 2211 	mov	a,#0x01
+      000E6D 80 02            [24] 2212 	sjmp	00125$
+      000E6F                       2213 00123$:
+      000E6F 25 E0            [12] 2214 	add	a,acc
+      000E71                       2215 00125$:
+      000E71 D5 F0 FB         [24] 2216 	djnz	b,00123$
+      000E74 F4               [12] 2217 	cpl	a
+      000E75 FF               [12] 2218 	mov	r7,a
+      000E76 5E               [12] 2219 	anl	a,r6
+      000E77 FD               [12] 2220 	mov	r5,a
+      000E78                       2221 00103$:
+                                   2222 ;	./src/RF24.c:652: write_register(EN_AA, en_aa);
+      000E78 8D 37            [24] 2223 	mov	_write_register_PARM_2,r5
+      000E7A 75 82 01         [24] 2224 	mov	dpl,#0x01
+                                   2225 ;	./src/RF24.c:654: }
+      000E7D 02 07 C6         [24] 2226 	ljmp	_write_register
+      000E80                       2227 00106$:
+      000E80 22               [24] 2228 	ret
+                                   2229 ;------------------------------------------------------------
+                                   2230 ;Allocation info for local variables in function 'testCarrier'
+                                   2231 ;------------------------------------------------------------
+                                   2232 ;	./src/RF24.c:658: uint8_t testCarrier(void)
+                                   2233 ;	-----------------------------------------
+                                   2234 ;	 function testCarrier
+                                   2235 ;	-----------------------------------------
+      000E81                       2236 _testCarrier:
+                                   2237 ;	./src/RF24.c:660: return (read_register(CD) & 1);
+      000E81 75 82 09         [24] 2238 	mov	dpl,#0x09
+      000E84 12 07 40         [24] 2239 	lcall	_read_register
+      000E87 E5 82            [12] 2240 	mov	a,dpl
+      000E89 54 01            [12] 2241 	anl	a,#0x01
+      000E8B F5 82            [12] 2242 	mov	dpl,a
+                                   2243 ;	./src/RF24.c:661: }
+      000E8D 22               [24] 2244 	ret
+                                   2245 ;------------------------------------------------------------
+                                   2246 ;Allocation info for local variables in function 'testRPD'
+                                   2247 ;------------------------------------------------------------
+                                   2248 ;	./src/RF24.c:665: uint8_t testRPD(void)
+                                   2249 ;	-----------------------------------------
+                                   2250 ;	 function testRPD
+                                   2251 ;	-----------------------------------------
+      000E8E                       2252 _testRPD:
+                                   2253 ;	./src/RF24.c:667: return (read_register(RPD) & 1);
+      000E8E 75 82 09         [24] 2254 	mov	dpl,#0x09
+      000E91 12 07 40         [24] 2255 	lcall	_read_register
+      000E94 E5 82            [12] 2256 	mov	a,dpl
+      000E96 54 01            [12] 2257 	anl	a,#0x01
+      000E98 F5 82            [12] 2258 	mov	dpl,a
+                                   2259 ;	./src/RF24.c:668: }
+      000E9A 22               [24] 2260 	ret
+                                   2261 ;------------------------------------------------------------
+                                   2262 ;Allocation info for local variables in function 'setPALevel'
+                                   2263 ;------------------------------------------------------------
+                                   2264 ;level                     Allocated to registers r7 
+                                   2265 ;setup                     Allocated to registers r6 
+                                   2266 ;------------------------------------------------------------
+                                   2267 ;	./src/RF24.c:672: void setPALevel(rf24_pa_dbm_e level)
+                                   2268 ;	-----------------------------------------
+                                   2269 ;	 function setPALevel
+                                   2270 ;	-----------------------------------------
+      000E9B                       2271 _setPALevel:
+      000E9B AF 82            [24] 2272 	mov	r7,dpl
+                                   2273 ;	./src/RF24.c:674: uint8_t setup = read_register(RF_SETUP);
+      000E9D 75 82 06         [24] 2274 	mov	dpl,#0x06
+      000EA0 C0 07            [24] 2275 	push	ar7
+      000EA2 12 07 40         [24] 2276 	lcall	_read_register
+      000EA5 E5 82            [12] 2277 	mov	a,dpl
+      000EA7 D0 07            [24] 2278 	pop	ar7
+                                   2279 ;	./src/RF24.c:675: setup &= ~(_BV(RF_PWR_LOW) | _BV(RF_PWR_HIGH));
+      000EA9 54 F9            [12] 2280 	anl	a,#0xf9
+      000EAB FE               [12] 2281 	mov	r6,a
+                                   2282 ;	./src/RF24.c:678: if (level == RF24_PA_MAX)
+      000EAC BF 03 05         [24] 2283 	cjne	r7,#0x03,00113$
+                                   2284 ;	./src/RF24.c:680: setup |= (_BV(RF_PWR_LOW) | _BV(RF_PWR_HIGH));
+      000EAF 43 06 06         [24] 2285 	orl	ar6,#0x06
+      000EB2 80 19            [24] 2286 	sjmp	00114$
+      000EB4                       2287 00113$:
+                                   2288 ;	./src/RF24.c:682: else if (level == RF24_PA_HIGH)
+      000EB4 BF 02 05         [24] 2289 	cjne	r7,#0x02,00110$
+                                   2290 ;	./src/RF24.c:684: setup |= _BV(RF_PWR_HIGH);
+      000EB7 43 06 04         [24] 2291 	orl	ar6,#0x04
+      000EBA 80 11            [24] 2292 	sjmp	00114$
+      000EBC                       2293 00110$:
+                                   2294 ;	./src/RF24.c:686: else if (level == RF24_PA_LOW)
+      000EBC BF 01 05         [24] 2295 	cjne	r7,#0x01,00107$
+                                   2296 ;	./src/RF24.c:688: setup |= _BV(RF_PWR_LOW);
+      000EBF 43 06 02         [24] 2297 	orl	ar6,#0x02
+      000EC2 80 09            [24] 2298 	sjmp	00114$
+      000EC4                       2299 00107$:
+                                   2300 ;	./src/RF24.c:690: else if (level == RF24_PA_MIN)
+      000EC4 EF               [12] 2301 	mov	a,r7
+      000EC5 60 06            [24] 2302 	jz	00114$
+                                   2303 ;	./src/RF24.c:694: else if (level == RF24_PA_ERROR)
+      000EC7 BF 04 03         [24] 2304 	cjne	r7,#0x04,00114$
+                                   2305 ;	./src/RF24.c:697: setup |= (_BV(RF_PWR_LOW) | _BV(RF_PWR_HIGH));
+      000ECA 43 06 06         [24] 2306 	orl	ar6,#0x06
+      000ECD                       2307 00114$:
+                                   2308 ;	./src/RF24.c:700: write_register(RF_SETUP, setup);
+      000ECD 8E 37            [24] 2309 	mov	_write_register_PARM_2,r6
+      000ECF 75 82 06         [24] 2310 	mov	dpl,#0x06
+                                   2311 ;	./src/RF24.c:701: }
+      000ED2 02 07 C6         [24] 2312 	ljmp	_write_register
+                                   2313 ;------------------------------------------------------------
+                                   2314 ;Allocation info for local variables in function 'getPALevel'
+                                   2315 ;------------------------------------------------------------
+                                   2316 ;result                    Allocated to registers r6 
+                                   2317 ;power                     Allocated to registers r7 
+                                   2318 ;------------------------------------------------------------
+                                   2319 ;	./src/RF24.c:705: rf24_pa_dbm_e getPALevel(void)
+                                   2320 ;	-----------------------------------------
+                                   2321 ;	 function getPALevel
+                                   2322 ;	-----------------------------------------
+      000ED5                       2323 _getPALevel:
+                                   2324 ;	./src/RF24.c:708: uint8_t power = read_register(RF_SETUP) & (_BV(RF_PWR_LOW) | _BV(RF_PWR_HIGH));
+      000ED5 75 82 06         [24] 2325 	mov	dpl,#0x06
+      000ED8 12 07 40         [24] 2326 	lcall	_read_register
+      000EDB E5 82            [12] 2327 	mov	a,dpl
+      000EDD 54 06            [12] 2328 	anl	a,#0x06
+      000EDF FF               [12] 2329 	mov	r7,a
+                                   2330 ;	./src/RF24.c:711: if (power == (_BV(RF_PWR_LOW) | _BV(RF_PWR_HIGH)))
+      000EE0 BF 06 04         [24] 2331 	cjne	r7,#0x06,00108$
+                                   2332 ;	./src/RF24.c:713: result = RF24_PA_MAX;
+      000EE3 7E 03            [12] 2333 	mov	r6,#0x03
+      000EE5 80 10            [24] 2334 	sjmp	00109$
+      000EE7                       2335 00108$:
+                                   2336 ;	./src/RF24.c:715: else if (power == _BV(RF_PWR_HIGH))
+      000EE7 BF 04 04         [24] 2337 	cjne	r7,#0x04,00105$
+                                   2338 ;	./src/RF24.c:717: result = RF24_PA_HIGH;
+      000EEA 7E 02            [12] 2339 	mov	r6,#0x02
+      000EEC 80 09            [24] 2340 	sjmp	00109$
+      000EEE                       2341 00105$:
+                                   2342 ;	./src/RF24.c:719: else if (power == _BV(RF_PWR_LOW))
+      000EEE BF 02 04         [24] 2343 	cjne	r7,#0x02,00102$
+                                   2344 ;	./src/RF24.c:721: result = RF24_PA_LOW;
+      000EF1 7E 01            [12] 2345 	mov	r6,#0x01
+      000EF3 80 02            [24] 2346 	sjmp	00109$
+      000EF5                       2347 00102$:
+                                   2348 ;	./src/RF24.c:725: result = RF24_PA_MIN;
+      000EF5 7E 00            [12] 2349 	mov	r6,#0x00
+      000EF7                       2350 00109$:
+                                   2351 ;	./src/RF24.c:728: return result;
+      000EF7 8E 82            [24] 2352 	mov	dpl,r6
+                                   2353 ;	./src/RF24.c:729: }
+      000EF9 22               [24] 2354 	ret
+                                   2355 ;------------------------------------------------------------
+                                   2356 ;Allocation info for local variables in function 'setDataRate'
+                                   2357 ;------------------------------------------------------------
+                                   2358 ;speed                     Allocated to registers r7 
+                                   2359 ;result                    Allocated to registers r6 
+                                   2360 ;setup                     Allocated to registers r5 
+                                   2361 ;------------------------------------------------------------
+                                   2362 ;	./src/RF24.c:733: uint8_t setDataRate(rf24_datarate_e speed)
+                                   2363 ;	-----------------------------------------
+                                   2364 ;	 function setDataRate
+                                   2365 ;	-----------------------------------------
+      000EFA                       2366 _setDataRate:
+      000EFA AF 82            [24] 2367 	mov	r7,dpl
+                                   2368 ;	./src/RF24.c:735: uint8_t result = FALSE;
+      000EFC 7E 00            [12] 2369 	mov	r6,#0x00
+                                   2370 ;	./src/RF24.c:736: uint8_t setup = read_register(RF_SETUP);
+      000EFE 75 82 06         [24] 2371 	mov	dpl,#0x06
+      000F01 C0 07            [24] 2372 	push	ar7
+      000F03 C0 06            [24] 2373 	push	ar6
+      000F05 12 07 40         [24] 2374 	lcall	_read_register
+      000F08 AD 82            [24] 2375 	mov	r5,dpl
+      000F0A D0 06            [24] 2376 	pop	ar6
+      000F0C D0 07            [24] 2377 	pop	ar7
+                                   2378 ;	./src/RF24.c:739: wide_band = FALSE;
+      000F0E 75 24 00         [24] 2379 	mov	_wide_band,#0x00
+                                   2380 ;	./src/RF24.c:740: setup &= ~(_BV(RF_DR_LOW) | _BV(RF_DR_HIGH));
+      000F11 53 05 D7         [24] 2381 	anl	ar5,#0xd7
+                                   2382 ;	./src/RF24.c:741: if (speed == RF24_250KBPS)
+      000F14 BF 02 08         [24] 2383 	cjne	r7,#0x02,00105$
+                                   2384 ;	./src/RF24.c:745: wide_band = FALSE;
+      000F17 75 24 00         [24] 2385 	mov	_wide_band,#0x00
+                                   2386 ;	./src/RF24.c:746: setup |= _BV(RF_DR_LOW);
+      000F1A 43 05 20         [24] 2387 	orl	ar5,#0x20
+      000F1D 80 0E            [24] 2388 	sjmp	00106$
+      000F1F                       2389 00105$:
+                                   2390 ;	./src/RF24.c:752: if (speed == RF24_2MBPS)
+      000F1F BF 01 08         [24] 2391 	cjne	r7,#0x01,00102$
+                                   2392 ;	./src/RF24.c:754: wide_band = TRUE;
+      000F22 75 24 01         [24] 2393 	mov	_wide_band,#0x01
+                                   2394 ;	./src/RF24.c:755: setup |= _BV(RF_DR_HIGH);
+      000F25 43 05 08         [24] 2395 	orl	ar5,#0x08
+      000F28 80 03            [24] 2396 	sjmp	00106$
+      000F2A                       2397 00102$:
+                                   2398 ;	./src/RF24.c:760: wide_band = FALSE;
+      000F2A 75 24 00         [24] 2399 	mov	_wide_band,#0x00
+      000F2D                       2400 00106$:
+                                   2401 ;	./src/RF24.c:763: write_register(RF_SETUP, setup);
+      000F2D 8D 37            [24] 2402 	mov	_write_register_PARM_2,r5
+      000F2F 75 82 06         [24] 2403 	mov	dpl,#0x06
+      000F32 C0 06            [24] 2404 	push	ar6
+      000F34 C0 05            [24] 2405 	push	ar5
+      000F36 12 07 C6         [24] 2406 	lcall	_write_register
+                                   2407 ;	./src/RF24.c:766: if (read_register(RF_SETUP) == setup)
+      000F39 75 82 06         [24] 2408 	mov	dpl,#0x06
+      000F3C 12 07 40         [24] 2409 	lcall	_read_register
+      000F3F AF 82            [24] 2410 	mov	r7,dpl
+      000F41 D0 05            [24] 2411 	pop	ar5
+      000F43 D0 06            [24] 2412 	pop	ar6
+      000F45 EF               [12] 2413 	mov	a,r7
+      000F46 B5 05 04         [24] 2414 	cjne	a,ar5,00108$
+                                   2415 ;	./src/RF24.c:768: result = TRUE;
+      000F49 7E 01            [12] 2416 	mov	r6,#0x01
+      000F4B 80 03            [24] 2417 	sjmp	00109$
+      000F4D                       2418 00108$:
+                                   2419 ;	./src/RF24.c:772: wide_band = FALSE;
+      000F4D 75 24 00         [24] 2420 	mov	_wide_band,#0x00
+      000F50                       2421 00109$:
+                                   2422 ;	./src/RF24.c:775: return result;
+      000F50 8E 82            [24] 2423 	mov	dpl,r6
+                                   2424 ;	./src/RF24.c:776: }
+      000F52 22               [24] 2425 	ret
+                                   2426 ;------------------------------------------------------------
+                                   2427 ;Allocation info for local variables in function 'getDataRate'
+                                   2428 ;------------------------------------------------------------
+                                   2429 ;result                    Allocated to registers r6 
+                                   2430 ;dr                        Allocated to registers r7 
+                                   2431 ;------------------------------------------------------------
+                                   2432 ;	./src/RF24.c:780: rf24_datarate_e getDataRate(void)
+                                   2433 ;	-----------------------------------------
+                                   2434 ;	 function getDataRate
+                                   2435 ;	-----------------------------------------
+      000F53                       2436 _getDataRate:
+                                   2437 ;	./src/RF24.c:783: uint8_t dr = read_register(RF_SETUP) & (_BV(RF_DR_LOW) | _BV(RF_DR_HIGH));
+      000F53 75 82 06         [24] 2438 	mov	dpl,#0x06
+      000F56 12 07 40         [24] 2439 	lcall	_read_register
+      000F59 E5 82            [12] 2440 	mov	a,dpl
+      000F5B 54 28            [12] 2441 	anl	a,#0x28
+      000F5D FF               [12] 2442 	mov	r7,a
+                                   2443 ;	./src/RF24.c:787: if (dr == _BV(RF_DR_LOW))
+      000F5E BF 20 04         [24] 2444 	cjne	r7,#0x20,00105$
+                                   2445 ;	./src/RF24.c:790: result = RF24_250KBPS;
+      000F61 7E 02            [12] 2446 	mov	r6,#0x02
+      000F63 80 09            [24] 2447 	sjmp	00106$
+      000F65                       2448 00105$:
+                                   2449 ;	./src/RF24.c:792: else if (dr == _BV(RF_DR_HIGH))
+      000F65 BF 08 04         [24] 2450 	cjne	r7,#0x08,00102$
+                                   2451 ;	./src/RF24.c:795: result = RF24_2MBPS;
+      000F68 7E 01            [12] 2452 	mov	r6,#0x01
+      000F6A 80 02            [24] 2453 	sjmp	00106$
+      000F6C                       2454 00102$:
+                                   2455 ;	./src/RF24.c:800: result = RF24_1MBPS;
+      000F6C 7E 00            [12] 2456 	mov	r6,#0x00
+      000F6E                       2457 00106$:
+                                   2458 ;	./src/RF24.c:802: return result;
+      000F6E 8E 82            [24] 2459 	mov	dpl,r6
+                                   2460 ;	./src/RF24.c:803: }
+      000F70 22               [24] 2461 	ret
+                                   2462 ;------------------------------------------------------------
+                                   2463 ;Allocation info for local variables in function 'setCRCLength'
+                                   2464 ;------------------------------------------------------------
+                                   2465 ;length                    Allocated to registers r7 
+                                   2466 ;config                    Allocated to registers 
+                                   2467 ;------------------------------------------------------------
+                                   2468 ;	./src/RF24.c:807: void setCRCLength(rf24_crclength_e length)
+                                   2469 ;	-----------------------------------------
+                                   2470 ;	 function setCRCLength
+                                   2471 ;	-----------------------------------------
+      000F71                       2472 _setCRCLength:
+      000F71 AF 82            [24] 2473 	mov	r7,dpl
+                                   2474 ;	./src/RF24.c:809: uint8_t config = read_register(CONFIG) & ~(_BV(CRCO) | _BV(EN_CRC));
+      000F73 75 82 00         [24] 2475 	mov	dpl,#0x00
+      000F76 C0 07            [24] 2476 	push	ar7
+      000F78 12 07 40         [24] 2477 	lcall	_read_register
+      000F7B E5 82            [12] 2478 	mov	a,dpl
+      000F7D D0 07            [24] 2479 	pop	ar7
+      000F7F 54 F3            [12] 2480 	anl	a,#0xf3
+      000F81 FE               [12] 2481 	mov	r6,a
+                                   2482 ;	./src/RF24.c:812: if (length == RF24_CRC_DISABLED)
+      000F82 EF               [12] 2483 	mov	a,r7
+      000F83 60 0E            [24] 2484 	jz	00106$
+                                   2485 ;	./src/RF24.c:816: else if (length == RF24_CRC_8)
+      000F85 BF 01 05         [24] 2486 	cjne	r7,#0x01,00102$
+                                   2487 ;	./src/RF24.c:818: config |= _BV(EN_CRC);
+      000F88 43 06 08         [24] 2488 	orl	ar6,#0x08
+      000F8B 80 06            [24] 2489 	sjmp	00106$
+      000F8D                       2490 00102$:
+                                   2491 ;	./src/RF24.c:822: config |= _BV(EN_CRC);
+      000F8D 74 08            [12] 2492 	mov	a,#0x08
+      000F8F 4E               [12] 2493 	orl	a,r6
+                                   2494 ;	./src/RF24.c:823: config |= _BV(CRCO);
+      000F90 44 04            [12] 2495 	orl	a,#0x04
+      000F92 FE               [12] 2496 	mov	r6,a
+      000F93                       2497 00106$:
+                                   2498 ;	./src/RF24.c:825: write_register(CONFIG, config);
+      000F93 8E 37            [24] 2499 	mov	_write_register_PARM_2,r6
+      000F95 75 82 00         [24] 2500 	mov	dpl,#0x00
+                                   2501 ;	./src/RF24.c:826: }
+      000F98 02 07 C6         [24] 2502 	ljmp	_write_register
+                                   2503 ;------------------------------------------------------------
+                                   2504 ;Allocation info for local variables in function 'getCRCLength'
+                                   2505 ;------------------------------------------------------------
+                                   2506 ;result                    Allocated to registers r7 
+                                   2507 ;config                    Allocated to registers r6 
+                                   2508 ;------------------------------------------------------------
+                                   2509 ;	./src/RF24.c:830: rf24_crclength_e getCRCLength(void)
+                                   2510 ;	-----------------------------------------
+                                   2511 ;	 function getCRCLength
+                                   2512 ;	-----------------------------------------
+      000F9B                       2513 _getCRCLength:
+                                   2514 ;	./src/RF24.c:832: rf24_crclength_e result = RF24_CRC_DISABLED;
+      000F9B 7F 00            [12] 2515 	mov	r7,#0x00
+                                   2516 ;	./src/RF24.c:833: uint8_t config = read_register(CONFIG) & (_BV(CRCO) | _BV(EN_CRC));
+      000F9D 75 82 00         [24] 2517 	mov	dpl,#0x00
+      000FA0 C0 07            [24] 2518 	push	ar7
+      000FA2 12 07 40         [24] 2519 	lcall	_read_register
+      000FA5 E5 82            [12] 2520 	mov	a,dpl
+      000FA7 D0 07            [24] 2521 	pop	ar7
+      000FA9 54 0C            [12] 2522 	anl	a,#0x0c
+                                   2523 ;	./src/RF24.c:835: if (config & _BV(EN_CRC))
+      000FAB FE               [12] 2524 	mov	r6,a
+      000FAC 30 E3 0A         [24] 2525 	jnb	acc.3,00105$
+                                   2526 ;	./src/RF24.c:837: if (config & _BV(CRCO))
+      000FAF EE               [12] 2527 	mov	a,r6
+      000FB0 30 E2 04         [24] 2528 	jnb	acc.2,00102$
+                                   2529 ;	./src/RF24.c:838: result = RF24_CRC_16;
+      000FB3 7F 02            [12] 2530 	mov	r7,#0x02
+      000FB5 80 02            [24] 2531 	sjmp	00105$
+      000FB7                       2532 00102$:
+                                   2533 ;	./src/RF24.c:840: result = RF24_CRC_8;
+      000FB7 7F 01            [12] 2534 	mov	r7,#0x01
+      000FB9                       2535 00105$:
+                                   2536 ;	./src/RF24.c:843: return result;
+      000FB9 8F 82            [24] 2537 	mov	dpl,r7
+                                   2538 ;	./src/RF24.c:844: }
+      000FBB 22               [24] 2539 	ret
+                                   2540 ;------------------------------------------------------------
+                                   2541 ;Allocation info for local variables in function 'disableCRC'
+                                   2542 ;------------------------------------------------------------
+                                   2543 ;disable                   Allocated to registers 
+                                   2544 ;------------------------------------------------------------
+                                   2545 ;	./src/RF24.c:848: void disableCRC(void)
+                                   2546 ;	-----------------------------------------
+                                   2547 ;	 function disableCRC
+                                   2548 ;	-----------------------------------------
+      000FBC                       2549 _disableCRC:
+                                   2550 ;	./src/RF24.c:850: uint8_t disable = read_register(CONFIG) & ~_BV(EN_CRC);
+      000FBC 75 82 00         [24] 2551 	mov	dpl,#0x00
+      000FBF 12 07 40         [24] 2552 	lcall	_read_register
+      000FC2 E5 82            [12] 2553 	mov	a,dpl
+      000FC4 54 F7            [12] 2554 	anl	a,#0xf7
+      000FC6 F5 37            [12] 2555 	mov	_write_register_PARM_2,a
+                                   2556 ;	./src/RF24.c:851: write_register(CONFIG, disable);
+      000FC8 75 82 00         [24] 2557 	mov	dpl,#0x00
+                                   2558 ;	./src/RF24.c:852: }
+      000FCB 02 07 C6         [24] 2559 	ljmp	_write_register
+                                   2560 ;------------------------------------------------------------
+                                   2561 ;Allocation info for local variables in function 'setRetries'
+                                   2562 ;------------------------------------------------------------
+                                   2563 ;count                     Allocated with name '_setRetries_PARM_2'
+                                   2564 ;delay                     Allocated to registers r7 
+                                   2565 ;------------------------------------------------------------
+                                   2566 ;	./src/RF24.c:855: void setRetries(uint8_t delay, uint8_t count)
+                                   2567 ;	-----------------------------------------
+                                   2568 ;	 function setRetries
+                                   2569 ;	-----------------------------------------
+      000FCE                       2570 _setRetries:
+                                   2571 ;	./src/RF24.c:857: write_register(SETUP_RETR, (delay & 0xf) << ARD | (count & 0xf) << ARC);
+      000FCE E5 82            [12] 2572 	mov	a,dpl
+      000FD0 54 0F            [12] 2573 	anl	a,#0x0f
+      000FD2 C4               [12] 2574 	swap	a
+      000FD3 54 F0            [12] 2575 	anl	a,#0xf0
+      000FD5 FF               [12] 2576 	mov	r7,a
+      000FD6 E5 4E            [12] 2577 	mov	a,_setRetries_PARM_2
+      000FD8 54 0F            [12] 2578 	anl	a,#0x0f
+      000FDA 4F               [12] 2579 	orl	a,r7
+      000FDB F5 37            [12] 2580 	mov	_write_register_PARM_2,a
+      000FDD 75 82 04         [24] 2581 	mov	dpl,#0x04
+                                   2582 ;	./src/RF24.c:858: }
+      000FE0 02 07 C6         [24] 2583 	ljmp	_write_register
+                                   2584 	.area CSEG    (CODE)
+                                   2585 	.area CONST   (CODE)
+      001952                       2586 _child_pipe:
+      001952 0A                    2587 	.db #0x0a	; 10
+      001953 0B                    2588 	.db #0x0b	; 11
+      001954 0C                    2589 	.db #0x0c	; 12
+      001955 0D                    2590 	.db #0x0d	; 13
+      001956 0E                    2591 	.db #0x0e	; 14
+      001957 0F                    2592 	.db #0x0f	; 15
+      001958                       2593 _child_payload_size:
+      001958 11                    2594 	.db #0x11	; 17
+      001959 12                    2595 	.db #0x12	; 18
+      00195A 13                    2596 	.db #0x13	; 19
+      00195B 14                    2597 	.db #0x14	; 20
+      00195C 15                    2598 	.db #0x15	; 21
+      00195D 16                    2599 	.db #0x16	; 22
+      00195E                       2600 _child_pipe_enable:
+      00195E 00                    2601 	.db #0x00	; 0
+      00195F 01                    2602 	.db #0x01	; 1
+      001960 02                    2603 	.db #0x02	; 2
+      001961 03                    2604 	.db #0x03	; 3
+      001962 04                    2605 	.db #0x04	; 4
+      001963 05                    2606 	.db #0x05	; 5
+                                   2607 	.area XINIT   (CODE)
+                                   2608 	.area CABS    (ABS,CODE)

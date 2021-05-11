@@ -1,0 +1,31 @@
+-muwx
+-i objs/main.ihx
+-M
+-I 0x0080
+-S 0x60
+-X 0x0300
+-C 0x47b8
+-b HOME = 0x0000
+-b DSEG = 0x0020
+-b XSEG = 0x0001
+-b PSEG = 0x0001
+-b ISEG = 0x0080
+-b BSEG = 0x0000
+-k /usr/local/bin/../share/sdcc/lib/small
+-k /usr/local/share/sdcc/lib/small
+-l mcs51
+-l libsdcc
+-l libint
+-l liblong
+-l libfloat
+objs/main.rel
+objs/Common.rel
+objs/Delay.rel
+objs/RF24.rel
+objs/hdc1080.rel
+objs/i2c.rel
+objs/spi.rel
+objs/battery.rel
+objs/utils.rel
+
+-e
